@@ -1,161 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DocPDFHub · Free & Private PDF Tools</title>
-  <meta name="description" content="Merge, split, compress, and convert PDFs — 100% local in your browser." />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>DocPDFHub – Free, Private PDF Tools</title>
+  <meta name="description" content="Free online PDF tools: merge, split, compress, and convert PDF to JPG — 100% local in your browser."/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+  <!-- 移除原外链 i18n.js，改用内置脚本 -->
   <style>
-    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji','Segoe UI Emoji'; }
-    .gradient { background: linear-gradient(90deg,#111827 0%,#1f2937 100%); }
+    .gradient { background: linear-gradient(90deg, #d53369 0%, #daae51 100%); }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <!-- Header -->
-  <header class="w-full bg-white/70 backdrop-filter backdrop-blur sticky top-0 z-40 border-b border-gray-100">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/" class="flex items-center space-x-2">
-        <div class="w-7 h-7 rounded bg-indigo-600"></div>
-        <span class="font-extrabold text-lg" data-i18n="common.brand">DocPDFHub</span>
+<body class="leading-normal tracking-normal text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+  <!-- Nav -->
+  <nav id="header" class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex flex-wrap items-center justify-between px-4 py-3">
+      <a id="brandname" class="text-pink-600 font-extrabold text-2xl lg:text-3xl" href="/">
+        <span data-i18n="common.brand">DocPDFHub</span>
       </a>
-      <nav class="hidden md:flex items-center space-x-6">
-        <a href="/" class="hover:text-indigo-600" data-i18n="nav.home">Home</a>
-        <a href="/tools/pdf-merge.html" class="hover:text-indigo-600" data-i18n="nav.merge">Merge PDF</a>
-        <a href="/tools/pdf-split.html" class="hover:text-indigo-600" data-i18n="nav.split">Split PDF</a>
-        <a href="/tools/pdf-compress.html" class="hover:text-indigo-600" data-i18n="nav.compress">Compress PDF</a>
-        <a href="/tools/pdf-to-jpg.html" class="hover:text-indigo-600" data-i18n="nav.tojpg">PDF to JPG</a>
-      </nav>
-      <div class="flex items-center space-x-2">
-        <button data-set-lang="en" class="px-3 py-1 text-sm rounded border border-gray-200 hover:border-indigo-500">EN</button>
-        <button data-set-lang="zh" class="px-3 py-1 text-sm rounded border border-gray-200 hover:border-indigo-500">中文</button>
+      <div class="block lg:hidden">
+        <button id="nav-toggle" class="p-2 rounded hover:bg-gray-100 focus:outline-none">
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 5h14M3 10h14M3 15h14"/>
+          </svg>
+        </button>
       </div>
+      <div id="nav-content" class="w-full lg:flex lg:items-center lg:w-auto hidden mt-3 lg:mt-0">
+        <ul class="list-reset lg:flex items-center text-sm lg:space-x-6">
+          <li><a href="/" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a></li>
+          <li><a href="/tools/pdf-merge.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a></li>
+          <li><a href="/tools/pdf-split.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a></li>
+          <li><a href="/tools/pdf-compress.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a></li>
+          <li><a href="/tools/pdf-to-jpg.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a></li>
+        </ul>
+        <div class="flex items-center ml-auto space-x-2 mt-3 lg:mt-0">
+          <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+          <span class="text-gray-300">|</span>
+          <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="gradient text-white pt-28 pb-14">
+    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
+        <h1 class="my-3 text-4xl md:text-5xl font-extrabold leading-tight" data-i18n="home.title">
+          Free, private PDF tools in your browser
+        </h1>
+        <p class="text-white text-opacity-90 text-lg" data-i18n="home.subtitle">
+          Merge, split, compress, and convert — processed locally in your browser. Files never leave your device.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <a href="/tools/pdf-merge.html" class="bg-white text-gray-900 font-bold rounded-full py-3 px-6 shadow hover:opacity-95 transform hover:scale-105 transition" data-i18n="home.cta_start">Start Now</a>
+          <a href="#tools" class="border border-white text-white font-semibold rounded-full py-3 px-6 hover:bg-white hover:text-gray-900 transform hover:scale-105 transition" data-i18n="home.view_all_tools">View all tools</a>
+        </div>
+        <p class="mt-4 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
+      </div>
+      <div class="text-center">
+        <img class="w-full md:w-11/12 mx-auto" src="hero.png" alt="DocPDFHub hero"/>
+      </div>
+    </div>
+    <div class="relative -mt-10">
+      <svg viewBox="0 0 1428 174" xmlns="http://www.w3.org/2000/svg"><g fill="#FFFFFF" fill-rule="nonzero"><path d="M0,0 C90.7,0.93 147.91,27.19 291.91,59.91 C387.9,81.72 543.6,89.33 759,82.73 C469.33,156.25 216.33,153.66 0,74.97" opacity="0.1"></path><path d="M100,104.7 C277.41,72.23 426.14,52.52 546.2,45.57 C666.25,38.63 810.52,41.79 979,55.07 C931.06,56.12 810.3,74.84 616.69,111.24 C423.09,147.64 250.86,145.46 100,104.7 Z" opacity="0.1"></path><path d="M1046,51.65 C1130.83,29.32 1279.08,17.6 1439,40.16 L1439,120 C1271.17,77.94 1140.17,55.16 1046,51.65 Z" opacity="0.2"></path></g></svg>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="gradient text-white">
-    <div class="max-w-6xl mx-auto px-4 py-16 md:py-24">
-      <p class="uppercase tracking-widest text-xs opacity-80" data-i18n="home.hero_kicker">PDF TOOLS</p>
-      <h1 class="text-3xl md:text-5xl font-extrabold mt-3" data-i18n="home.title">
-        Free, private PDF tools in your browser
-      </h1>
-      <p class="mt-4 text-white text-opacity-90 md:text-lg max-w-3xl" data-i18n="home.subtitle">
-        Merge, split, compress, and convert — processed locally in your browser. Files never leave your device.
-      </p>
-      <div class="mt-6 flex items-center space-x-3">
-        <a href="/tools/pdf-merge.html" class="inline-block bg-white text-gray-900 font-semibold px-5 py-3 rounded shadow hover:shadow-md transition" data-i18n="home.cta_start">Start Now</a>
-        <a href="#tools" class="inline-block border border-white/40 text-white font-semibold px-5 py-3 rounded hover:bg-white/10 transition" data-i18n="home.view_all_tools">View all tools</a>
-      </div>
-      <p class="mt-6 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
-    </div>
-  </section>
+  <!-- Features -->
+  <section class="bg-white" id="tools">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800" data-i18n="features.title">Everything you need for PDFs</h2>
+      <div class="h-1 mx-auto gradient w-24 opacity-25 mt-4 rounded"></div>
 
-  <!-- Tools Grid -->
-  <section id="tools" class="max-w-6xl mx-auto px-4 py-14">
-    <h2 class="text-2xl md:text-3xl font-extrabold text-center" data-i18n="features.title">Everything you need for PDFs</h2>
-    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <!-- Merge -->
-      <a href="/tools/pdf-merge.html" class="group bg-white rounded-xl p-5 shadow hover:shadow-md transition border border-gray-100">
-        <div class="flex items-start justify-between">
-          <h3 class="font-bold text-lg" data-i18n="nav.merge">Merge PDF</h3>
-          <span class="text-indigo-600 opacity-0 group-hover:opacity-100 transition" data-i18n="common.open_tool">Open tool →</span>
-        </div>
-        <p class="mt-2 text-sm text-gray-600" data-i18n="tool_merge.subtitle">Combine multiple PDFs into one, reorder pages, and download instantly.</p>
-      </a>
-      <!-- Split -->
-      <a href="/tools/pdf-split.html" class="group bg-white rounded-xl p-5 shadow hover:shadow-md transition border border-gray-100">
-        <div class="flex items-start justify-between">
-          <h3 class="font-bold text-lg" data-i18n="nav.split">Split PDF</h3>
-          <span class="text-indigo-600 opacity-0 group-hover:opacity-100 transition" data-i18n="common.open_tool">Open tool →</span>
-        </div>
-        <p class="mt-2 text-sm text-gray-600" data-i18n="tool_split.subtitle">Extract pages or split into multiple files by ranges.</p>
-      </a>
-      <!-- Compress -->
-      <a href="/tools/pdf-compress.html" class="group bg-white rounded-xl p-5 shadow hover:shadow-md transition border border-gray-100">
-        <div class="flex items-start justify-between">
-          <h3 class="font-bold text-lg" data-i18n="nav.compress">Compress PDF</h3>
-          <span class="text-indigo-600 opacity-0 group-hover:opacity-100 transition" data-i18n="common.open_tool">Open tool →</span>
-        </div>
-        <p class="mt-2 text-sm text-gray-600" data-i18n="tool_compress.subtitle">Reduce PDF size while keeping good quality.</p>
-      </a>
-      <!-- To JPG -->
-      <a href="/tools/pdf-to-jpg.html" class="group bg-white rounded-xl p-5 shadow hover:shadow-md transition border border-gray-100">
-        <div class="flex items-start justify-between">
-          <h3 class="font-bold text-lg" data-i18n="nav.tojpg">PDF to JPG</h3>
-          <span class="text-indigo-600 opacity-0 group-hover:opacity-100 transition" data-i18n="common.open_tool">Open tool →</span>
-        </div>
-        <p class="mt-2 text-sm text-gray-600" data-i18n="tool_tojpg.subtitle">Convert each page of a PDF into JPG images.</p>
-      </a>
-    </div>
-
-    <!-- bullets -->
-    <div class="mt-12 grid md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-        <h4 class="font-bold" data-i18n="bullets.local_title">100% Local</h4>
-        <p class="mt-1 text-gray-600" data-i18n="bullets.local_desc">All processing happens in your browser. No uploads.</p>
+      <!-- Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+        <!-- Merge -->
+        <a href="/tools/pdf-merge.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
+          <div class="font-bold text-lg" data-i18n="nav.merge">Merge PDF</div>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_merge.subtitle">Combine multiple PDFs into one, reorder pages, and download instantly.</p>
+          <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
+        </a>
+        <!-- Split -->
+        <a href="/tools/pdf-split.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
+          <div class="font-bold text-lg" data-i18n="nav.split">Split PDF</div>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_split.subtitle">Extract pages or split into multiple files by ranges.</p>
+          <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
+        </a>
+        <!-- Compress -->
+        <a href="/tools/pdf-compress.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
+          <div class="font-bold text-lg" data-i18n="nav.compress">Compress PDF</div>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_compress.subtitle">Reduce PDF size while keeping good quality.</p>
+          <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
+        </a>
+        <!-- To JPG -->
+        <a href="/tools/pdf-to-jpg.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
+          <div class="font-bold text-lg" data-i18n="nav.tojpg">PDF to JPG</div>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_tojpg.subtitle">Convert each page of a PDF into JPG images.</p>
+          <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
+        </a>
       </div>
-      <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-        <h4 class="font-bold" data-i18n="bullets.fast_title">Fast & Free</h4>
-        <p class="mt-1 text-gray-600" data-i18n="bullets.fast_desc">Instant results. No sign-up required.</p>
+
+      <!-- Trust bullets（保留两项，避免缺键） -->
+      <div class="grid md:grid-cols-2 gap-6 mt-12">
+        <div class="bg-gray-50 rounded-xl p-6 border">
+          <div class="font-semibold" data-i18n="bullets.local_title">100% Local</div>
+          <p class="text-sm text-gray-600 mt-1" data-i18n="bullets.local_desc">All processing happens in your browser. No uploads.</p>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-6 border">
+          <div class="font-semibold" data-i18n="bullets.fast_title">Fast & Free</div>
+          <p class="text-sm text-gray-600 mt-1" data-i18n="bullets.fast_desc">Instant results. No sign-up required.</p>
+        </div>
       </div>
     </div>
-
-    <p class="mt-10 text-xs text-gray-500" data-i18n="common.safety_note">
-      All processing happens locally in your browser. Files never leave your device.
-    </p>
   </section>
 
   <!-- CTA -->
-  <section class="bg-indigo-50">
-    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
-      <h3 class="text-2xl md:text-3xl font-extrabold" data-i18n="cta.title">Work with PDFs the easy way</h3>
-      <p class="mt-2 text-gray-600" data-i18n="cta.subtitle">Start with any tool — it’s free, private, and lightning fast.</p>
-      <a href="/tools/pdf-merge.html" class="inline-block mt-6 bg-indigo-600 text-white font-semibold px-6 py-3 rounded shadow hover:shadow-md transition" data-i18n="home.cta_start">Start Now</a>
-    </div>
+  <section class="container mx-auto text-center py-12">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-900" data-i18n="cta.title">Work with PDFs the easy way</h2>
+    <p class="mt-2 text-gray-600" data-i18n="cta.subtitle">Start with any tool — it’s free, private, and lightning fast.</p>
+    <a href="/tools/pdf-merge.html" class="mt-6 inline-block bg-pink-600 text-white font-bold rounded-full py-3 px-8 shadow hover:bg-pink-700 transform hover:scale-105 transition" data-i18n="home.cta_start">Start Now</a>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-white border-t border-gray-100">
-    <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-4 gap-8">
-      <div>
-        <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded bg-indigo-600"></div>
-          <span class="font-extrabold" data-i18n="common.brand">DocPDFHub</span>
+  <footer class="bg-white border-t">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="w-full flex flex-col md:flex-row py-8 gap-8 text-sm">
+        <div class="flex-1">
+          <div class="text-pink-600 font-extrabold text-2xl">DocPDFHub</div>
+          <p class="text-gray-500 mt-2" data-i18n="footer.tagline">Free & private PDF tools in your browser.</p>
+          <p class="text-gray-400 mt-2" data-i18n="common.100_local">100% local in your browser • No upload</p>
         </div>
-        <p class="mt-3 text-sm text-gray-600" data-i18n="footer.tagline">Free & private PDF tools in your browser.</p>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.tools">Tools</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-merge.html" data-i18n="nav.merge">Merge PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-split.html" data-i18n="nav.split">Split PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.company">Company</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.about">About Us</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.blog">Official Blog</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.legal">Legal</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.terms">Terms</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.privacy">Privacy</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h5 class="font-semibold mb-2" data-i18n="footer.tools">Tools</h5>
-        <ul class="space-y-1 text-sm">
-          <li><a href="/tools/pdf-merge.html" class="hover:text-indigo-600" data-i18n="nav.merge">Merge PDF</a></li>
-          <li><a href="/tools/pdf-split.html" class="hover:text-indigo-600" data-i18n="nav.split">Split PDF</a></li>
-          <li><a href="/tools/pdf-compress.html" class="hover:text-indigo-600" data-i18n="nav.compress">Compress PDF</a></li>
-          <li><a href="/tools/pdf-to-jpg.html" class="hover:text-indigo-600" data-i18n="nav.tojpg">PDF to JPG</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="font-semibold mb-2" data-i18n="footer.legal">Legal</h5>
-        <ul class="space-y-1 text-sm">
-          <li><a href="#" class="hover:text-indigo-600" data-i18n="footer.terms">Terms</a></li>
-          <li><a href="#" class="hover:text-indigo-600" data-i18n="footer.privacy">Privacy</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="font-semibold mb-2" data-i18n="footer.company">Company</h5>
-        <ul class="space-y-1 text-sm">
-          <li><a href="#" class="hover:text-indigo-600" data-i18n="footer.blog">Official Blog</a></li>
-          <li><a href="#" class="hover:text-indigo-600" data-i18n="footer.about">About Us</a></li>
-          <li><a href="#" class="hover:text-indigo-600" data-i18n="footer.contact">Contact</a></li>
-        </ul>
+      <div class="py-4 border-t text-xs text-gray-400">
+        © <span id="y"></span> DocPDFHub
       </div>
     </div>
   </footer>
 
-  <!-- i18n loader -->
-  <script src="/js/i18n.js"></script>
+  <!-- Scripts -->
+  <script>
+    // 年份 & 移动导航
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const navBtn = document.getElementById('nav-toggle');
+    const navContent = document.getElementById('nav-content');
+    navBtn?.addEventListener('click', ()=> navContent.classList.toggle('hidden'));
+
+    // --- 简易 i18n 实现（不依赖外部文件） ---
+    (function () {
+      const htmlEl = document.documentElement;
+
+      // 读取默认语言：localStorage > 浏览器 > en
+      const detectLang = () => {
+        const saved = localStorage.getItem('lang');
+        if (saved) return saved;
+        const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+        return nav.startsWith('zh') ? 'zh' : 'en';
+      };
+
+      let currentLang = detectLang();
+      const dictCache = new Map();
+
+      function getByPath(obj, path) {
+        return path.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);
+      }
+
+      async function loadDict(lang) {
+        if (dictCache.has(lang)) return dictCache.get(lang);
+        try {
+          const res = await fetch(`/lang/${lang}.json`, { cache: 'no-store' });
+          if (!res.ok) throw new Error('lang fetch failed');
+          const json = await res.json();
+          dictCache.set(lang, json);
+          return json;
+        } catch (e) {
+          console.warn(`[i18n] Failed to load /lang/${lang}.json`, e);
+          // 最简兜底：返回空对象，不影响页面原始文本
+          const empty = {};
+          dictCache.set(lang, empty);
+          return empty;
+        }
+      }
+
+      function applyLang(dict) {
+        document.querySelectorAll('[data-i18n]').forEach(node => {
+          const key = node.getAttribute('data-i18n');
+          const txt = getByPath(dict, key);
+          if (typeof txt === 'string') {
+            node.textContent = txt;
+          }
+        });
+      }
+
+      async function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        htmlEl.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+        const dict = await loadDict(lang);
+        applyLang(dict);
+      }
+
+      // 绑定全局方法（工具页也可用）
+      window.__i18n__ = { setLang, get lang(){ return currentLang; } };
+
+      // 初始化：先设置 html lang，再应用
+      setLang(currentLang);
+
+      // 语言按钮
+      document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang-btn')));
+      });
+    })();
+  </script>
 </body>
 </html>
