@@ -3,17 +3,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>(Tool) — DocPDFHub</title>
-  <meta name="description" content="This tool runs in your browser. Free and privacy-safe.">
+  <title>Merge PDF — DocPDFHub</title>
+  <meta name="description" content="Merge multiple PDFs into one. All processing happens in your browser. Free and privacy-safe.">
   <link rel="icon" href="/favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- pdf-lib (MIT) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100">
   <main class="max-w-4xl mx-auto p-6">
     <a href="/" class="text-sky-400 underline">← DocPDFHub</a>
-    <h1 class="text-3xl font-bold mt-4">(Tool)</h1>
-    <p class="text-slate-400">Placeholder page. Implementation coming soon.</p>
+    <h1 class="text-3xl font-bold mt-4">Merge PDF</h1>
+    <p class="text-slate-400">All processing happens in your browser. No upload.</p>
+
+    <div class="mt-4 space-y-3">
+      <input id="files" type="file" accept="application/pdf" multiple class="block w-full rounded border border-slate-700 bg-slate-900 p-3">
+      <button id="mergeBtn" class="px-4 py-2 rounded bg-sky-400 text-slate-900 font-semibold">Merge</button>
+      <p id="status" class="text-slate-400"></p>
+      <div id="download" class="hidden mt-3">
+        <a id="dl" class="underline text-sky-400" download="merged.pdf">Download merged.pdf</a>
+      </div>
+    </div>
   </main>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const filesInput = $('#files');
+    const statusEl = $('#status');
+    const dlWrap = $('#download');
+    const dlLink = $('#dl');
+
+    async function readAsArrayBuffer(file){
+      return new Promise((res, rej)=>{
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.onerror = rej;
+        r.readAsArrayBuffer(file);
+      });
+    }
+
+    async function mergePDFs(files){
+      const { PDFDocument } = PDFLib;
+      const outPdf = await PDFDocument.create();
+
+      // 逐个文件复制页面
+      for (let i=0; i<files.length; i++){
+        statusEl.textContent = `Processing: ${files[i].name} (${i+1}/${files.length})…`;
+        const ab = await readAsArrayBuffer(files[i]);
+        const src = await PDFDocument.load(ab);
+        const pages = await outPdf.copyPages(src, src.getPageIndices());
+        pages.forEach(p => outPdf.addPage(p));
+      }
+
+      const outBytes = await outPdf.save({ updateFieldAppearances: false });
+      return new Blob([outBytes], { type: 'application/pdf' });
+    }
+
+    $('#mergeBtn').addEventListener('click', async ()=>{
+      const files = Array.from(filesInput.files || []);
+      if (!files.length) { alert('Select at least two PDF files'); return; }
+      statusEl.textContent = 'Merging… this may take a moment.';
+      dlWrap.classList.add('hidden');
+
+      try {
+        const blob = await mergePDFs(files);
+        const url = URL.createObjectURL(blob);
+        dlLink.href = url;
+        dlWrap.classList.remove('hidden');
+        statusEl.textContent = 'Done.';
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = 'Failed to merge. Please try smaller files or fewer PDFs.';
+      }
+    });
+  </script>
 </body>
 </html>
-
