@@ -4,34 +4,56 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title data-i18n="tool.merge.ogTitle">Merge PDF — DocPDFHub</title>
-  <meta name="description" content="" data-i18n="tool.merge.ogDesc"/>
+
+  <!-- 由 i18n.js 接管注入 -->
+  <title data-i18n-doc-title="tool.merge.ogTitle">Merge PDF — DocPDFHub</title>
+  <meta name="description" content="Combine multiple PDFs into a single document — processed locally." data-i18n-meta="tool.merge.ogDesc"/>
+
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
 
   <!-- libs -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
+  <!-- i18n -->
   <script src="/js/i18n.js" defer></script>
+
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
     .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
+    .dropzone{border:2px dashed #e5e7eb;}
   </style>
 </head>
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+
+  <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
       <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
-      <div class="flex items-center space-x-2">
-        <a href="/" class="text-sm text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
-        <span class="text-gray-300">|</span>
+
+      <div class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/" class="text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/tools/pdf-merge.html" class="text-gray-900 font-semibold" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
+        <div class="flex items-center space-x-2">
+          <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+          <span class="text-gray-300">|</span>
+          <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+        </div>
+      </div>
+
+      <div class="md:hidden flex items-center space-x-2">
         <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
+  <div class="pt-20"></div>
 
-  <header class="gradient text-white pt-28 pb-10">
+  <!-- Hero -->
+  <header class="gradient text-white pt-12 pb-10">
     <div class="max-w-6xl mx-auto px-4">
       <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
       <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="tool.merge.hero.title">Merge PDF</h1>
@@ -42,20 +64,28 @@
     </div>
   </header>
 
+  <!-- Main -->
   <main class="max-w-6xl mx-auto px-4 py-10">
     <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
-      <div class="flex flex-col items-center text-center">
+      <div class="text-center">
         <h2 class="text-xl font-bold" data-i18n="tool.merge.drop.title">Drop your PDF files here</h2>
         <p class="text-gray-600 mt-1" data-i18n="tool.merge.drop.hint">Add multiple PDFs and arrange the order before merging.</p>
 
-        <input id="fileInput" type="file" accept="application/pdf" multiple class="hidden"/>
-        <div class="mt-4">
+        <!-- 拖拽 + 点击上传 -->
+        <label for="fileInput" class="block mt-4 p-6 border rounded-xl dropzone cursor-pointer">
+          <div class="font-semibold" data-i18n="uploader.title">Drop files here or click to select</div>
+          <div class="text-xs text-gray-500 mt-1" data-i18n="uploader.hint">Max 100MB each. Your files never leave your device.</div>
+          <input id="fileInput" type="file" accept="application/pdf" multiple class="sr-only"/>
+        </label>
+
+        <div class="mt-3">
           <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700"
             data-i18n="tool.merge.drop.button">Select PDFs</button>
           <div class="text-xs text-gray-500 mt-2" data-i18n="common.or_drop">or drag & drop</div>
         </div>
       </div>
 
+      <!-- 文件列表 -->
       <div id="fileListWrap" class="mt-6 hidden">
         <div class="flex items-center justify-between">
           <div class="font-semibold" data-i18n="tool.merge.options.reorder_hint">Drag to reorder</div>
@@ -64,6 +94,7 @@
             <button id="clearBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50" data-i18n="tool.merge.options.clear_all">Clear all</button>
           </div>
         </div>
+
         <ul id="fileList" class="mt-4 divide-y rounded-lg border bg-gray-50"></ul>
 
         <div class="mt-6 flex flex-wrap items-center gap-3">
@@ -74,17 +105,20 @@
             <span data-i18n="tool.merge.options.keep_outlines">Keep bookmarks/outlines</span>
           </label>
           <label class="inline-flex items-center space-x-2 text-sm text-gray-700 cursor-pointer">
-            <input id="optKeepMeta" type="checkbox" class="form-checkbox h-4 w-4">
+            <input id="optKeepMeta" type="checkbox" class="form-checkbox h-4 w-4" checked>
             <span data-i18n="tool.merge.options.keep_metadata">Keep metadata</span>
           </label>
         </div>
-        <p id="runMsg" class="mt-3 text-sm text-gray-500 hidden"><span data-i18n="tool.merge.running.status">Merging PDFs…</span>
+
+        <p id="runMsg" class="mt-3 text-sm text-gray-500 hidden">
+          <span data-i18n="tool.merge.running.status">Merging PDFs…</span>
           <span class="ml-1" data-i18n="tool.merge.running.tip">Large files may take a little longer (still 100% local).</span>
         </p>
       </div>
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="py-8 border-t text-center text-sm text-gray-500">
     <div class="max-w-6xl mx-auto px-4">
       <div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div>
@@ -92,137 +126,181 @@
   </footer>
 
   <script>
-  // -------- i18n boot --------
-  document.addEventListener('DOMContentLoaded', () => {
-    const lang = localStorage.getItem('lang') || 'en';
-    window.__i18n__?.setLang(lang);
-  });
-  document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
-    btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
-  });
-
-  // -------- helpers --------
-  const $ = s => document.querySelector(s);
-  const fmtBytes = (n)=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];}
-
-  const dropZone = $('#dropZone');
-  const fileInput = $('#fileInput');
-  const chooseBtn = $('#chooseBtn');
-  const addMoreBtn = $('#addMoreBtn');
-  const clearBtn = $('#clearBtn');
-  const fileListWrap = $('#fileListWrap');
-  const fileList = $('#fileList');
-  const mergeBtn = $('#mergeBtn');
-  const runMsg = $('#runMsg');
-  const optKeepMeta = $('#optKeepMeta');
-  const optKeepOutlines = $('#optKeepOutlines'); // 说明：pdf-lib 暂不支持直接复制 outlines，这个选项为预留
-
-  let files = [];
-
-  chooseBtn.addEventListener('click', ()=> fileInput.click());
-  addMoreBtn?.addEventListener('click', ()=> fileInput.click());
-  clearBtn?.addEventListener('click', ()=> { files=[]; renderList(); mergeBtn.disabled=true; });
-
-  ;['dragenter','dragover'].forEach(evt=>{
-    dropZone.addEventListener(evt, e=>{e.preventDefault();e.stopPropagation();dropZone.classList.add('drop-active');});
-  });
-  ;['dragleave','drop'].forEach(evt=>{
-    dropZone.addEventListener(evt, e=>{e.preventDefault();e.stopPropagation();dropZone.classList.remove('drop-active');});
-  });
-  dropZone.addEventListener('drop', (e)=>{
-    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
-    if (fs.length){ files = files.concat(fs); renderList(); }
-  });
-
-  fileInput.addEventListener('change', ()=>{
-    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
-    if (fs.length){ files = files.concat(fs); renderList(); }
-    fileInput.value='';
-  });
-
-  function renderList(){
-    fileListWrap.classList.toggle('hidden', files.length===0);
-    fileList.innerHTML='';
-    files.forEach((f,idx)=>{
-      const li = document.createElement('li');
-      li.className='bg-white px-4 py-3 flex items-center justify-between';
-      li.draggable = true;
-      li.innerHTML = `
-        <div class="flex items-center space-x-3">
-          <span class="cursor-move">☰</span>
-          <div><div class="font-medium">${f.name}</div><div class="text-xs text-gray-500">${fmtBytes(f.size)}</div></div>
-        </div>
-        <button data-remove="${idx}" class="text-sm px-2 py-1 rounded border hover:bg-gray-50">×</button>
-      `;
-      li.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', idx); e.dataTransfer.effectAllowed='move'; });
-      li.addEventListener('dragover', e=> e.preventDefault());
-      li.addEventListener('drop', e=>{
-        e.preventDefault();
-        const from = +e.dataTransfer.getData('text/plain'); const to = idx;
-        if(from===to)return;
-        const arr = files.slice(); const [m]=arr.splice(from,1); arr.splice(to,0,m); files=arr; renderList();
-      });
-      fileList.appendChild(li);
+    // ---- i18n 初始化（默认英文） ----
+    document.addEventListener('DOMContentLoaded', () => {
+      const lang = localStorage.getItem('lang') || 'en';
+      window.__i18n__?.setLang(lang);
     });
-    fileList.addEventListener('click', e=>{
-      const btn = e.target.closest('button[data-remove]'); if(!btn) return;
-      const i = +btn.getAttribute('data-remove'); files.splice(i,1); renderList();
-    }, {once:true});
-    mergeBtn.disabled = files.length===0;
-  }
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
+    });
 
-  const readAsArrayBuffer = (file)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(file);});
+    // ---- 工具函数 ----
+    const $ = s => document.querySelector(s);
+    const fmtBytes = (n)=>{
+      const u=['B','KB','MB','GB']; let i=0;
+      while(n>=1024 && i<u.length-1){ n/=1024; i++; }
+      return (n<10 && i ? n.toFixed(1):Math.round(n)) + ' ' + u[i];
+    };
+    const readAsArrayBuffer = (file)=> new Promise((res,rej)=>{
+      const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsArrayBuffer(file);
+    });
 
-  async function mergePDFs(){
-    if(!files.length) return;
-    runMsg.classList.remove('hidden');
-    mergeBtn.disabled = true;
+    // ---- DOM ----
+    const dropZone = $('#dropZone');
+    const dropLabel = document.querySelector('label[for="fileInput"]');
+    const fileInput = $('#fileInput');
+    const chooseBtn = $('#chooseBtn');
+    const addMoreBtn = $('#addMoreBtn');
+    const clearBtn = $('#clearBtn');
+    const fileListWrap = $('#fileListWrap');
+    const fileList = $('#fileList');
+    const mergeBtn = $('#mergeBtn');
+    const runMsg = $('#runMsg');
+    const optKeepMeta = $('#optKeepMeta');
+    const optKeepOutlines = $('#optKeepOutlines'); // pdf-lib 暂不能直接复制 outlines，留作未来扩展
 
-    const { PDFDocument } = PDFLib;
-    const outDoc = await PDFDocument.create();
+    let files = [];
 
-    // 尝试从第一份拷贝元数据
-    if (optKeepMeta.checked) {
-      try {
-        const firstBytes = await readAsArrayBuffer(files[0]);
-        const firstDoc = await PDFDocument.load(firstBytes);
-        const title = firstDoc.getTitle(); const author = firstDoc.getAuthor();
-        const subject = firstDoc.getSubject(); const keywords = firstDoc.getKeywords();
-        const producer = firstDoc.getProducer(); const creator = firstDoc.getCreator();
-        const creationDate = firstDoc.getCreationDate(); const modificationDate = firstDoc.getModificationDate();
-        if(title) outDoc.setTitle(title);
-        if(author) outDoc.setAuthor(author);
-        if(subject) outDoc.setSubject(subject);
-        if(keywords) outDoc.setKeywords(keywords);
-        if(producer) outDoc.setProducer(producer);
-        if(creator) outDoc.setCreator(creator);
-        if(creationDate) outDoc.setCreationDate(creationDate);
-        if(modificationDate) outDoc.setModificationDate(modificationDate);
-      } catch {}
+    // ---- 拖拽高亮 ----
+    ['dragenter','dragover'].forEach(evt=>{
+      (dropZone || document).addEventListener(evt, e=>{
+        e.preventDefault(); e.stopPropagation();
+        dropZone?.classList.add('drop-active');
+        dropLabel?.classList.add('drop-active');
+      });
+    });
+    ['dragleave','drop'].forEach(evt=>{
+      (dropZone || document).addEventListener(evt, e=>{
+        e.preventDefault(); e.stopPropagation();
+        dropZone?.classList.remove('drop-active');
+        dropLabel?.classList.remove('drop-active');
+      });
+    });
+
+    // ---- 接收文件 ----
+    dropZone.addEventListener('drop', (e)=>{
+      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/\.pdf$/i.test(f.name));
+      if (fs.length){ files = files.concat(fs); renderList(); }
+    });
+    fileInput.addEventListener('change', ()=>{
+      const fs = Array.from(fileInput.files||[]).filter(f=>/\.pdf$/i.test(f.name));
+      if (fs.length){ files = files.concat(fs); renderList(); }
+      fileInput.value='';
+    });
+
+    chooseBtn.addEventListener('click', ()=> fileInput.click());
+    addMoreBtn?.addEventListener('click', ()=> fileInput.click());
+    clearBtn?.addEventListener('click', ()=> { files=[]; renderList(); });
+
+    function renderList(){
+      fileListWrap.classList.toggle('hidden', files.length===0);
+      fileList.innerHTML='';
+      files.forEach((f,idx)=>{
+        const li = document.createElement('li');
+        li.className='bg-white px-4 py-3 flex items-center justify-between';
+        li.draggable = true;
+        li.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <span class="cursor-move" title="Drag">☰</span>
+            <div>
+              <div class="font-medium">${f.name}</div>
+              <div class="text-xs text-gray-500">${fmtBytes(f.size)}</div>
+            </div>
+          </div>
+          <button data-remove="${idx}" class="text-sm px-2 py-1 rounded border hover:bg-gray-50" aria-label="Remove">×</button>
+        `;
+        // 拖拽排序
+        li.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', idx); e.dataTransfer.effectAllowed='move'; });
+        li.addEventListener('dragover', e=> e.preventDefault());
+        li.addEventListener('drop', e=>{
+          e.preventDefault();
+          const from = +e.dataTransfer.getData('text/plain'); const to = idx;
+          if(from===to)return;
+          const arr = files.slice(); const [m]=arr.splice(from,1); arr.splice(to,0,m); files=arr; renderList();
+        });
+        fileList.appendChild(li);
+      });
+
+      // 单个删除（事件委托，避免重复绑定）
+      fileList.onclick = (e)=>{
+        const btn = e.target.closest('button[data-remove]');
+        if(!btn) return;
+        const i = +btn.getAttribute('data-remove');
+        files.splice(i,1); renderList();
+      };
+
+      mergeBtn.disabled = files.length===0;
     }
 
-    for (const f of files) {
-      const bytes = await readAsArrayBuffer(f);
-      const src = await PDFDocument.load(bytes);
-      const indices = src.getPageIndices();
-      const copied = await outDoc.copyPages(src, indices);
-      copied.forEach(p => outDoc.addPage(p));
+    // ---- 合并 ----
+    async function mergePDFs(){
+      const t = (k, fb)=> (window.__i18n__?.t(k) || fb);
+      if(!files.length){
+        alert(t('tool.merge.errors.no_files','Please add PDF files first.'));
+        return;
+      }
+      runMsg.classList.remove('hidden');
+      mergeBtn.disabled = true;
+
+      try{
+        const { PDFDocument } = PDFLib;
+        const outDoc = await PDFDocument.create();
+
+        // 复制第一份的常见元数据
+        if (optKeepMeta.checked && files[0]) {
+          try {
+            const firstBytes = await readAsArrayBuffer(files[0]);
+            const firstDoc = await PDFDocument.load(firstBytes, { ignoreEncryption: true });
+            const meta = {
+              title: firstDoc.getTitle(),
+              author: firstDoc.getAuthor(),
+              subject: firstDoc.getSubject(),
+              keywords: firstDoc.getKeywords(),
+              producer: firstDoc.getProducer(),
+              creator: firstDoc.getCreator(),
+              creationDate: firstDoc.getCreationDate(),
+              modificationDate: firstDoc.getModificationDate(),
+            };
+            if(meta.title) outDoc.setTitle(meta.title);
+            if(meta.author) outDoc.setAuthor(meta.author);
+            if(meta.subject) outDoc.setSubject(meta.subject);
+            if(meta.keywords) outDoc.setKeywords(meta.keywords);
+            if(meta.producer) outDoc.setProducer(meta.producer);
+            if(meta.creator) outDoc.setCreator(meta.creator);
+            if(meta.creationDate) outDoc.setCreationDate(meta.creationDate);
+            if(meta.modificationDate) outDoc.setModificationDate(meta.modificationDate);
+          }catch(_e){}
+        }
+
+        // 合并页面
+        for (const f of files) {
+          const bytes = await readAsArrayBuffer(f);
+          const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
+          const indices = src.getPageIndices();
+          const copied = await outDoc.copyPages(src, indices);
+          copied.forEach(p => outDoc.addPage(p));
+        }
+
+        const outBytes = await outDoc.save({ useObjectStreams: true, updateMetadata: true });
+        const blob = new Blob([outBytes], {type:'application/pdf'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'merged.pdf';
+        a.click();
+        URL.revokeObjectURL(a.href);
+
+        alert(t('tool.merge.result.title','Merge complete'));
+      }catch(err){
+        console.error(err);
+        alert((window.__i18n__?.t('tool.merge.errors.fail') || 'Failed to merge. Please try other files.'));
+      }finally{
+        runMsg.classList.add('hidden');
+        mergeBtn.disabled = false;
+      }
     }
 
-    const outBytes = await outDoc.save({ useObjectStreams: true, updateMetadata: true });
-    const blob = new Blob([outBytes], {type:'application/pdf'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'merged.pdf';
-    a.click();
-    URL.revokeObjectURL(a.href);
-
-    runMsg.classList.add('hidden');
-    mergeBtn.disabled = false;
-    alert(window.__i18n__?.t('tool.merge.result.title') || 'Merge complete');
-  }
-
-  mergeBtn.addEventListener('click', mergePDFs);
+    mergeBtn.addEventListener('click', mergePDFs);
   </script>
 </body>
 </html>
