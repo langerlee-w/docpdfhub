@@ -1,77 +1,109 @@
 {
   "common": {
     "brand": "DocPDFHub",
-    "100_local": "100% 本地处理，文件不会上传到服务器。",
-    "choose_file": "选择 PDF 文件",
+    "100_local": "100% 本地浏览器处理 · 文件不上传服务器",
+    "open_tool": "打开工具 →",
+    "back_home": "返回首页",
     "download": "下载",
-    "download_zip": "下载 ZIP",
     "processing": "处理中…",
-    "done": "完成。",
-    "error": "出错了：",
-    "language": {
-      "en": "EN",
-      "zh": "中文"
-    }
+    "choose_files": "选择文件",
+    "or_drag": "或拖拽到此处",
+    "clear_all": "清空",
+    "safety_note": "所有处理均在您的浏览器本地完成，文件不会上传到服务器。",
+    "learn_more": "了解更多"
   },
+
   "nav": {
     "home": "首页",
-    "tools": "工具",
-    "merge": "合并 PDF",
-    "split": "拆分 PDF",
-    "compress": "压缩 PDF",
+    "merge": "PDF 合并",
+    "split": "PDF 拆分",
+    "compress": "PDF 压缩",
     "tojpg": "PDF 转 JPG"
   },
+
   "home": {
-    "hero_kicker": "简单 • 私密 • 免费",
-    "hero_title": "浏览器内的极速 PDF 工具",
-    "hero_sub": "合并、拆分、压缩、转换——全部在本地完成，保护你的隐私。",
-    "cta": "进入工具"
+    "hero_kicker": "PDF 工具",
+    "title": "免费、私有的在线 PDF 工具",
+    "subtitle": "合并、拆分、压缩、格式转换——全部在浏览器本地完成，文件不离开您的设备。",
+    "cta_start": "立即开始",
+    "view_all_tools": "查看全部工具"
   },
-  "merge": {
-    "title": "合并 PDF",
-    "subtitle": "选择多个 PDF，拖动调整顺序，一键合并为单个文件。",
-    "add_files": "添加 PDF",
-    "merge_btn": "开始合并",
-    "result_name": "merged.pdf"
+
+  "features": {
+    "title": "PDF 一站式工具箱"
   },
-  "split": {
-    "title": "拆分 PDF",
-    "subtitle": "输入页码范围（如 1-3,5,9-），用逗号分隔多个片段。",
-    "ranges_label": "页码范围",
-    "ranges_placeholder": "例如：1-3,5,9-",
-    "split_btn": "开始拆分"
+  "bullets": {
+    "local_title": "完全本地",
+    "local_desc": "所有处理在浏览器本地进行，无需上传。",
+    "fast_title": "快速且免费",
+    "fast_desc": "即时出结果，无需注册。"
   },
-  "compress": {
-    "title": "压缩 PDF",
-    "subtitle": "两种模式：保留文本（小幅压缩）或栅格化（最大压缩）。",
-    "mode_title": "压缩模式",
-    "keep": "轻量重存（保留文本/结构）",
-    "raster": "最大压缩（渲染为图片）",
-    "dpi": "输出 DPI（建议 72–200）",
-    "quality": "JPEG 质量（0.3–0.9）",
-    "run": "开始压缩",
-    "light_done": "完成（轻量重存）。",
-    "raster_done": "完成（栅格化）。"
+
+  "cta": {
+    "title": "更轻松地处理 PDF",
+    "subtitle": "随便选一个工具开始吧——免费、私有、速度飞快。"
   },
-  "tojpg": {
-    "title": "PDF 转 JPG",
-    "subtitle": "将每一页导出为 JPG，并打包为 ZIP 下载。",
-    "dpi": "输出 DPI（建议 72–200）",
-    "quality": "JPEG 质量（0.3–0.95）",
-    "run": "开始转换"
-  },
+
   "footer": {
-    "links": "链接",
-    "legal": "法律",
-    "social": "社交",
+    "tagline": "在浏览器里即可使用的免费私有 PDF 工具。",
+    "tools": "工具",
+    "legal": "法律信息",
     "company": "公司",
-    "faq": "常见问题",
-    "help": "帮助",
-    "support": "支持",
-    "terms": "条款",
-    "privacy": "隐私",
+    "terms": "服务条款",
+    "privacy": "隐私政策",
     "blog": "官方博客",
     "about": "关于我们",
     "contact": "联系我们"
+  },
+
+  "tool_common": {
+    "drop_here": "将文件拖到这里",
+    "added": "个文件已添加",
+    "start": "开始",
+    "quality": "质量",
+    "size": "大小",
+    "pages": "页数",
+    "page_range": "页码范围",
+    "low": "低",
+    "medium": "中",
+    "high": "高"
+  },
+
+  "tool_merge": {
+    "title": "PDF 合并",
+    "subtitle": "将多个 PDF 合并为一个文件，支持拖拽排序，立即下载。",
+    "hint": "添加 PDF，拖动排序，然后点击“合并”。",
+    "start": "合并",
+    "result_ready": "合并完成，文件已就绪"
+  },
+
+  "tool_split": {
+    "title": "PDF 拆分",
+    "subtitle": "按页码范围拆分或提取页面，生成多个文件。",
+    "mode": "模式",
+    "mode_ranges": "按页码范围拆分（示例：1-3,5,8-10）",
+    "mode_extract": "选择页面提取",
+    "placeholder_ranges": "示例：1-3,5,8-10",
+    "start": "拆分",
+    "result_ready": "拆分完成，文件已就绪"
+  },
+
+  "tool_compress": {
+    "title": "PDF 压缩",
+    "subtitle": "在尽量保证清晰的前提下显著减小文件体积。",
+    "level": "压缩级别",
+    "basic": "基础",
+    "strong": "强力",
+    "custom": "自定义",
+    "start": "压缩",
+    "result_ready": "压缩完成，文件已就绪"
+  },
+
+  "tool_tojpg": {
+    "title": "PDF 转 JPG",
+    "subtitle": "将 PDF 的每一页转换为 JPG 图片。",
+    "dpi": "输出分辨率（DPI）",
+    "start": "转换",
+    "result_ready": "转换完成，已打包为 ZIP"
   }
 }
