@@ -8,6 +8,10 @@
   <meta name="description" content="" data-i18n="tool.merge.ogDesc"/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+
+  <!-- libs -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
   <script src="/js/i18n.js" defer></script>
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
@@ -15,7 +19,6 @@
   </style>
 </head>
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
-  <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
       <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
@@ -28,7 +31,6 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <header class="gradient text-white pt-28 pb-10">
     <div class="max-w-6xl mx-auto px-4">
       <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
@@ -40,9 +42,7 @@
     </div>
   </header>
 
-  <!-- Tool -->
   <main class="max-w-6xl mx-auto px-4 py-10">
-    <!-- Drop Zone -->
     <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
       <div class="flex flex-col items-center text-center">
         <h2 class="text-xl font-bold" data-i18n="tool.merge.drop.title">Drop your PDF files here</h2>
@@ -56,7 +56,6 @@
         </div>
       </div>
 
-      <!-- Selected files list -->
       <div id="fileListWrap" class="mt-6 hidden">
         <div class="flex items-center justify-between">
           <div class="font-semibold" data-i18n="tool.merge.options.reorder_hint">Drag to reorder</div>
@@ -86,7 +85,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="py-8 border-t text-center text-sm text-gray-500">
     <div class="max-w-6xl mx-auto px-4">
       <div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div>
@@ -94,27 +92,19 @@
   </footer>
 
   <script>
-  // ---------- i18n boot ----------
+  // -------- i18n boot --------
   document.addEventListener('DOMContentLoaded', () => {
     const lang = localStorage.getItem('lang') || 'en';
     window.__i18n__?.setLang(lang);
   });
   document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      window.__i18n__?.setLang(btn.getAttribute('data-lang-btn'));
-    });
+    btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
   });
 
-  // ---------- helpers ----------
+  // -------- helpers --------
   const $ = s => document.querySelector(s);
-  const $$ = s => Array.from(document.querySelectorAll(s));
-  const fmtBytes = (n) => {
-    if (!n && n !== 0) return '';
-    const u = ['B','KB','MB','GB']; let i=0; while(n>=1024 && i<u.length-1){n/=1024;i++}
-    return n.toFixed(n<10&&i?1:0)+' '+u[i];
-  };
+  const fmtBytes = (n)=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];}
 
-  // ---------- elements ----------
   const dropZone = $('#dropZone');
   const fileInput = $('#fileInput');
   const chooseBtn = $('#chooseBtn');
@@ -124,82 +114,115 @@
   const fileList = $('#fileList');
   const mergeBtn = $('#mergeBtn');
   const runMsg = $('#runMsg');
+  const optKeepMeta = $('#optKeepMeta');
+  const optKeepOutlines = $('#optKeepOutlines'); // 说明：pdf-lib 暂不支持直接复制 outlines，这个选项为预留
 
-  let files = []; // Array<File>
+  let files = [];
 
   chooseBtn.addEventListener('click', ()=> fileInput.click());
   addMoreBtn?.addEventListener('click', ()=> fileInput.click());
-  clearBtn?.addEventListener('click', ()=>{
-    files = []; renderList(); mergeBtn.disabled = true;
-  });
+  clearBtn?.addEventListener('click', ()=> { files=[]; renderList(); mergeBtn.disabled=true; });
 
-  // drag & drop
   ;['dragenter','dragover'].forEach(evt=>{
-    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
+    dropZone.addEventListener(evt, e=>{e.preventDefault();e.stopPropagation();dropZone.classList.add('drop-active');});
   });
   ;['dragleave','drop'].forEach(evt=>{
-    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
+    dropZone.addEventListener(evt, e=>{e.preventDefault();e.stopPropagation();dropZone.classList.remove('drop-active');});
   });
   dropZone.addEventListener('drop', (e)=>{
-    const fs = Array.from(e.dataTransfer.files || []).filter(f=>/pdf$/i.test(f.name));
+    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
     if (fs.length){ files = files.concat(fs); renderList(); }
   });
 
   fileInput.addEventListener('change', ()=>{
-    const fs = Array.from(fileInput.files || []).filter(f=>/pdf$/i.test(f.name));
+    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
     if (fs.length){ files = files.concat(fs); renderList(); }
-    fileInput.value = '';
+    fileInput.value='';
   });
 
   function renderList(){
     fileListWrap.classList.toggle('hidden', files.length===0);
-    fileList.innerHTML = '';
-    files.forEach((f, idx)=>{
+    fileList.innerHTML='';
+    files.forEach((f,idx)=>{
       const li = document.createElement('li');
-      li.className = 'bg-white px-4 py-3 flex items-center justify-between';
+      li.className='bg-white px-4 py-3 flex items-center justify-between';
       li.draggable = true;
       li.innerHTML = `
         <div class="flex items-center space-x-3">
           <span class="cursor-move">☰</span>
-          <div>
-            <div class="font-medium">${f.name}</div>
-            <div class="text-xs text-gray-500">${fmtBytes(f.size)}</div>
-          </div>
+          <div><div class="font-medium">${f.name}</div><div class="text-xs text-gray-500">${fmtBytes(f.size)}</div></div>
         </div>
         <button data-remove="${idx}" class="text-sm px-2 py-1 rounded border hover:bg-gray-50">×</button>
       `;
-      // drag reorder
       li.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', idx); e.dataTransfer.effectAllowed='move'; });
-      li.addEventListener('dragover', e=>{ e.preventDefault(); });
+      li.addEventListener('dragover', e=> e.preventDefault());
       li.addEventListener('drop', e=>{
         e.preventDefault();
         const from = +e.dataTransfer.getData('text/plain'); const to = idx;
-        if (from===to) return;
-        const arr = files.slice(); const [m] = arr.splice(from,1); arr.splice(to,0,m); files = arr; renderList();
+        if(from===to)return;
+        const arr = files.slice(); const [m]=arr.splice(from,1); arr.splice(to,0,m); files=arr; renderList();
       });
       fileList.appendChild(li);
     });
     fileList.addEventListener('click', e=>{
-      const btn = e.target.closest('button[data-remove]');
-      if (!btn) return;
-      const i = +btn.getAttribute('data-remove');
-      files.splice(i,1); renderList();
-    }, { once:true });
-
+      const btn = e.target.closest('button[data-remove]'); if(!btn) return;
+      const i = +btn.getAttribute('data-remove'); files.splice(i,1); renderList();
+    }, {once:true});
     mergeBtn.disabled = files.length===0;
   }
 
-  // fake merge (UI demo hook) — 这里留给你接 PDF-lib / wasm 实现
-  mergeBtn.addEventListener('click', ()=>{
+  const readAsArrayBuffer = (file)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(file);});
+
+  async function mergePDFs(){
     if(!files.length) return;
     runMsg.classList.remove('hidden');
     mergeBtn.disabled = true;
-    setTimeout(()=>{ // 模拟完成
-      runMsg.classList.add('hidden');
-      alert(window.__i18n__?.t('tool.merge.result.title') || 'Merge complete');
-      mergeBtn.disabled = false;
-    }, 1000);
-  });
+
+    const { PDFDocument } = PDFLib;
+    const outDoc = await PDFDocument.create();
+
+    // 尝试从第一份拷贝元数据
+    if (optKeepMeta.checked) {
+      try {
+        const firstBytes = await readAsArrayBuffer(files[0]);
+        const firstDoc = await PDFDocument.load(firstBytes);
+        const title = firstDoc.getTitle(); const author = firstDoc.getAuthor();
+        const subject = firstDoc.getSubject(); const keywords = firstDoc.getKeywords();
+        const producer = firstDoc.getProducer(); const creator = firstDoc.getCreator();
+        const creationDate = firstDoc.getCreationDate(); const modificationDate = firstDoc.getModificationDate();
+        if(title) outDoc.setTitle(title);
+        if(author) outDoc.setAuthor(author);
+        if(subject) outDoc.setSubject(subject);
+        if(keywords) outDoc.setKeywords(keywords);
+        if(producer) outDoc.setProducer(producer);
+        if(creator) outDoc.setCreator(creator);
+        if(creationDate) outDoc.setCreationDate(creationDate);
+        if(modificationDate) outDoc.setModificationDate(modificationDate);
+      } catch {}
+    }
+
+    for (const f of files) {
+      const bytes = await readAsArrayBuffer(f);
+      const src = await PDFDocument.load(bytes);
+      const indices = src.getPageIndices();
+      const copied = await outDoc.copyPages(src, indices);
+      copied.forEach(p => outDoc.addPage(p));
+    }
+
+    const outBytes = await outDoc.save({ useObjectStreams: true, updateMetadata: true });
+    const blob = new Blob([outBytes], {type:'application/pdf'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'merged.pdf';
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+    runMsg.classList.add('hidden');
+    mergeBtn.disabled = false;
+    alert(window.__i18n__?.t('tool.merge.result.title') || 'Merge complete');
+  }
+
+  mergeBtn.addEventListener('click', mergePDFs);
   </script>
 </body>
 </html>
