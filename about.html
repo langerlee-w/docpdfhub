@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>About — DocPDFHub</title>
+  <meta name="description" content="Learn about DocPDFHub — free, private, and 100% local PDF tools that run in your browser."/>
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}</style>
+</head>
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+  <!-- Nav -->
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span>DocPDFHub</span></a>
+      <div class="flex items-center space-x-2">
+        <a href="/" class="text-sm text-gray-700 hover:text-pink-600">Home</a>
+        <span class="text-gray-300">|</span>
+        <a href="/privacy.html" class="text-sm text-gray-700 hover:text-pink-600">Privacy</a>
+        <a href="/terms.html" class="text-sm text-gray-700 hover:text-pink-600">Terms</a>
+        <span class="text-gray-300">|</span>
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="gradient text-white pt-28 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-extrabold">About DocPDFHub</h1>
+      <p class="text-white text-opacity-90 mt-3 md:w-3/4">
+        Free, fast, and privacy-first PDF tools that run entirely in your browser — no uploads, no servers.
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10 prose prose-pink">
+    <h2>What is DocPDFHub?</h2>
+    <p>
+      DocPDFHub is a collection of lightweight PDF utilities — merge, split, compress, convert to images,
+      and more. All processing happens locally on your device using modern Web APIs (like Canvas and WebAssembly).
+      Your files never leave your browser.
+    </p>
+
+    <h2>Why privacy-first?</h2>
+    <p>
+      Many online PDF tools require uploading your documents to a remote server. We believe most tasks don’t need that.
+      Keeping everything local means improved privacy, faster results, and no waiting for uploads/downloads.
+    </p>
+
+    <h2>Key principles</h2>
+    <ul>
+      <li><strong>100% local:</strong> your PDFs are processed in-browser.</li>
+      <li><strong>Simple:</strong> clean UI with minimal steps.</li>
+      <li><strong>Fast:</strong> no network roundtrips for heavy processing.</li>
+      <li><strong>Free:</strong> supported by privacy-respecting ads.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>
+      Questions or feedback? Email us at
+      <a href="mailto:langer.lee@gmail.com">langer.lee@gmail.com</a>.
+    </p>
+
+    <h2>Roadmap</h2>
+    <p>
+      We plan to add more tools and quality improvements (OCR, page reordering, annotations).
+      If there’s a feature you’d love, please reach out.
+    </p>
+  </main>
+
+  <footer class="py-8 border-t text-center text-sm text-gray-500">
+    <div class="max-w-6xl mx-auto px-4">© <span id="y"></span> DocPDFHub</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    // optional: keep language buttons behavior, though this page is English-only
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.addEventListener('click', ()=> localStorage.setItem('lang', btn.getAttribute('data-lang-btn')));
+    });
+  </script>
+</body>
+</html>
