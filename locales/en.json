@@ -1,1 +1,185 @@
+{
+  "common": {
+    "brand": "DocPDFHub",
+    "100_local": "100% local in your browser • No upload",
+    "or_drop": "or drag & drop"
+  },
+  "nav": {
+    "home": "Home",
+    "merge": "Merge PDF",
+    "split": "Split PDF",
+    "compress": "Compress PDF",
+    "tojpg": "PDF to JPG"
+  },
+  "home": {
+    "hero_kicker": "PDF TOOLS",
+    "title": "Free, private PDF tools in your browser",
+    "subtitle": "Merge, split, compress, and convert — processed locally in your browser. Files never leave your device.",
+    "cta_start": "Start Now",
+    "view_all_tools": "View all tools"
+  },
+  "features": {
+    "title": "Everything you need for PDFs"
+  },
+  "cards": {
+    "merge_desc": "Combine multiple PDFs into one in seconds.",
+    "split_desc": "Extract pages or split by ranges to separate files.",
+    "compress_desc": "Shrink PDF size while keeping good quality.",
+    "tojpg_desc": "Convert every page to high-quality JPEG images."
+  },
+  "bullets": {
+    "local_title": "100% Local",
+    "local_desc": "All processing happens in your browser. No uploads.",
+    "fast_title": "Fast & Free",
+    "fast_desc": "Instant results. No sign-up required.",
+    "safe_title": "Private & Safe",
+    "safe_desc": "Your files never leave your device."
+  },
+  "cta": {
+    "title": "Work with PDFs the easy way",
+    "subtitle": "Start with any tool — it’s free, private, and lightning fast."
+  },
+  "footer": {
+    "tagline": "Free & private PDF tools in your browser.",
+    "tools": "Tools",
+    "company": "Company",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "legal": "Legal",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  },
+  "tool": {
+    "merge": {
+      "ogTitle": "Merge PDF — DocPDFHub",
+      "ogDesc": "Combine multiple PDFs into a single document — fully local in your browser.",
+      "hero": {
+        "title": "Merge PDF",
+        "subtitle": "Combine multiple PDFs into a single document — processed locally.",
+        "primary_cta": "Add PDFs to Merge"
+      },
+      "drop": {
+        "title": "Drop your PDF files here",
+        "hint": "Add multiple PDFs and arrange the order before merging.",
+        "button": "Select PDFs"
+      },
+      "options": {
+        "reorder_hint": "Drag to reorder",
+        "add_more": "Add more files",
+        "clear_all": "Clear all",
+        "keep_outlines": "Keep bookmarks/outlines",
+        "keep_metadata": "Keep metadata"
+      },
+      "running": {
+        "status": "Merging PDFs…",
+        "tip": "Large files may take a little longer (still 100% local)."
+      },
+      "result": {
+        "title": "Merge complete"
+      },
+      "errors": {
+        "no_pdf": "Please add at least one PDF."
+      }
+    },
+    "split": {
+      "ogTitle": "Split PDF — DocPDFHub",
+      "ogDesc": "Split a PDF by page ranges or into single pages — fully local.",
+      "hero": {
+        "title": "Split PDF",
+        "subtitle": "Extract pages or split into multiple PDFs — fully local.",
+        "primary_cta": "Add PDF to Split"
+      },
+      "drop": {
+        "title": "Drop a PDF to split",
+        "hint": "Example ranges: 1-3,5,8-10",
+        "button": "Select PDF"
+      },
+      "options": {
+        "mode": "Split mode",
+        "mode_ranges": "By page ranges",
+        "mode_each": "Each page into a file",
+        "ranges_placeholder": "e.g. 1-3,5,8-10",
+        "include_empty": "Skip empty pages",
+        "add_more": "Replace file"
+      },
+      "running": {
+        "status": "Splitting…",
+        "tip": "Processing is local and secure."
+      },
+      "result": {
+        "title": "Split complete"
+      },
+      "errors": {
+        "no_pdf": "Please add a PDF to split.",
+        "bad_ranges": "Invalid page ranges."
+      }
+    },
+    "compress": {
+      "ogTitle": "Compress PDF — DocPDFHub",
+      "ogDesc": "Reduce PDF size for easier sharing — fully in your browser.",
+      "hero": {
+        "title": "Compress PDF",
+        "subtitle": "Reduce size for easier sharing — kept fully local.",
+        "primary_cta": "Add PDF to Compress"
+      },
+      "drop": {
+        "title": "Drop a PDF to compress",
+        "hint": "Tip: choose a stronger level for email-friendly size.",
+        "button": "Select PDF"
+      },
+      "options": {
+        "level": "Compression level",
+        "level_light": "Light (best quality)",
+        "level_balanced": "Balanced",
+        "level_strong": "Strong (smallest size)",
+        "reduce_images": "Downsample images",
+        "remove_metadata": "Remove metadata",
+        "add_more": "Replace file"
+      },
+      "running": {
+        "status": "Compressing…",
+        "tip": "Your file never leaves your device."
+      },
+      "result": {
+        "title": "Compression complete"
+      },
+      "errors": {
+        "no_pdf": "Please add a PDF to compress."
+      }
+    },
+    "tojpg": {
+      "ogTitle": "PDF to JPG — DocPDFHub",
+      "ogDesc": "Convert every page of a PDF into a JPEG — local and private.",
+      "hero": {
+        "title": "PDF to JPG",
+        "subtitle": "Turn every page into a high-quality JPEG — local and private.",
+        "primary_cta": "Add PDF to Convert"
+      },
+      "drop": {
+        "title": "Drop a PDF to convert",
+        "hint": "You’ll get one JPEG per page.",
+        "button": "Select PDF"
+      },
+      "options": {
+        "dpi": "Output quality (DPI)",
+        "quality": "JPEG quality",
+        "range": "Pages (optional)",
+        "range_placeholder": "e.g. 1-3,5",
+        "bg": "Transparent background (if possible)",
+        "add_more": "Replace file"
+      },
+      "running": {
+        "status": "Converting to JPG…",
+        "tip": "Rendering pages locally for best privacy."
+      },
+      "result": {
+        "title": "Conversion complete"
+      },
+      "errors": {
+        "no_pdf": "Please add a PDF to convert."
+      }
+    }
+  }
+}
 
