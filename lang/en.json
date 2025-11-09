@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "DocPDFHub",
+    "100_local": "100% local processing. Files never leave your browser.",
+    "choose_file": "Choose PDF file",
+    "download": "Download",
+    "download_zip": "Download ZIP",
+    "processing": "Processing...",
+    "done": "Done.",
+    "error": "Something went wrong: ",
+    "language": {
+      "en": "EN",
+      "zh": "中文"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "tools": "Tools",
+    "merge": "Merge PDF",
+    "split": "Split PDF",
+    "compress": "Compress PDF",
+    "tojpg": "PDF to JPG"
+  },
+  "home": {
+    "hero_kicker": "Simple • Private • Free",
+    "hero_title": "Fast PDF tools in your browser",
+    "hero_sub": "Merge, split, compress, and convert — all processed locally for your privacy.",
+    "cta": "Open Tools"
+  },
+  "merge": {
+    "title": "Merge PDF",
+    "subtitle": "Select multiple PDFs, drag to reorder, then merge into a single file.",
+    "add_files": "Add PDFs",
+    "merge_btn": "Merge",
+    "result_name": "merged.pdf"
+  },
+  "split": {
+    "title": "Split PDF",
+    "subtitle": "Enter page ranges (e.g. 1-3,5,9-). Use commas for multiple parts.",
+    "ranges_label": "Page ranges",
+    "ranges_placeholder": "e.g. 1-3,5,9-",
+    "split_btn": "Split"
+  },
+  "compress": {
+    "title": "Compress PDF",
+    "subtitle": "Two modes: keep text (light) or rasterize (maximum reduction).",
+    "mode_title": "Mode",
+    "keep": "Light re-save (keep text/structure)",
+    "raster": "Max compression (render pages to images)",
+    "dpi": "Output DPI (72–200 recommended)",
+    "quality": "JPEG quality (0.3–0.9)",
+    "run": "Compress",
+    "light_done": "Finished (light re-save).",
+    "raster_done": "Finished (rasterized)."
+  },
+  "tojpg": {
+    "title": "PDF to JPG",
+    "subtitle": "Export each page as a JPG and download as a ZIP.",
+    "dpi": "Output DPI (72–200 recommended)",
+    "quality": "JPEG quality (0.3–0.95)",
+    "run": "Convert"
+  },
+  "footer": {
+    "links": "Links",
+    "legal": "Legal",
+    "social": "Social",
+    "company": "Company",
+    "faq": "FAQ",
+    "help": "Help",
+    "support": "Support",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "blog": "Official Blog",
+    "about": "About Us",
+    "contact": "Contact"
+  }
+}
