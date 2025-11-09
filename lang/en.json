@@ -1,77 +1,109 @@
 {
   "common": {
     "brand": "DocPDFHub",
-    "100_local": "100% local processing. Files never leave your browser.",
-    "choose_file": "Choose PDF file",
+    "100_local": "100% local in your browser • No upload",
+    "open_tool": "Open tool →",
+    "back_home": "Back to Home",
     "download": "Download",
-    "download_zip": "Download ZIP",
-    "processing": "Processing...",
-    "done": "Done.",
-    "error": "Something went wrong: ",
-    "language": {
-      "en": "EN",
-      "zh": "中文"
-    }
+    "processing": "Processing…",
+    "choose_files": "Choose files",
+    "or_drag": "or drag & drop",
+    "clear_all": "Clear all",
+    "safety_note": "All processing happens locally in your browser. Files never leave your device.",
+    "learn_more": "Learn more"
   },
+
   "nav": {
     "home": "Home",
-    "tools": "Tools",
     "merge": "Merge PDF",
     "split": "Split PDF",
     "compress": "Compress PDF",
     "tojpg": "PDF to JPG"
   },
+
   "home": {
-    "hero_kicker": "Simple • Private • Free",
-    "hero_title": "Fast PDF tools in your browser",
-    "hero_sub": "Merge, split, compress, and convert — all processed locally for your privacy.",
-    "cta": "Open Tools"
+    "hero_kicker": "PDF TOOLS",
+    "title": "Free, private PDF tools in your browser",
+    "subtitle": "Merge, split, compress, and convert — processed locally in your browser. Files never leave your device.",
+    "cta_start": "Start Now",
+    "view_all_tools": "View all tools"
   },
-  "merge": {
-    "title": "Merge PDF",
-    "subtitle": "Select multiple PDFs, drag to reorder, then merge into a single file.",
-    "add_files": "Add PDFs",
-    "merge_btn": "Merge",
-    "result_name": "merged.pdf"
+
+  "features": {
+    "title": "Everything you need for PDFs"
   },
-  "split": {
-    "title": "Split PDF",
-    "subtitle": "Enter page ranges (e.g. 1-3,5,9-). Use commas for multiple parts.",
-    "ranges_label": "Page ranges",
-    "ranges_placeholder": "e.g. 1-3,5,9-",
-    "split_btn": "Split"
+  "bullets": {
+    "local_title": "100% Local",
+    "local_desc": "All processing happens in your browser. No uploads.",
+    "fast_title": "Fast & Free",
+    "fast_desc": "Instant results. No sign-up required."
   },
-  "compress": {
-    "title": "Compress PDF",
-    "subtitle": "Two modes: keep text (light) or rasterize (maximum reduction).",
-    "mode_title": "Mode",
-    "keep": "Light re-save (keep text/structure)",
-    "raster": "Max compression (render pages to images)",
-    "dpi": "Output DPI (72–200 recommended)",
-    "quality": "JPEG quality (0.3–0.9)",
-    "run": "Compress",
-    "light_done": "Finished (light re-save).",
-    "raster_done": "Finished (rasterized)."
+
+  "cta": {
+    "title": "Work with PDFs the easy way",
+    "subtitle": "Start with any tool — it’s free, private, and lightning fast."
   },
-  "tojpg": {
-    "title": "PDF to JPG",
-    "subtitle": "Export each page as a JPG and download as a ZIP.",
-    "dpi": "Output DPI (72–200 recommended)",
-    "quality": "JPEG quality (0.3–0.95)",
-    "run": "Convert"
-  },
+
   "footer": {
-    "links": "Links",
+    "tagline": "Free & private PDF tools in your browser.",
+    "tools": "Tools",
     "legal": "Legal",
-    "social": "Social",
     "company": "Company",
-    "faq": "FAQ",
-    "help": "Help",
-    "support": "Support",
     "terms": "Terms",
     "privacy": "Privacy",
     "blog": "Official Blog",
     "about": "About Us",
     "contact": "Contact"
+  },
+
+  "tool_common": {
+    "drop_here": "Drop files here",
+    "added": "file(s) added",
+    "start": "Start",
+    "quality": "Quality",
+    "size": "Size",
+    "pages": "Pages",
+    "page_range": "Page range",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+
+  "tool_merge": {
+    "title": "Merge PDF",
+    "subtitle": "Combine multiple PDFs into one, reorder pages, and download instantly.",
+    "hint": "Add PDFs, drag to reorder, then click Merge.",
+    "start": "Merge",
+    "result_ready": "Merged file is ready"
+  },
+
+  "tool_split": {
+    "title": "Split PDF",
+    "subtitle": "Extract pages or split into multiple files by ranges.",
+    "mode": "Mode",
+    "mode_ranges": "Split by page ranges (e.g. 1-3,5,8-10)",
+    "mode_extract": "Extract selected pages",
+    "placeholder_ranges": "e.g. 1-3,5,8-10",
+    "start": "Split",
+    "result_ready": "Split files are ready"
+  },
+
+  "tool_compress": {
+    "title": "Compress PDF",
+    "subtitle": "Reduce PDF size while keeping good quality.",
+    "level": "Compression level",
+    "basic": "Basic",
+    "strong": "Strong",
+    "custom": "Custom",
+    "start": "Compress",
+    "result_ready": "Compressed file is ready"
+  },
+
+  "tool_tojpg": {
+    "title": "PDF to JPG",
+    "subtitle": "Convert each page of a PDF into JPG images.",
+    "dpi": "Output DPI",
+    "start": "Convert",
+    "result_ready": "Images are ready (ZIP)"
   }
 }
