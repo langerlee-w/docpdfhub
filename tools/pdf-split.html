@@ -141,244 +141,147 @@
   </footer>
 
   <script>
-    // pdf.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+  const $ = s=>document.querySelector(s);
+  const fileInput = $('#fileInput');
+  const chooseBtn = $('#chooseBtn');
+  const replaceBtn = $('#replaceBtn');
+  const dropZone = document.getElementById('dropZone');
+  const fileInfo = $('#fileInfo'); const fileName=$('#fileName'); const fileSize=$('#fileSize');
+  const mode = $('#mode'); const rangesWrap=$('#rangesWrap'); const ranges=$('#ranges'); const skipEmpty=$('#skipEmpty');
+  const runBtn = $('#runBtn'); const runMsg = $('#runMsg');
 
-    // 语言初始化（默认英文）
-    document.addEventListener('DOMContentLoaded', () => {
-      const lang = localStorage.getItem('lang') || 'en';
-      window.__i18n__?.setLang(lang);
-    });
-    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
-      btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
-    });
+  let file = null;
 
-    // DOM
-    const $ = s=>document.querySelector(s);
-    const dropZone = $('#dropZone');
-    const dropLabel = document.querySelector('label[for="fileInput"]');
-    const fileInput = $('#fileInput');
-    const chooseBtn = $('#chooseBtn');
-    const replaceBtn = $('#replaceBtn');
-    const fileInfo = $('#fileInfo');
-    const fileName = $('#fileName');
-    const fileSize = $('#fileSize');
-    const mode = $('#mode');
-    const rangesWrap = $('#rangesWrap');
-    const ranges = $('#ranges');
-    const skipEmpty = $('#skipEmpty');
-    const runBtn = $('#runBtn');
-    const runMsg = $('#runMsg');
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const last = DocPDFHub.Store.get('split_opts', { mode:'ranges', ranges:'', skipEmpty:false });
+    mode.value = last.mode; ranges.value = last.ranges || ''; skipEmpty.checked = !!last.skipEmpty;
+    rangesWrap.style.display = mode.value==='ranges' ? '' : 'none';
+  });
 
-    let file = null;
+  function persistOptions(){
+    DocPDFHub.Store.set('split_opts', { mode: mode.value, ranges: ranges.value || '', skipEmpty: !!skipEmpty.checked });
+  }
 
-    const fmtBytes = (n)=>{
-      const u=['B','KB','MB','GB']; let i=0;
-      while(n>=1024 && i<u.length-1){ n/=1024; i++; }
-      return (n<10 && i ? n.toFixed(1):Math.round(n)) + ' ' + u[i];
-    };
+  function showInfo(){
+    fileInfo.classList.toggle('hidden', !file);
+    if(file){ fileName.textContent=file.name; fileSize.textContent=DocPDFHub.fmtBytes(file.size); }
+  }
 
-    function showInfo(){
-      fileInfo.classList.toggle('hidden', !file);
-      if(file){
-        fileName.textContent = file.name;
-        fileSize.textContent = fmtBytes(file.size);
+  ;['dragenter','dragover'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
+  });
+  ;['dragleave','drop'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
+  });
+  dropZone.addEventListener('drop', (e)=>{
+    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if(fs[0]){ file = fs[0]; showInfo(); }
+  });
+
+  fileInput.addEventListener('change', ()=>{
+    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if(fs[0]){ file = fs[0]; showInfo(); }
+    fileInput.value='';
+  });
+
+  chooseBtn.addEventListener('click', ()=> fileInput.click());
+  replaceBtn.addEventListener('click', ()=> fileInput.click());
+
+  mode.addEventListener('change', ()=>{ rangesWrap.style.display = mode.value==='ranges' ? '' : 'none'; });
+
+  const readAB = (f)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(f);});
+
+  function parseRanges(str, max){
+    if(!str) return [];
+    const out = new Set();
+    str.split(',').map(s=>s.trim()).filter(Boolean).forEach(part=>{
+      const m = part.match(/^(\d+)-(\d+)$/);
+      if(m){
+        let a=+m[1], b=+m[2]; if(a>b) [a,b]=[b,a];
+        for(let i=a;i<=b;i++) if(i>=1&&i<=max) out.add(i);
+      }else{
+        const n = +part; if(n>=1&&n<=max) out.add(n);
       }
-    }
-
-    // 拖拽高亮
-    ['dragenter','dragover'].forEach(evt=>{
-      (dropZone || document).addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone?.classList.add('drop-active');
-        dropLabel?.classList.add('drop-active');
-      });
     });
-    ['dragleave','drop'].forEach(evt=>{
-      (dropZone || document).addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone?.classList.remove('drop-active');
-        dropLabel?.classList.remove('drop-active');
-      });
-    });
+    return Array.from(out).sort((a,b)=>a-b);
+  }
 
-    // 放下文件
-    dropZone.addEventListener('drop', (e)=>{
-      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/\.pdf$/i.test(f.name));
-      if(fs[0]){ file = fs[0]; showInfo(); }
-    });
+  async function splitPDF(){
+    if(!file){ alert(window.__i18n__?.t('tool.split.errors.no_pdf') || 'Please add a PDF to split.'); return; }
+    runMsg.classList.remove('hidden'); runBtn.disabled = true;
+    DocPDFHub.Progress.show(); DocPDFHub.Progress.set(5);
 
-    // 选择文件
-    fileInput.addEventListener('change', ()=>{
-      const fs = Array.from(fileInput.files||[]).filter(f=>/\.pdf$/i.test(f.name));
-      if(fs[0]){ file = fs[0]; showInfo(); }
-      fileInput.value = '';
-    });
-    chooseBtn.addEventListener('click', ()=> fileInput.click());
-    replaceBtn.addEventListener('click', ()=> fileInput.click());
+    try{
+      persistOptions();
 
-    // 模式切换：隐藏/显示 ranges
-    mode.addEventListener('change', ()=>{ rangesWrap.style.display = mode.value==='ranges' ? '' : 'none'; });
-    mode.dispatchEvent(new Event('change'));
+      const { PDFDocument } = PDFLib;
+      const bytes = await readAB(file);
+      const src = await PDFDocument.load(bytes);
+      const total = src.getPageCount();
 
-    // 工具函数
-    const readAB = (f)=> new Promise((res,rej)=>{
-      const r=new FileReader();
-      r.onload=()=>res(r.result);
-      r.onerror=rej;
-      r.readAsArrayBuffer(f);
-    });
+      let outputs = []; // {name, blob}
+      let stepsDone = 0, stepsTotal = 1;
 
-    function parseRanges(str, max){
-      if(!str) return [];
-      const out = new Set();
-      str.split(',').map(s=>s.trim()).filter(Boolean).forEach(part=>{
-        const m = part.match(/^(\d+)-(\d+)$/);
-        if(m){
-          let a=+m[1], b=+m[2]; if(a>b) [a,b]=[b,a];
-          for(let i=a;i<=b;i++) if(i>=1&&i<=max) out.add(i);
-        }else{
-          const n = +part; if(n>=1&&n<=max) out.add(n);
+      if (mode.value === 'each') {
+        stepsTotal = total;
+        for(let p=0;p<total;p++){
+          const out = await PDFDocument.create();
+          const [page] = await out.copyPages(src, [p]);
+          out.addPage(page);
+          const outBytes = await out.save({ useObjectStreams: true });
+          outputs.push({ name: `page-${p+1}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
+
+          stepsDone++; DocPDFHub.Progress.set(5 + (stepsDone/stepsTotal)*90);
         }
-      });
-      return Array.from(out).sort((a,b)=>a-b);
-    }
+      } else {
+        const pages = parseRanges(ranges.value, total);
+        if (!pages.length) { alert(window.__i18n__?.t('tool.split.errors.bad_ranges') || 'Invalid page ranges.'); return; }
+        // 连续段
+        let segs = []; let start=null, prev=null;
+        for(const n of pages){ if(start===null){ start=prev=n; } else if(n===prev+1){ prev=n; } else { segs.push([start,prev]); start=prev=n; } }
+        if(start!==null) segs.push([start,prev]);
 
-    // 低分辨率渲染判断是否空白页（阈值：非白像素占比 < 0.5% 视为空白）
-    async function detectEmptyPages(srcBytes, candidates=null){
-      const doc = await pdfjsLib.getDocument({ data: srcBytes }).promise;
-      const total = doc.numPages;
-      const indices = candidates ? candidates : Array.from({length: total}, (_,i)=> i+1);
-      const emptySet = new Set();
+        stepsTotal = segs.length;
+        for(const [a,b] of segs){
+          const out = await PDFDocument.create();
+          const idx = Array.from({length:b-a+1}, (_,i)=> (a-1)+i);
+          const copied = await out.copyPages(src, idx);
+          copied.forEach(p=>out.addPage(p));
+          const outBytes = await out.save({ useObjectStreams: true });
+          outputs.push({ name: `pages-${a}-${b}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
 
-      for(const p of indices){
-        const page = await doc.getPage(p);
-        const vp = page.getViewport({ scale: 0.5 }); // 低清渲染加速
-        const w = Math.max(1, Math.floor(vp.width));
-        const h = Math.max(1, Math.floor(vp.height));
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        const ctx = canvas.getContext('2d', { alpha: false });
-        // 白底
-        ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,w,h);
-        await page.render({ canvasContext: ctx, viewport: vp, background:'#ffffff' }).promise;
-
-        try{
-          const img = ctx.getImageData(0,0,w,h).data;
-          let nonWhite=0;
-          for(let i=0;i<img.length;i+=4){
-            const r=img[i], g=img[i+1], b=img[i+2];
-            if(!(r>250 && g>250 && b>250)) nonWhite++;
-          }
-          const ratio = nonWhite / (w*h);
-          if(ratio < 0.005) emptySet.add(p); // <0.5% 非白像素 → 视为空白
-        }catch(_e){
-          // 某些环境 getImageData 可能因跨域/安全策略失败；忽略判空
+          stepsDone++; DocPDFHub.Progress.set(5 + (stepsDone/stepsTotal)*90);
         }
       }
-      return emptySet;
-    }
 
-    async function splitPDF(){
-      const t = (k, fb)=> (window.__i18n__?.t(k) || fb);
-      if(!file){
-        alert(t('tool.split.errors.no_pdf', 'Please add a PDF to split.'));
-        return;
+      if(outputs.length===1){
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(outputs[0].blob);
+        a.download = outputs[0].name;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      } else {
+        const zip = new JSZip();
+        outputs.forEach(f=> zip.file(f.name, f.blob));
+        const zipBlob = await zip.generateAsync({type:'blob'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(zipBlob);
+        a.download = 'split-output.zip';
+        a.click();
+        URL.revokeObjectURL(a.href);
       }
-      runMsg.classList.remove('hidden');
-      runBtn.disabled = true;
 
-      try{
-        const { PDFDocument } = PDFLib;
-        const srcBytes = await readAB(file);
-        const srcDoc = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
-        const total = srcDoc.getPageCount();
-
-        let outputs = []; // {name, blob}
-        let targetPages = [];
-
-        if (mode.value === 'each') {
-          targetPages = Array.from({length: total}, (_,i)=> i+1);
-        } else {
-          const list = parseRanges(ranges.value, total);
-          if (!list.length) {
-            alert(t('tool.split.errors.bad_ranges', 'Invalid page ranges.'));
-            runMsg.classList.add('hidden'); runBtn.disabled = false;
-            return;
-          }
-          targetPages = list;
-        }
-
-        // 跳过空白页（如果勾选）
-        let toExport = targetPages.slice();
-        if (skipEmpty.checked) {
-          const empties = await detectEmptyPages(srcBytes, toExport);
-          toExport = toExport.filter(p => !empties.has(p));
-          if (!toExport.length) {
-            alert(t('tool.split.errors.all_empty', 'All selected pages seem empty.'));
-            runMsg.classList.add('hidden'); runBtn.disabled = false;
-            return;
-          }
-        }
-
-        if (mode.value === 'each') {
-          // 每页一个文件
-          for(const p of toExport){
-            const out = await PDFDocument.create();
-            const [page] = await out.copyPages(srcDoc, [p-1]);
-            out.addPage(page);
-            const outBytes = await out.save({ useObjectStreams: true });
-            outputs.push({ name: `page-${p}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
-          }
-        } else {
-          // 将连续页段聚合
-          let segs = []; let start=null, prev=null;
-          for(const n of toExport){
-            if(start===null){ start=prev=n; }
-            else if(n===prev+1){ prev=n; }
-            else { segs.push([start,prev]); start=prev=n; }
-          }
-          if(start!==null) segs.push([start,prev]);
-
-          for(const [a,b] of segs){
-            const out = await PDFDocument.create();
-            const idx = Array.from({length:b-a+1}, (_,i)=> (a-1)+i);
-            const copied = await out.copyPages(srcDoc, idx);
-            copied.forEach(p=>out.addPage(p));
-            const outBytes = await out.save({ useObjectStreams: true });
-            outputs.push({ name: (a===b?`page-${a}.pdf`:`pages-${a}-${b}.pdf`), blob: new Blob([outBytes], {type:'application/pdf'}) });
-          }
-        }
-
-        // 下载：单文件直接下，多文件打包 zip
-        if(outputs.length===1){
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(outputs[0].blob);
-          a.download = outputs[0].name;
-          a.click();
-          URL.revokeObjectURL(a.href);
-        } else {
-          const zip = new JSZip();
-          outputs.forEach(f=> zip.file(f.name, f.blob));
-          const zipBlob = await zip.generateAsync({type:'blob'});
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(zipBlob);
-          a.download = (file.name.replace(/\.pdf$/i,'') + '-split.zip');
-          a.click();
-          URL.revokeObjectURL(a.href);
-        }
-
-        alert(t('tool.split.result.title', 'Split complete'));
-      }catch(err){
-        console.error(err);
-        alert((window.__i18n__?.t('tool.split.errors.fail') || 'Failed to split. Please try another file.'));
-      }finally{
-        runMsg.classList.add('hidden');
-        runBtn.disabled = false;
-      }
+      alert(window.__i18n__?.t('tool.split.result.title') || 'Split complete');
+    } catch(err){
+      console.error(err);
+      alert('Failed to split. Please try again.');
+    } finally{
+      runMsg.classList.add('hidden'); runBtn.disabled=false;
+      DocPDFHub.Progress.set(100); setTimeout(()=>DocPDFHub.Progress.hide(),300);
     }
+  }
 
-    runBtn.addEventListener('click', splitPDF);
-  </script>
+  runBtn.addEventListener('click', splitPDF);
+</script>
 </body>
 </html>
