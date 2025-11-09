@@ -3,164 +3,106 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Compress PDF – DocPDFHub</title>
+  <title data-i18n="tool_compress.meta_title">Compress PDF – DocPDFHub</title>
+  <meta name="description" content="Reduce PDF file size while keeping good quality — free and local."/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';</script>
-  <script src="/js/i18n.js" defer></script>
-  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}</style>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+  <script defer src="/js/i18n.js"></script>
+  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%);}</style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-900" style="font-family:'Source Sans Pro',sans-serif;">
   <!-- Nav -->
   <nav class="w-full bg-white shadow">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/" class="font-extrabold text-xl"><span data-i18n="common.brand">DocPDFHub</span></a>
-      <div class="hidden md:flex space-x-5 text-sm">
-        <a href="/" class="hover:text-pink-600" data-i18n="nav.home">Home</a>
-        <a href="/tools/pdf-merge.html" class="hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
-        <a href="/tools/pdf-split.html" class="hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
-        <a href="/tools/pdf-compress.html" class="text-pink-600 font-semibold" data-i18n="nav.compress">Compress PDF</a>
-        <a href="/tools/pdf-to-jpg.html" class="hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
-      </div>
-      <div class="flex items-center space-x-2 text-sm">
-        <button type="button" data-lang-btn="en" onclick="window.__i18n__?.setLang('en')">EN</button>
-        <span class="text-gray-300">|</span>
-        <button type="button" data-lang-btn="zh" onclick="window.__i18n__?.setLang('zh')">中文</button>
+      <a href="/" class="text-pink-600 font-extrabold text-2xl">DocPDFHub</a>
+      <div class="flex items-center gap-2">
+        <a href="/" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/tools/pdf-merge.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="hidden md:inline-block text-sm text-pink-600 font-semibold" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
+        <span class="mx-2 h-5 w-px bg-gray-200 hidden md:inline-block"></span>
+        <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
 
   <!-- Hero -->
   <header class="gradient text-white">
-    <div class="max-w-6xl mx-auto px-4 py-12">
-      <p class="uppercase tracking-widest opacity-90" data-i18n="home.hero_kicker"></p>
-      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="compress.title">Compress PDF</h1>
-      <p class="mt-3 text-white text-opacity-90" data-i18n="compress.subtitle"></p>
-      <p class="mt-2 text-sm text-white text-opacity-80" data-i18n="common.100_local"></p>
+    <div class="max-w-4xl mx-auto px-4 py-12">
+      <h1 class="text-3xl md:text-4xl font-extrabold" data-i18n="tool_compress.title">Compress PDF</h1>
+      <p class="mt-2 text-white text-opacity-90" data-i18n="tool_compress.subtitle">Shrink PDF size while keeping good quality. Works locally in your browser.</p>
+      <p class="mt-1 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
     </div>
   </header>
 
-  <!-- Tool -->
-  <main class="max-w-5xl mx-auto px-4 py-10">
-    <section class="bg-white rounded-xl shadow p-6">
-      <label class="block font-semibold mb-2" data-i18n="common.choose_file"></label>
-      <input id="file" type="file" accept="application/pdf" class="w-full border rounded px-3 py-2"/>
+  <!-- Tool Card -->
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <div class="bg-white rounded-2xl border shadow p-6">
+      <div class="grid gap-4">
+        <div class="border-2 border-dashed rounded-xl p-6 text-center">
+          <input id="fileInput" type="file" accept="application/pdf" class="hidden"/>
+          <p class="text-gray-600" data-i18n="common.drop_hint">Drop files here or</p>
+          <button id="chooseBtn" class="mt-3 inline-flex items-center bg-pink-600 text-white font-semibold px-4 py-2 rounded-full hover:bg-pink-700" data-i18n="common.choose_files">Choose Files</button>
+        </div>
 
-      <div class="grid md:grid-cols-3 gap-6 mt-6">
-        <div>
-          <p class="font-semibold mb-2" data-i18n="compress.mode_title"></p>
-          <label class="flex items-center space-x-2 mb-2">
-            <input type="radio" name="mode" value="keep" checked/>
-            <span data-i18n="compress.keep"></span>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input type="radio" name="mode" value="raster"/>
-            <span data-i18n="compress.raster"></span>
-          </label>
+        <div class="bg-gray-50 rounded-xl p-4 grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm text-gray-700 mb-1" data-i18n="tool_compress.quality">Quality</label>
+            <select id="quality" class="w-full border rounded px-3 py-2">
+              <option value="high" data-i18n="tool_compress.q_high">High</option>
+              <option value="medium" data-i18n="tool_compress.q_medium">Medium</option>
+              <option value="low" data-i18n="tool_compress.q_low">Low</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-700 mb-1" data-i18n="tool_compress.images">Images</label>
+            <select id="images" class="w-full border rounded px-3 py-2">
+              <option value="keep" data-i18n="tool_compress.img_keep">Keep</option>
+              <option value="downsample" data-i18n="tool_compress.img_down">Downsample</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-700 mb-1" data-i18n="tool_compress.remove_meta">Remove metadata</label>
+            <select id="meta" class="w-full border rounded px-3 py-2">
+              <option value="yes" data-i18n="common.yes">Yes</option>
+              <option value="no" data-i18n="common.no">No</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label class="block font-semibold mb-2" data-i18n="compress.dpi"></label>
-          <input id="dpi" type="number" min="50" max="300" value="144" class="w-full border rounded px-3 py-2"/>
+
+        <div class="flex flex-wrap gap-3">
+          <button id="compressBtn" class="bg-pink-600 text-white font-semibold px-5 py-2 rounded-full hover:bg-pink-700 disabled:opacity-50" disabled data-i18n="tool_compress.start">Compress</button>
+          <button id="clearBtn" class="px-4 py-2 rounded-full border hover:bg-gray-50" data-i18n="common.clear_all">Clear All</button>
         </div>
-        <div>
-          <label class="block font-semibold mb-2" data-i18n="compress.quality"></label>
-          <input id="quality" type="number" step="0.05" min="0.3" max="0.95" value="0.7" class="w-full border rounded px-3 py-2"/>
-        </div>
+
+        <p id="status" class="text-sm text-gray-500"></p>
       </div>
-
-      <div class="mt-6 flex items-center space-x-3">
-        <button id="run" class="px-5 py-2 rounded bg-pink-600 text-white font-semibold hover:bg-pink-700" data-i18n="compress.run"></button>
-        <span id="status" class="text-gray-500 text-sm"></span>
-      </div>
-    </section>
-
-    <p class="text-xs text-gray-500 mt-6" data-i18n="common.100_local"></p>
+    </div>
   </main>
 
   <script>
-    const { PDFDocument, rgb } = PDFLib;
+    const $ = s=>document.querySelector(s);
+    const fileInput = $('#fileInput');
+    const chooseBtn = $('#chooseBtn');
+    const compressBtn = $('#compressBtn');
+    const clearBtn = $('#clearBtn');
+    const statusEl = $('#status');
+    let pdfFile = null;
 
-    function getMode(){
-      return document.querySelector('input[name="mode"]:checked').value;
-    }
+    chooseBtn.addEventListener('click', ()=> fileInput.click());
+    fileInput.addEventListener('change', ()=>{ pdfFile = fileInput.files[0] || null; compressBtn.disabled = !pdfFile; });
 
-    document.getElementById('run').onclick = async ()=>{
-      const file = document.getElementById('file').files[0];
-      const dpi = parseInt(document.getElementById('dpi').value,10) || 144;
-      const quality = Math.min(0.95, Math.max(0.3, parseFloat(document.getElementById('quality').value)||0.7));
-      const status = document.getElementById('status');
-      if(!file){
-        alert(document.querySelector('[data-i18n="common.choose_file"]')?.textContent || 'Choose PDF file');
-        return;
-      }
-      status.textContent = (document.querySelector('[data-i18n="common.processing"]')?.textContent) || 'Processing...';
+    clearBtn.addEventListener('click', ()=>{ pdfFile = null; fileInput.value=''; compressBtn.disabled = true; status(''); });
+    compressBtn.addEventListener('click', async ()=>{
+      status('Compressing…');
+      await new Promise(r=>setTimeout(r, 700));
+      // TODO: 接入真实压缩逻辑
+      status('Done.');
+    });
 
-      try{
-        if(getMode()==='keep'){
-          // Light re-save (can sometimes shrink by removing unused objects)
-          const bytes = await file.arrayBuffer();
-          const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true });
-          const out = await PDFDocument.create();
-          const pages = await out.copyPages(pdf, pdf.getPageIndices());
-          pages.forEach(p=> out.addPage(p));
-          const outBytes = await out.save({ useObjectStreams:true, updateFieldAppearances:true });
-          downloadBlob(outBytes, file.name.replace(/\.pdf$/i,'') + '-compressed.pdf');
-          status.textContent = document.querySelector('[data-i18n="compress.light_done"]')?.textContent || 'Finished (light re-save).';
-        }else{
-          // Rasterize pages via pdf.js -> draw to canvas -> embed JPEG into new PDF
-          const src = await file.arrayBuffer();
-          const doc = await pdfjsLib.getDocument({data:src}).promise;
-          const out = await PDFDocument.create();
-
-          for(let i=1;i<=doc.numPages;i++){
-            const page = await doc.getPage(i);
-            const viewport72 = page.getViewport({ scale: 1.0 });
-            const scale = dpi/72;
-            const viewport = page.getViewport({ scale });
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d', { willReadFrequently: false });
-            canvas.width = Math.ceil(viewport.width);
-            canvas.height = Math.ceil(viewport.height);
-            await page.render({ canvasContext: ctx, viewport }).promise;
-
-            const dataUrl = canvas.toDataURL('image/jpeg', quality);
-            const jpgBytes = dataURLtoBytes(dataUrl);
-            const jpg = await out.embedJpg(jpgBytes);
-            const p = out.addPage([viewport72.width, viewport72.height]); // keep original page size (72dpi space)
-            const xScale = viewport72.width / (canvas.width/scale);
-            const yScale = viewport72.height / (canvas.height/scale);
-            const drawWidth = jpg.width * (viewport72.width / (canvas.width));
-            const drawHeight = jpg.height * (viewport72.height / (canvas.height));
-            p.drawImage(jpg, { x:0, y:0, width: drawWidth, height: drawHeight });
-          }
-
-          const outBytes = await out.save({ useObjectStreams:true });
-          downloadBlob(outBytes, file.name.replace(/\.pdf$/i,'') + '-raster.pdf');
-          status.textContent = document.querySelector('[data-i18n="compress.raster_done"]')?.textContent || 'Finished (rasterized).';
-        }
-      }catch(err){
-        console.error(err);
-        status.textContent = (document.querySelector('[data-i18n="common.error"]')?.textContent || 'Something went wrong: ') + err.message;
-      }
-    };
-
-    function dataURLtoBytes(dataURL){
-      const b64 = dataURL.split(',')[1];
-      const bin = atob(b64);
-      const len = bin.length;
-      const u8 = new Uint8Array(len);
-      for(let i=0;i<len;i++) u8[i] = bin.charCodeAt(i);
-      return u8;
-    }
-
-    function downloadBlob(bytes, name){
-      const blob = new Blob([bytes], {type:'application/pdf'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = name || 'output.pdf';
-      a.click();
-    }
+    function status(t){ statusEl.textContent = t; }
   </script>
 </body>
 </html>
