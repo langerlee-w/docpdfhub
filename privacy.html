@@ -2,79 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
   <title>Privacy Policy — DocPDFHub</title>
-  <meta name="description" content="Privacy policy for DocPDFHub. We process PDFs locally in your browser and do not upload your files to any server."/>
+  <meta name="description" content="DocPDFHub Privacy Policy — how we handle data, cookies, and advertising."/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
-  <style>
-    body{font-family:'Source Sans Pro',sans-serif}
-    .container{max-width: 860px}
-  </style>
+  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}</style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <nav class="bg-white border-b">
-    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/" class="text-pink-600 font-extrabold text-2xl">DocPDFHub</a>
-      <a href="/" class="text-sm text-gray-700 hover:text-pink-600">Home</a>
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+  <!-- Nav -->
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span>DocPDFHub</span></a>
+      <div class="flex items-center space-x-2">
+        <a href="/" class="text-sm text-gray-700 hover:text-pink-600">Home</a>
+        <span class="text-gray-300">|</span>
+        <a href="/about.html" class="text-sm text-gray-700 hover:text-pink-600">About</a>
+        <a href="/terms.html" class="text-sm text-gray-700 hover:text-pink-600">Terms</a>
+        <span class="text-gray-300">|</span>
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+      </div>
     </div>
   </nav>
 
-  <main class="container mx-auto px-4 py-10">
-    <h1 class="text-3xl font-extrabold mb-4">Privacy Policy</h1>
-    <p class="text-sm text-gray-500 mb-8">Last updated: <span id="lastUpdated"></span></p>
+  <!-- Hero -->
+  <header class="gradient text-white pt-28 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-extrabold">Privacy Policy</h1>
+      <p class="text-white text-opacity-90 mt-3 md:w-3/4">Effective date: <span id="eff"></span></p>
+    </div>
+  </header>
 
-    <h2 class="text-xl font-bold mt-6 mb-2">1. Who we are</h2>
-    <p>DocPDFHub provides free, browser-based PDF tools. Our tools run locally in your browser.</p>
-
-    <h2 class="text-xl font-bold mt-6 mb-2">2. Files are processed locally</h2>
+  <main class="max-w-6xl mx-auto px-4 py-10 prose prose-pink">
     <p>
-      Your PDFs are processed entirely in your browser using Web technologies (e.g., WebAssembly/Canvas). 
-      We do not upload your files or page contents to our servers.
+      DocPDFHub (“we”, “our”, or “us”) is committed to protecting your privacy.
+      This policy explains what information we (and our service providers) collect and how it’s used.
     </p>
 
-    <h2 class="text-xl font-bold mt-6 mb-2">3. Information we collect</h2>
-    <ul class="list-disc ml-6">
-      <li><span class="font-semibold">Basic usage data:</span> Anonymous analytics (e.g., page views) to improve the service.</li>
-      <li><span class="font-semibold">No file contents:</span> We do not transmit the contents of your PDFs to any server.</li>
+    <h2>1. Files you process with our tools</h2>
+    <p>
+      <strong>We do not upload or store your files on our servers.</strong>
+      All PDF processing happens locally in your browser using client-side technology.
+      Your documents remain on your device unless you intentionally export or download results.
+    </p>
+
+    <h2>2. Site data we may collect</h2>
+    <ul>
+      <li><strong>Basic logs:</strong> standard server logs (IP address, user-agent, referrer) for security and performance.</li>
+      <li><strong>Usage metrics:</strong> anonymous, aggregate information such as page views and feature usage to improve the product.</li>
     </ul>
 
-    <h2 class="text-xl font-bold mt-6 mb-2">4. Cookies & Google AdSense</h2>
+    <h2>3. Cookies & local storage</h2>
     <p>
-      We use Google AdSense to display ads. Google and its partners may use cookies to serve ads based on your prior visits to this and/or other sites. 
-      You can opt out of personalized advertising by visiting 
-      <a class="text-pink-600 underline" href="https://adssettings.google.com" rel="noopener" target="_blank">Ads Settings</a>.
-    </p>
-    <p class="mt-2">
-      Third-party vendors, including Google, use cookies to serve ads. Google’s use of advertising cookies enables it and its partners to serve ads to you based on your visits to this site and/or other sites on the Internet. 
-      See Google’s policy: 
-      <a class="text-pink-600 underline" href="https://policies.google.com/technologies/ads" rel="noopener" target="_blank">Advertising – Privacy & Terms</a>.
+      We use minimal cookies/local storage for things like remembering language preferences or UI settings.
     </p>
 
-    <h2 class="text-xl font-bold mt-6 mb-2">5. Third-party links</h2>
-    <p>Our website may contain links to third-party websites. We are not responsible for their content or privacy practices.</p>
-
-    <h2 class="text-xl font-bold mt-6 mb-2">6. Children’s privacy</h2>
-    <p>Our service is not directed to children under 13. We do not knowingly collect personal information from children.</p>
-
-    <h2 class="text-xl font-bold mt-6 mb-2">7. Contact</h2>
+    <h2>4. Advertising (Google AdSense)</h2>
     <p>
-      If you have questions, contact us at: 
-      <a class="text-pink-600 underline" href="mailto:hello@example.com">hello@example.com</a>
-      <!-- TODO: 改成你的联系邮箱 -->
+      We display ads via Google AdSense. Google and its partners may use cookies to serve ads based on your visits to this and/or other sites.
+      You can manage ad personalisation in <a href="https://adssettings.google.com/" target="_blank" rel="noopener">Google Ads Settings</a> and learn more at
+      <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google’s Advertising Policies</a>.
+      We comply with the AdSense Program Policies.
+    </p>
+
+    <h2>5. Third-party links</h2>
+    <p>
+      Our site may link to third-party sites. We are not responsible for their content or privacy practices.
+    </p>
+
+    <h2>6. Children’s privacy</h2>
+    <p>
+      Our services are not directed to children under 13. If you believe a child provided us with personal information,
+      please contact us and we will take appropriate steps.
+    </p>
+
+    <h2>7. Your rights</h2>
+    <p>
+      Depending on your location, you may have rights to access, correct, or delete certain information.
+      To make a request, contact us at <a href="mailto:langer.lee@gmail.com">langer.lee@gmail.com</a>.
+    </p>
+
+    <h2>8. Changes to this policy</h2>
+    <p>
+      We may update this policy from time to time. We will update the “Effective date” above and post the new version here.
+    </p>
+
+    <h2>9. Contact</h2>
+    <p>
+      If you have questions about this policy, email us at <a href="mailto:langer.lee@gmail.com">langer.lee@gmail.com</a>.
     </p>
   </main>
 
-  <footer class="bg-white border-t">
-    <div class="container mx-auto px-4 py-6 text-sm text-gray-500">
-      © <span id="y"></span> DocPDFHub
-    </div>
+  <footer class="py-8 border-t text-center text-sm text-gray-500">
+    <div class="max-w-6xl mx-auto px-4">© <span id="y"></span> DocPDFHub</div>
   </footer>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
-    // 你也可以改成固定日期
-    document.getElementById('lastUpdated').textContent = new Date().toISOString().slice(0,10);
+    document.getElementById('eff').textContent = new Date().toISOString().slice(0,10);
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.addEventListener('click', ()=> localStorage.setItem('lang', btn.getAttribute('data-lang-btn')));
+    });
   </script>
 </body>
 </html>
