@@ -141,119 +141,97 @@
     </div>
   </footer>
 
-  <script>
-    // pdf.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+ <script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
-    // 语言初始化（默认英文）
-    document.addEventListener('DOMContentLoaded', () => {
-      const lang = localStorage.getItem('lang') || 'en';
-      window.__i18n__?.setLang(lang);
+  const $ = s=>document.querySelector(s);
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = $('#fileInput'); const chooseBtn = $('#chooseBtn'); const replaceBtn = $('#replaceBtn');
+  const fileInfo = $('#fileInfo'); const fileName=$('#fileName'); const fileSize=$('#fileSize');
+  const level = $('#level'); const reduceImages=$('#reduceImages'); const removeMeta=$('#removeMeta');
+  const runBtn = $('#runBtn'); const runMsg = $('#runMsg');
+
+  let file = null;
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const last = DocPDFHub.Store.get('compress_opts', { level:'balanced', reduceImages:true, removeMeta:true });
+    level.value = last.level;
+    reduceImages.checked = !!last.reduceImages;
+    removeMeta.checked = !!last.removeMeta;
+  });
+
+  function persistOptions(){
+    DocPDFHub.Store.set('compress_opts', {
+      level: level.value,
+      reduceImages: !!reduceImages.checked,
+      removeMeta: !!removeMeta.checked
     });
-    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
-      btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
-    });
+  }
 
-    // DOM
-    const $ = s=>document.querySelector(s);
-    const dropZone = $('#dropZone');
-    const dropLabel = document.querySelector('label[for="fileInput"]');
-    const fileInput = $('#fileInput');
-    const chooseBtn = $('#chooseBtn');
-    const replaceBtn = $('#replaceBtn');
-    const fileInfo = $('#fileInfo');
-    const fileName = $('#fileName');
-    const fileSize = $('#fileSize');
-    const level = $('#level');
-    const reduceImages = $('#reduceImages');
-    const removeMeta = $('#removeMeta');
-    const runBtn = $('#runBtn');
-    const runMsg = $('#runMsg');
+  function showInfo(){
+    fileInfo.classList.toggle('hidden', !file);
+    if(file){ fileName.textContent=file.name; fileSize.textContent=DocPDFHub.fmtBytes(file.size); }
+  }
 
-    let file = null;
+  ;['dragenter','dragover'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
+  });
+  ;['dragleave','drop'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
+  });
+  dropZone.addEventListener('drop', (e)=>{
+    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs[0]){ file = fs[0]; showInfo(); }
+  });
 
-    const fmtBytes = (n)=>{
-      const u=['B','KB','MB','GB']; let i=0;
-      while(n>=1024 && i<u.length-1){ n/=1024; i++; }
-      return (n<10 && i ? n.toFixed(1):Math.round(n)) + ' ' + u[i];
-    };
+  fileInput.addEventListener('change', ()=>{
+    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs[0]){ file = fs[0]; showInfo(); }
+    fileInput.value = '';
+  });
 
-    function showInfo(){
-      fileInfo.classList.toggle('hidden', !file);
-      if(file){
-        fileName.textContent = file.name;
-        fileSize.textContent = fmtBytes(file.size);
-      }
-    }
+  chooseBtn.addEventListener('click', ()=> fileInput.click());
+  replaceBtn.addEventListener('click', ()=> fileInput.click());
 
-    // 拖拽高亮
-    ['dragenter','dragover'].forEach(evt=>{
-      (dropZone || document).addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone?.classList.add('drop-active');
-        dropLabel?.classList.add('drop-active');
-      });
-    });
-    ['dragleave','drop'].forEach(evt=>{
-      (dropZone || document).addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone?.classList.remove('drop-active');
-        dropLabel?.classList.remove('drop-active');
-      });
-    });
+  const readAB = (f)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(f);});
 
-    // 放下文件
-    dropZone.addEventListener('drop', (e)=>{
-      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/\.pdf$/i.test(f.name));
-      if (fs[0]){ file = fs[0]; showInfo(); }
-    });
+  function getProfile(){
+    if(level.value==='light') return {dpi:150, quality:0.9};
+    if(level.value==='strong') return {dpi:90, quality:0.6};
+    return {dpi:110, quality:0.75};
+  }
 
-    // 选择文件
-    fileInput.addEventListener('change', ()=>{
-      const fs = Array.from(fileInput.files||[]).filter(f=>/\.pdf$/i.test(f.name));
-      if (fs[0]){ file = fs[0]; showInfo(); }
-      fileInput.value = ''; // 允许重复选择同一文件
-    });
-    chooseBtn.addEventListener('click', ()=> fileInput.click());
-    replaceBtn.addEventListener('click', ()=> fileInput.click());
+  async function compressPDF(){
+    if(!file){ alert(window.__i18n__?.t('tool.compress.errors.no_pdf') || 'Please add a PDF to compress.'); return; }
+    runMsg.classList.remove('hidden'); runBtn.disabled=true;
+    DocPDFHub.Progress.show(); DocPDFHub.Progress.set(5);
 
-    // 读文件为 ArrayBuffer
-    const readAB = (f)=> new Promise((res,rej)=>{
-      const r=new FileReader();
-      r.onload=()=>res(r.result);
-      r.onerror=rej;
-      r.readAsArrayBuffer(f);
-    });
+    try{
+      persistOptions();
 
-    // 压缩等级 → DPI / JPEG 质量（仅用于下采样模式）
-    function getProfile(){
-      if(level.value==='light') return {dpi:150, quality:0.9};
-      if(level.value==='strong') return {dpi:90, quality:0.6};
-      return {dpi:110, quality:0.75}; // balanced
-    }
-
-    // 下采样路径：将每页栅格化为 JPEG 再组 PDF
-    async function compressByDownsample(srcBytes){
       const { PDFDocument } = PDFLib;
-      const pdf = await pdfjsLib.getDocument({ data: srcBytes }).promise;
+      const srcBytes = await readAB(file);
+      const loadingTask = pdfjsLib.getDocument({ data: srcBytes });
+      const pdf = await loadingTask.promise;
 
       const out = await PDFDocument.create();
       if(!removeMeta.checked){
+        out.setTitle(file.name.replace(/\.pdf$/i,''));
         out.setProducer('DocPDFHub'); out.setCreator('DocPDFHub');
         out.setCreationDate(new Date()); out.setModificationDate(new Date());
       }
 
       const {dpi, quality} = getProfile();
+      const total = pdf.numPages;
 
-      for(let p=1;p<=pdf.numPages;p++){
+      for(let p=1;p<=total;p++){
         const page = await pdf.getPage(p);
         const vp = page.getViewport({ scale: dpi/72 });
-
         const canvas = document.createElement('canvas');
         canvas.width = Math.max(1, Math.floor(vp.width));
         canvas.height = Math.max(1, Math.floor(vp.height));
         const ctx = canvas.getContext('2d', { alpha: false });
-        await page.render({ canvasContext: ctx, viewport: vp, background:'#ffffff' }).promise;
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
 
         const dataUrl = canvas.toDataURL('image/jpeg', quality);
         const jpgBytes = await (await fetch(dataUrl)).arrayBuffer();
@@ -261,68 +239,30 @@
 
         const pageOut = out.addPage([vp.width, vp.height]);
         pageOut.drawImage(jpg, { x:0, y:0, width: vp.width, height: vp.height });
+
+        DocPDFHub.Progress.set(5 + (p/total)*90);
       }
 
-      return await out.save({ useObjectStreams: true, updateMetadata: true });
+      const outBytes = await out.save({ useObjectStreams: true, updateMetadata: true });
+      const blob = new Blob([outBytes], {type:'application/pdf'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (file.name.replace(/\.pdf$/i,'') + '-compressed.pdf');
+      a.click();
+      URL.revokeObjectURL(a.href);
+
+      alert(window.__i18n__?.t('tool.compress.result.title') || 'Compression complete');
+    } catch(err){
+      console.error(err);
+      alert('Failed to compress. Please try again.');
+    } finally{
+      runMsg.classList.add('hidden'); runBtn.disabled=false;
+      DocPDFHub.Progress.set(100); setTimeout(()=>DocPDFHub.Progress.hide(),300);
     }
+  }
 
-    // 非下采样路径：复制页面，尽量只做轻量化与清理（不保证显著减小）
-    async function compressByCopy(srcBytes){
-      const { PDFDocument } = PDFLib;
-      const inDoc = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
-      const out = await PDFDocument.create();
+  runBtn.addEventListener('click', compressPDF);
+</script>
 
-      // 拷贝所有页面
-      const pages = await out.copyPages(inDoc, inDoc.getPageIndices());
-      pages.forEach(p => out.addPage(p));
-
-      // 元数据处理：选中“移除元数据”则不设置任何新的信息，相当于清理
-      if(!removeMeta.checked){
-        out.setProducer('DocPDFHub'); out.setCreator('DocPDFHub');
-        out.setCreationDate(new Date()); out.setModificationDate(new Date());
-        const titleGuess = 'Compressed - ' + (inDoc.getTitle?.() || '');
-        if(titleGuess.trim()) out.setTitle(titleGuess.trim());
-      }
-      return await out.save({ useObjectStreams: true, updateMetadata: true });
-    }
-
-    async function compressPDF(){
-      const t = (k, fb)=> (window.__i18n__?.t(k) || fb);
-      if(!file){
-        alert(t('tool.compress.errors.no_pdf', 'Please add a PDF to compress.'));
-        return;
-      }
-      runMsg.classList.remove('hidden'); runBtn.disabled = true;
-
-      try{
-        const srcBytes = await readAB(file);
-        let outBytes;
-
-        if(reduceImages.checked){
-          // 下采样（体积下降明显）
-          outBytes = await compressByDownsample(srcBytes);
-        }else{
-          // 仅复制页面 + 可选去元数据（体积下降有限）
-          outBytes = await compressByCopy(srcBytes);
-        }
-
-        const blob = new Blob([outBytes], {type:'application/pdf'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = (file.name.replace(/\.pdf$/i,'') + '-compressed.pdf');
-        a.click();
-        URL.revokeObjectURL(a.href);
-
-        alert(t('tool.compress.result.title', 'Compression complete'));
-      }catch(err){
-        console.error(err);
-        alert(t('tool.compress.errors.fail', 'Failed to compress. Please try another file.'));
-      }finally{
-        runMsg.classList.add('hidden'); runBtn.disabled = false;
-      }
-    }
-
-    runBtn.addEventListener('click', compressPDF);
-  </script>
 </body>
 </html>
