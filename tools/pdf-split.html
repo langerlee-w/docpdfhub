@@ -8,6 +8,11 @@
   <meta name="description" content="" data-i18n="tool.split.ogDesc"/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+
+  <!-- libs -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+
   <script src="/js/i18n.js" defer></script>
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
@@ -105,30 +110,21 @@
   const $ = s=>document.querySelector(s);
   const fmtBytes = (n)=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];}
 
-  const dropZone = $('#dropZone');
   const fileInput = $('#fileInput');
   const chooseBtn = $('#chooseBtn');
   const replaceBtn = $('#replaceBtn');
-  const fileInfo = $('#fileInfo');
-  const fileName = $('#fileName');
-  const fileSize = $('#fileSize');
-  const mode = $('#mode');
-  const rangesWrap = $('#rangesWrap');
-  const ranges = $('#ranges');
-  const runBtn = $('#runBtn');
-  const runMsg = $('#runMsg');
+  const dropZone = document.getElementById('dropZone');
+  const fileInfo = $('#fileInfo'); const fileName=$('#fileName'); const fileSize=$('#fileSize');
+  const mode = $('#mode'); const rangesWrap=$('#rangesWrap'); const ranges=$('#ranges'); const skipEmpty=$('#skipEmpty');
+  const runBtn = $('#runBtn'); const runMsg = $('#runMsg');
 
   let file = null;
 
   function showInfo(){
     fileInfo.classList.toggle('hidden', !file);
-    if(file){
-      fileName.textContent = file.name;
-      fileSize.textContent = fmtBytes(file.size);
-    }
+    if(file){ fileName.textContent=file.name; fileSize.textContent=fmtBytes(file.size); }
   }
 
-  // drag & drop
   ;['dragenter','dragover'].forEach(evt=>{
     dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
   });
@@ -137,28 +133,100 @@
   });
   dropZone.addEventListener('drop', (e)=>{
     const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
-    if (fs[0]){ file = fs[0]; showInfo(); }
+    if(fs[0]){ file = fs[0]; showInfo(); }
   });
 
   fileInput.addEventListener('change', ()=>{
     const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
-    if (fs[0]){ file = fs[0]; showInfo(); }
-    fileInput.value = '';
+    if(fs[0]){ file = fs[0]; showInfo(); }
+    fileInput.value='';
   });
 
   chooseBtn.addEventListener('click', ()=> fileInput.click());
   replaceBtn.addEventListener('click', ()=> fileInput.click());
 
-  mode.addEventListener('change', ()=>{
-    rangesWrap.style.display = mode.value==='ranges' ? '' : 'none';
-  });
+  mode.addEventListener('change', ()=>{ rangesWrap.style.display = mode.value==='ranges' ? '' : 'none'; });
   mode.dispatchEvent(new Event('change'));
 
-  runBtn.addEventListener('click', ()=>{
+  const readAB = (f)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(f);});
+
+  function parseRanges(str, max){
+    if(!str) return [];
+    const out = new Set();
+    str.split(',').map(s=>s.trim()).filter(Boolean).forEach(part=>{
+      const m = part.match(/^(\d+)-(\d+)$/);
+      if(m){
+        let a=+m[1], b=+m[2]; if(a>b) [a,b]=[b,a];
+        for(let i=a;i<=b;i++) if(i>=1&&i<=max) out.add(i);
+      }else{
+        const n = +part; if(n>=1&&n<=max) out.add(n);
+      }
+    });
+    return Array.from(out).sort((a,b)=>a-b);
+  }
+
+  async function splitPDF(){
     if(!file){ alert(window.__i18n__?.t('tool.split.errors.no_pdf') || 'Please add a PDF to split.'); return; }
     runMsg.classList.remove('hidden');
-    setTimeout(()=>{ runMsg.classList.add('hidden'); alert(window.__i18n__?.t('tool.split.result.title') || 'Split complete'); }, 1000);
-  });
+    runBtn.disabled = true;
+
+    const { PDFDocument } = PDFLib;
+    const bytes = await readAB(file);
+    const src = await PDFDocument.load(bytes);
+    const total = src.getPageCount();
+
+    let outputs = []; // {name, blob}
+
+    if (mode.value === 'each') {
+      for(let p=0;p<total;p++){
+        const out = await PDFDocument.create();
+        const [page] = await out.copyPages(src, [p]);
+        out.addPage(page);
+        const outBytes = await out.save({ useObjectStreams: true });
+        outputs.push({ name: `page-${p+1}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
+      }
+    } else {
+      const pages = parseRanges(ranges.value, total);
+      if (!pages.length) { alert(window.__i18n__?.t('tool.split.errors.bad_ranges') || 'Invalid page ranges.'); runMsg.classList.add('hidden'); runBtn.disabled=false; return; }
+      // 将连续页聚合为段
+      let segs = []; let start=null, prev=null;
+      for(const n of pages){ if(start===null){ start=prev=n; } else if(n===prev+1){ prev=n; } else { segs.push([start,prev]); start=prev=n; } }
+      if(start!==null) segs.push([start,prev]);
+
+      for(const [a,b] of segs){
+        const out = await PDFDocument.create();
+        const idx = Array.from({length:b-a+1}, (_,i)=> (a-1)+i);
+        const copied = await out.copyPages(src, idx);
+        copied.forEach(p=>out.addPage(p));
+        const outBytes = await out.save({ useObjectStreams: true });
+        outputs.push({ name: `pages-${a}-${b}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
+      }
+    }
+
+    // 仅 1 个文件则直接下载，否则 zip
+    if(outputs.length===1){
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(outputs[0].blob);
+      a.download = outputs[0].name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } else {
+      const zip = new JSZip();
+      outputs.forEach(f=> zip.file(f.name, f.blob));
+      const zipBlob = await zip.generateAsync({type:'blob'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(zipBlob);
+      a.download = 'split-output.zip';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    runMsg.classList.add('hidden');
+    runBtn.disabled=false;
+    alert(window.__i18n__?.t('tool.split.result.title') || 'Split complete');
+  }
+
+  runBtn.addEventListener('click', splitPDF);
   </script>
 </body>
 </html>
