@@ -4,59 +4,88 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title data-i18n="tool.split.ogTitle">Split PDF — DocPDFHub</title>
-  <meta name="description" content="" data-i18n="tool.split.ogDesc"/>
+
+  <!-- 由 i18n.js 接管写入 -->
+  <title data-i18n-doc-title="tool.split.ogTitle">Split PDF — DocPDFHub</title>
+  <meta name="description" content="Extract pages or split into multiple PDFs — fully local." data-i18n-meta="tool.split.ogDesc"/>
+
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
 
   <!-- libs -->
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 
+  <!-- i18n -->
   <script src="/js/i18n.js" defer></script>
+
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
+    .dropzone{border:2px dashed #e5e7eb;}
     .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
   </style>
 </head>
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+
+  <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
       <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
-      <div class="flex items-center space-x-2">
-        <a href="/" class="text-sm text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
-        <span class="text-gray-300">|</span>
+      <div class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/" class="text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/tools/pdf-merge.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="text-gray-900 font-semibold" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
+        <div class="flex items-center space-x-2">
+          <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+          <span class="text-gray-300">|</span>
+          <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+        </div>
+      </div>
+      <div class="md:hidden flex items-center space-x-2">
         <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
+  <div class="pt-20"></div>
 
-  <header class="gradient text-white pt-28 pb-10">
+  <!-- Hero -->
+  <header class="gradient text-white pt-12 pb-10">
     <div class="max-w-6xl mx-auto px-4">
       <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
-      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="tool.split.hero.title">Split PDF</h1>
-      <p class="text-white text-opacity-90 mt-2 md:w-3/4" data-i18n="tool.split.hero.subtitle">
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="tool.split.title">Split PDF</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4" data-i18n="tool.split.subtitle">
         Extract pages or split into multiple PDFs — fully local.
       </p>
       <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
     </div>
   </header>
 
+  <!-- Main -->
   <main class="max-w-6xl mx-auto px-4 py-10">
     <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
       <div class="text-center">
         <h2 class="text-xl font-bold" data-i18n="tool.split.drop.title">Drop a PDF to split</h2>
         <p class="text-gray-600 mt-1" data-i18n="tool.split.drop.hint">Example ranges: 1-3,5,8-10</p>
 
-        <input id="fileInput" type="file" accept="application/pdf" class="hidden"/>
-        <div class="mt-4">
+        <!-- 拖拽 + 点击上传 -->
+        <label for="fileInput" class="block mt-4 p-6 border rounded-xl dropzone cursor-pointer">
+          <div class="font-semibold" data-i18n="uploader.title">Drop files here or click to select</div>
+          <div class="text-xs text-gray-500 mt-1" data-i18n="uploader.hint">Max 100MB each. Your files never leave your device.</div>
+          <input id="fileInput" type="file" accept="application/pdf" class="sr-only"/>
+        </label>
+
+        <div class="mt-3">
           <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700"
             data-i18n="tool.split.drop.button">Select PDF</button>
           <div class="text-xs text-gray-500 mt-2" data-i18n="common.or_drop">or drag & drop</div>
         </div>
       </div>
 
+      <!-- 已选择文件 -->
       <div id="fileInfo" class="mt-6 hidden">
         <div class="flex items-center justify-between">
           <div>
@@ -66,6 +95,7 @@
           <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50" data-i18n="tool.split.options.add_more">Replace file</button>
         </div>
 
+        <!-- 选项 -->
         <div class="grid md:grid-cols-3 gap-4 mt-4">
           <div>
             <label class="block text-sm font-medium mb-1" data-i18n="tool.split.options.mode">Split mode</label>
@@ -75,7 +105,7 @@
             </select>
           </div>
           <div id="rangesWrap">
-            <label class="block text-sm font-medium mb-1" data-i18n="tool.split.drop.hint">Example ranges: 1-3,5,8-10</label>
+            <label class="block text-sm font-medium mb-1" data-i18n="tool.split.options.ranges_label">Page ranges</label>
             <input id="ranges" class="w-full border rounded px-3 py-2" placeholder="e.g. 1-3,5,8-10" data-i18n-placeholder="tool.split.options.ranges_placeholder"/>
           </div>
           <label class="flex items-center space-x-2 mt-6 md:mt-0">
@@ -84,9 +114,11 @@
           </label>
         </div>
 
+        <!-- 运行 -->
         <div class="mt-6">
-          <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6" data-i18n="tool.split.hero.primary_cta">Add PDF to Split</button>
-          <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden"><span data-i18n="tool.split.running.status">Splitting…</span>
+          <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6" data-i18n="tool.split.actions.split">Split PDF</button>
+          <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden">
+            <span data-i18n="tool.split.running.status">Splitting…</span>
             <span class="ml-1" data-i18n="tool.split.running.tip">Processing is local and secure.</span>
           </p>
         </div>
@@ -94,139 +126,252 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="py-8 border-t text-center text-sm text-gray-500">
-    <div class="max-w-6xl mx-auto px-4"><div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div></div>
+    <div class="max-w-6xl mx-auto px-4">
+      <div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div>
+    </div>
   </footer>
 
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const lang = localStorage.getItem('lang') || 'en';
-    window.__i18n__?.setLang(lang);
-  });
-  document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
-    btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
-  });
+    // pdf.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
-  const $ = s=>document.querySelector(s);
-  const fmtBytes = (n)=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];}
-
-  const fileInput = $('#fileInput');
-  const chooseBtn = $('#chooseBtn');
-  const replaceBtn = $('#replaceBtn');
-  const dropZone = document.getElementById('dropZone');
-  const fileInfo = $('#fileInfo'); const fileName=$('#fileName'); const fileSize=$('#fileSize');
-  const mode = $('#mode'); const rangesWrap=$('#rangesWrap'); const ranges=$('#ranges'); const skipEmpty=$('#skipEmpty');
-  const runBtn = $('#runBtn'); const runMsg = $('#runMsg');
-
-  let file = null;
-
-  function showInfo(){
-    fileInfo.classList.toggle('hidden', !file);
-    if(file){ fileName.textContent=file.name; fileSize.textContent=fmtBytes(file.size); }
-  }
-
-  ;['dragenter','dragover'].forEach(evt=>{
-    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
-  });
-  ;['dragleave','drop'].forEach(evt=>{
-    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
-  });
-  dropZone.addEventListener('drop', (e)=>{
-    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
-    if(fs[0]){ file = fs[0]; showInfo(); }
-  });
-
-  fileInput.addEventListener('change', ()=>{
-    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
-    if(fs[0]){ file = fs[0]; showInfo(); }
-    fileInput.value='';
-  });
-
-  chooseBtn.addEventListener('click', ()=> fileInput.click());
-  replaceBtn.addEventListener('click', ()=> fileInput.click());
-
-  mode.addEventListener('change', ()=>{ rangesWrap.style.display = mode.value==='ranges' ? '' : 'none'; });
-  mode.dispatchEvent(new Event('change'));
-
-  const readAB = (f)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(f);});
-
-  function parseRanges(str, max){
-    if(!str) return [];
-    const out = new Set();
-    str.split(',').map(s=>s.trim()).filter(Boolean).forEach(part=>{
-      const m = part.match(/^(\d+)-(\d+)$/);
-      if(m){
-        let a=+m[1], b=+m[2]; if(a>b) [a,b]=[b,a];
-        for(let i=a;i<=b;i++) if(i>=1&&i<=max) out.add(i);
-      }else{
-        const n = +part; if(n>=1&&n<=max) out.add(n);
-      }
+    // 语言初始化（默认英文）
+    document.addEventListener('DOMContentLoaded', () => {
+      const lang = localStorage.getItem('lang') || 'en';
+      window.__i18n__?.setLang(lang);
     });
-    return Array.from(out).sort((a,b)=>a-b);
-  }
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
+    });
 
-  async function splitPDF(){
-    if(!file){ alert(window.__i18n__?.t('tool.split.errors.no_pdf') || 'Please add a PDF to split.'); return; }
-    runMsg.classList.remove('hidden');
-    runBtn.disabled = true;
+    // DOM
+    const $ = s=>document.querySelector(s);
+    const dropZone = $('#dropZone');
+    const dropLabel = document.querySelector('label[for="fileInput"]');
+    const fileInput = $('#fileInput');
+    const chooseBtn = $('#chooseBtn');
+    const replaceBtn = $('#replaceBtn');
+    const fileInfo = $('#fileInfo');
+    const fileName = $('#fileName');
+    const fileSize = $('#fileSize');
+    const mode = $('#mode');
+    const rangesWrap = $('#rangesWrap');
+    const ranges = $('#ranges');
+    const skipEmpty = $('#skipEmpty');
+    const runBtn = $('#runBtn');
+    const runMsg = $('#runMsg');
 
-    const { PDFDocument } = PDFLib;
-    const bytes = await readAB(file);
-    const src = await PDFDocument.load(bytes);
-    const total = src.getPageCount();
+    let file = null;
 
-    let outputs = []; // {name, blob}
+    const fmtBytes = (n)=>{
+      const u=['B','KB','MB','GB']; let i=0;
+      while(n>=1024 && i<u.length-1){ n/=1024; i++; }
+      return (n<10 && i ? n.toFixed(1):Math.round(n)) + ' ' + u[i];
+    };
 
-    if (mode.value === 'each') {
-      for(let p=0;p<total;p++){
-        const out = await PDFDocument.create();
-        const [page] = await out.copyPages(src, [p]);
-        out.addPage(page);
-        const outBytes = await out.save({ useObjectStreams: true });
-        outputs.push({ name: `page-${p+1}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
-      }
-    } else {
-      const pages = parseRanges(ranges.value, total);
-      if (!pages.length) { alert(window.__i18n__?.t('tool.split.errors.bad_ranges') || 'Invalid page ranges.'); runMsg.classList.add('hidden'); runBtn.disabled=false; return; }
-      // 将连续页聚合为段
-      let segs = []; let start=null, prev=null;
-      for(const n of pages){ if(start===null){ start=prev=n; } else if(n===prev+1){ prev=n; } else { segs.push([start,prev]); start=prev=n; } }
-      if(start!==null) segs.push([start,prev]);
-
-      for(const [a,b] of segs){
-        const out = await PDFDocument.create();
-        const idx = Array.from({length:b-a+1}, (_,i)=> (a-1)+i);
-        const copied = await out.copyPages(src, idx);
-        copied.forEach(p=>out.addPage(p));
-        const outBytes = await out.save({ useObjectStreams: true });
-        outputs.push({ name: `pages-${a}-${b}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
+    function showInfo(){
+      fileInfo.classList.toggle('hidden', !file);
+      if(file){
+        fileName.textContent = file.name;
+        fileSize.textContent = fmtBytes(file.size);
       }
     }
 
-    // 仅 1 个文件则直接下载，否则 zip
-    if(outputs.length===1){
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(outputs[0].blob);
-      a.download = outputs[0].name;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    } else {
-      const zip = new JSZip();
-      outputs.forEach(f=> zip.file(f.name, f.blob));
-      const zipBlob = await zip.generateAsync({type:'blob'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(zipBlob);
-      a.download = 'split-output.zip';
-      a.click();
-      URL.revokeObjectURL(a.href);
+    // 拖拽高亮
+    ['dragenter','dragover'].forEach(evt=>{
+      (dropZone || document).addEventListener(evt, e=>{
+        e.preventDefault(); e.stopPropagation();
+        dropZone?.classList.add('drop-active');
+        dropLabel?.classList.add('drop-active');
+      });
+    });
+    ['dragleave','drop'].forEach(evt=>{
+      (dropZone || document).addEventListener(evt, e=>{
+        e.preventDefault(); e.stopPropagation();
+        dropZone?.classList.remove('drop-active');
+        dropLabel?.classList.remove('drop-active');
+      });
+    });
+
+    // 放下文件
+    dropZone.addEventListener('drop', (e)=>{
+      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/\.pdf$/i.test(f.name));
+      if(fs[0]){ file = fs[0]; showInfo(); }
+    });
+
+    // 选择文件
+    fileInput.addEventListener('change', ()=>{
+      const fs = Array.from(fileInput.files||[]).filter(f=>/\.pdf$/i.test(f.name));
+      if(fs[0]){ file = fs[0]; showInfo(); }
+      fileInput.value = '';
+    });
+    chooseBtn.addEventListener('click', ()=> fileInput.click());
+    replaceBtn.addEventListener('click', ()=> fileInput.click());
+
+    // 模式切换：隐藏/显示 ranges
+    mode.addEventListener('change', ()=>{ rangesWrap.style.display = mode.value==='ranges' ? '' : 'none'; });
+    mode.dispatchEvent(new Event('change'));
+
+    // 工具函数
+    const readAB = (f)=> new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=()=>res(r.result);
+      r.onerror=rej;
+      r.readAsArrayBuffer(f);
+    });
+
+    function parseRanges(str, max){
+      if(!str) return [];
+      const out = new Set();
+      str.split(',').map(s=>s.trim()).filter(Boolean).forEach(part=>{
+        const m = part.match(/^(\d+)-(\d+)$/);
+        if(m){
+          let a=+m[1], b=+m[2]; if(a>b) [a,b]=[b,a];
+          for(let i=a;i<=b;i++) if(i>=1&&i<=max) out.add(i);
+        }else{
+          const n = +part; if(n>=1&&n<=max) out.add(n);
+        }
+      });
+      return Array.from(out).sort((a,b)=>a-b);
     }
 
-    runMsg.classList.add('hidden');
-    runBtn.disabled=false;
-    alert(window.__i18n__?.t('tool.split.result.title') || 'Split complete');
-  }
+    // 低分辨率渲染判断是否空白页（阈值：非白像素占比 < 0.5% 视为空白）
+    async function detectEmptyPages(srcBytes, candidates=null){
+      const doc = await pdfjsLib.getDocument({ data: srcBytes }).promise;
+      const total = doc.numPages;
+      const indices = candidates ? candidates : Array.from({length: total}, (_,i)=> i+1);
+      const emptySet = new Set();
 
-  runBtn.addEventListener('click', splitPDF);
+      for(const p of indices){
+        const page = await doc.getPage(p);
+        const vp = page.getViewport({ scale: 0.5 }); // 低清渲染加速
+        const w = Math.max(1, Math.floor(vp.width));
+        const h = Math.max(1, Math.floor(vp.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d', { alpha: false });
+        // 白底
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,w,h);
+        await page.render({ canvasContext: ctx, viewport: vp, background:'#ffffff' }).promise;
+
+        try{
+          const img = ctx.getImageData(0,0,w,h).data;
+          let nonWhite=0;
+          for(let i=0;i<img.length;i+=4){
+            const r=img[i], g=img[i+1], b=img[i+2];
+            if(!(r>250 && g>250 && b>250)) nonWhite++;
+          }
+          const ratio = nonWhite / (w*h);
+          if(ratio < 0.005) emptySet.add(p); // <0.5% 非白像素 → 视为空白
+        }catch(_e){
+          // 某些环境 getImageData 可能因跨域/安全策略失败；忽略判空
+        }
+      }
+      return emptySet;
+    }
+
+    async function splitPDF(){
+      const t = (k, fb)=> (window.__i18n__?.t(k) || fb);
+      if(!file){
+        alert(t('tool.split.errors.no_pdf', 'Please add a PDF to split.'));
+        return;
+      }
+      runMsg.classList.remove('hidden');
+      runBtn.disabled = true;
+
+      try{
+        const { PDFDocument } = PDFLib;
+        const srcBytes = await readAB(file);
+        const srcDoc = await PDFDocument.load(srcBytes, { ignoreEncryption: true });
+        const total = srcDoc.getPageCount();
+
+        let outputs = []; // {name, blob}
+        let targetPages = [];
+
+        if (mode.value === 'each') {
+          targetPages = Array.from({length: total}, (_,i)=> i+1);
+        } else {
+          const list = parseRanges(ranges.value, total);
+          if (!list.length) {
+            alert(t('tool.split.errors.bad_ranges', 'Invalid page ranges.'));
+            runMsg.classList.add('hidden'); runBtn.disabled = false;
+            return;
+          }
+          targetPages = list;
+        }
+
+        // 跳过空白页（如果勾选）
+        let toExport = targetPages.slice();
+        if (skipEmpty.checked) {
+          const empties = await detectEmptyPages(srcBytes, toExport);
+          toExport = toExport.filter(p => !empties.has(p));
+          if (!toExport.length) {
+            alert(t('tool.split.errors.all_empty', 'All selected pages seem empty.'));
+            runMsg.classList.add('hidden'); runBtn.disabled = false;
+            return;
+          }
+        }
+
+        if (mode.value === 'each') {
+          // 每页一个文件
+          for(const p of toExport){
+            const out = await PDFDocument.create();
+            const [page] = await out.copyPages(srcDoc, [p-1]);
+            out.addPage(page);
+            const outBytes = await out.save({ useObjectStreams: true });
+            outputs.push({ name: `page-${p}.pdf`, blob: new Blob([outBytes], {type:'application/pdf'}) });
+          }
+        } else {
+          // 将连续页段聚合
+          let segs = []; let start=null, prev=null;
+          for(const n of toExport){
+            if(start===null){ start=prev=n; }
+            else if(n===prev+1){ prev=n; }
+            else { segs.push([start,prev]); start=prev=n; }
+          }
+          if(start!==null) segs.push([start,prev]);
+
+          for(const [a,b] of segs){
+            const out = await PDFDocument.create();
+            const idx = Array.from({length:b-a+1}, (_,i)=> (a-1)+i);
+            const copied = await out.copyPages(srcDoc, idx);
+            copied.forEach(p=>out.addPage(p));
+            const outBytes = await out.save({ useObjectStreams: true });
+            outputs.push({ name: (a===b?`page-${a}.pdf`:`pages-${a}-${b}.pdf`), blob: new Blob([outBytes], {type:'application/pdf'}) });
+          }
+        }
+
+        // 下载：单文件直接下，多文件打包 zip
+        if(outputs.length===1){
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(outputs[0].blob);
+          a.download = outputs[0].name;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        } else {
+          const zip = new JSZip();
+          outputs.forEach(f=> zip.file(f.name, f.blob));
+          const zipBlob = await zip.generateAsync({type:'blob'});
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(zipBlob);
+          a.download = (file.name.replace(/\.pdf$/i,'') + '-split.zip');
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }
+
+        alert(t('tool.split.result.title', 'Split complete'));
+      }catch(err){
+        console.error(err);
+        alert((window.__i18n__?.t('tool.split.errors.fail') || 'Failed to split. Please try another file.'));
+      }finally{
+        runMsg.classList.add('hidden');
+        runBtn.disabled = false;
+      }
+    }
+
+    runBtn.addEventListener('click', splitPDF);
   </script>
 </body>
 </html>
