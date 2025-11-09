@@ -125,12 +125,46 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="py-8 border-t text-center text-sm text-gray-500">
+ <!-- Footer -->
+  <footer class="bg-white border-t">
     <div class="max-w-6xl mx-auto px-4">
-      <div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div>
+      <div class="w-full flex flex-col md:flex-row py-8 gap-8 text-sm">
+        <div class="flex-1">
+          <div class="text-pink-600 font-extrabold text-2xl">DocPDFHub</div>
+          <p class="text-gray-500 mt-2" data-i18n="footer.tagline">Free & private PDF tools in your browser.</p>
+          <p class="text-gray-400 mt-2" data-i18n="common.100_local">100% local in your browser • No upload</p>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.tools">Tools</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-merge.html" data-i18n="nav.merge">Merge PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-split.html" data-i18n="nav.split">Split PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.company">Company</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.about">About Us</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.blog">Official Blog</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.legal">Legal</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.terms">Terms</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/privacy.html">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="py-4 border-t text-xs text-gray-400">
+        © <span id="y"></span> DocPDFHub
+      </div>
     </div>
   </footer>
+
 
   <script>
   const $ = s => document.querySelector(s);
