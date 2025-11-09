@@ -32,6 +32,13 @@
   <link rel="alternate" href="https://yourdomain.com/zh/PAGE_PATH" hreflang="zh">
 
 </head>
+  <script src="/js/common.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  }
+  </script>
+
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
 
   <!-- Nav -->
@@ -316,4 +323,5 @@
   </script>
 </body>
 </html>
+
 
