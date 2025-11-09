@@ -1,264 +1,184 @@
 {
   "common": {
     "brand": "DocPDFHub",
-    "100_local": "100% 本地浏览器处理 • 无需上传",
-    "open_tool": "打开工具 →",
-    "choose_files": "选择文件",
-    "or_drop": "或将文件拖拽到此处",
-    "processing": "处理中…",
-    "privacy_note": "以隐私为核心设计，文件始终保存在你的设备上。",
-    "back_home": "返回首页",
-    "view_result": "查看结果",
-    "cancel": "取消",
-    "retry": "重试",
-    "download": "下载",
-    "downloads": "下载文件",
-    "select_language": "语言"
+    "100_local": "100% 本地浏览器处理 • 不上传文件",
+    "or_drop": "或拖拽到此处"
   },
   "nav": {
     "home": "首页",
-    "merge": "PDF 合并",
-    "split": "PDF 拆分",
-    "compress": "PDF 压缩",
+    "merge": "合并 PDF",
+    "split": "拆分 PDF",
+    "compress": "压缩 PDF",
     "tojpg": "PDF 转 JPG"
   },
   "home": {
-    "hero_kicker": "PDF 工具集",
-    "title": "免费、私密的浏览器端 PDF 工具",
-    "subtitle": "合并、拆分、压缩、格式转换——全部在你的浏览器本地完成，无需上传、无需注册。",
+    "hero_kicker": "PDF 工具",
+    "title": "免费的私密 PDF 工具（纯前端）",
+    "subtitle": "合并、拆分、压缩、转换全部在你的浏览器本地完成，文件不离开设备。",
     "cta_start": "立即开始",
     "view_all_tools": "查看全部工具"
-  },
+ ,
   "features": {
-    "title": "处理 PDF，你需要的一切这里都有"
+    "title": "处理 PDF，你只需要这些"
   },
   "cards": {
-    "merge_desc": "把多个 PDF 秒级合并为一个文件，零损失。",
-    "split_desc": "提取指定页面或按区间拆分成多个 PDF。",
-    "compress_desc": "显著减小体积，同时尽量保持清晰度。",
-    "tojpg_desc": "将每一页转换为高质量 JPEG 图片，清晰锐利。"
+    "merge_desc": "几秒内把多个 PDF 合并成一个。",
+    "split_desc": "按页码范围提取或逐页拆分为多个文件。",
+    "compress_desc": "在保证观感的前提下明显减小体积。",
+    "tojpg_desc": "把每一页转换为高质量的 JPEG 图片。"
   },
   "bullets": {
-    "local_title": "完全本地",
-    "local_desc": "所有处理都在浏览器中完成，从不上传到服务器。",
-    "fast_title": "快速 & 免费",
-    "fast_desc": "即时结果，无门槛、无账号。",
-    "safe_title": "私密 & 安全",
-    "safe_desc": "文件始终留在你的设备上，适合敏感文档。"
+    "local_title": "纯本地",
+    "local_desc": "所有处理都在你的浏览器中完成，不上传服务器。",
+    "fast_title": "快速且免费",
+    "fast_desc": "即时出结果，无需注册登录。",
+    "safe_title": "私密与安全",
+    "safe_desc": "文件始终保留在你的设备上。"
   },
   "cta": {
     "title": "更轻松地处理 PDF",
-    "subtitle": "任选一个工具开始——免费、私密、飞快。"
+    "subtitle": "任意工具随时可用——免费、私密、飞快。"
   },
   "footer": {
-    "tagline": "免费、私密的浏览器端 PDF 工具。",
+    "tagline": "免费、私密的 PDF 在线工具（100% 本地执行）。",
     "tools": "工具",
     "company": "公司",
-    "legal": "法律",
     "about": "关于我们",
     "blog": "博客",
     "contact": "联系",
+    "legal": "法律",
     "terms": "条款",
     "privacy": "隐私"
   },
-
-  "tool.merge": {
-    "ogTitle": "在线合并 PDF — 私密、免费、极速 | DocPDFHub",
-    "ogDesc": "在浏览器中即时合并 PDF，100% 本地处理，无需上传、无需注册。",
-    "hero": {
-      "title": "PDF 合并",
-      "subtitle": "把多个 PDF 合并为一个整洁文件——全程本地处理，确保隐私。",
-      "primary_cta": "添加文件开始合并"
-    },
-    "drop": {
-      "title": "把 PDF 文件拖到这里",
-      "hint": "可添加多个文件并拖拽排序，再进行合并。",
-      "button": "选择 PDF"
-    },
-    "options": {
-      "reorder_hint": "拖拽卡片以调整顺序",
-      "keep_outlines": "保留书签/目录",
-      "keep_metadata": "保留元数据",
-      "add_more": "继续添加",
-      "clear_all": "清空列表"
-    },
-    "running": {
-      "status": "正在合并…",
-      "tip": "大文件可能稍慢一些（仍为 100% 本地处理）。"
-    },
-    "result": {
-      "title": "合并完成",
-      "subtitle": "合并后的 PDF 已就绪。",
-      "actions": {
-        "download_all": "下载合并后的 PDF",
-        "open_folder": "打开文件",
-        "back": "继续合并"
+  "tool": {
+    "merge": {
+      "ogTitle": "合并 PDF — DocPDFHub",
+      "ogDesc": "把多个 PDF 合并为一个文档——全程在浏览器本地完成。",
+      "hero": {
+        "title": "合并 PDF",
+        "subtitle": "把多个 PDF 合并为一个文档，处理过程完全本地化。",
+        "primary_cta": "添加 PDF 进行合并"
+      },
+      "drop": {
+        "title": "把 PDF 文件拖到这里",
+        "hint": "可添加多个文件，并在合并前调整顺序。",
+        "button": "选择 PDF 文件"
+      },
+      "options": {
+        "reorder_hint": "拖动可调整顺序",
+        "add_more": "继续添加",
+        "clear_all": "清空列表",
+        "keep_outlines": "保留书签/目录（受限）",
+        "keep_metadata": "保留元数据"
+      },
+      "running": {
+        "status": "正在合并…",
+        "tip": "大文件可能略慢，但始终在本地完成。"
+      },
+      "result": {
+        "title": "合并完成"
+      },
+      "errors": {
+        "no_pdf": "请先添加至少一个 PDF 文件。"
       }
     },
-    "errors": {
-      "no_pdf": "请至少添加一个 PDF。",
-      "parse_fail": "有文件无法读取。",
-      "process_fail": "合并失败，请重试。",
-      "empty_result": "输出文件为空。",
-      "oversized": "文件过大，超出内存处理范围。",
-      "unknown": "发生意外错误，请重试。"
-    },
-    "toasts": {
-      "added_files": "已添加 {{n}} 个文件",
-      "removed_file": "已移除 {{name}}",
-      "done": "合并成功",
-      "saving": "正在保存文件…"
-    }
-  },
-
-  "tool.split": {
-    "ogTitle": "PDF 拆分/提取页面 — 私密 & 免费 | DocPDFHub",
-    "ogDesc": "在浏览器中按页或区间拆分 PDF，无需上传，即时输出。",
-    "hero": {
-      "title": "PDF 拆分",
-      "subtitle": "按页面区间拆分，或将每一页导出为独立 PDF——全部在本地完成。",
-      "primary_cta": "添加文件开始拆分"
-    },
-    "drop": {
-      "title": "拖入要拆分的 PDF",
-      "hint": "区间示例：1-3,5,8-10",
-      "button": "选择 PDF"
-    },
-    "options": {
-      "mode": "拆分模式",
-      "mode_ranges": "按区间",
-      "mode_each": "每页一个文件",
-      "ranges_placeholder": "如 1-3,5,8-10",
-      "include_empty": "跳过空白页",
-      "add_more": "替换文件"
-    },
-    "running": {
-      "status": "正在拆分…",
-      "tip": "处理全程本地且安全。"
-    },
-    "result": {
-      "title": "拆分完成",
-      "subtitle": "页面已导出为多个 PDF。",
-      "actions": {
-        "download_all": "全部下载",
-        "open_folder": "预览首个文件",
-        "back": "继续拆分"
+    "split": {
+      "ogTitle": "拆分 PDF — DocPDFHub",
+      "ogDesc": "按页码范围或逐页拆分 PDF——全部本地执行。",
+      "hero": {
+        "title": "拆分 PDF",
+        "subtitle": "按页码范围提取，或将每页导出为独立 PDF，完全本地化。",
+        "primary_cta": "添加 PDF 进行拆分"
+      },
+      "drop": {
+        "title": "拖入需要拆分的 PDF",
+        "hint": "范围示例：1-3,5,8-10",
+        "button": "选择 PDF 文件"
+      },
+      "options": {
+        "mode": "拆分方式",
+        "mode_ranges": "按页码范围",
+        "mode_each": "逐页导出为文件",
+        "ranges_placeholder": "例如：1-3,5,8-10",
+        "include_empty": "跳过空白页",
+        "add_more": "更换文件"
+      },
+      "running": {
+        "status": "正在拆分…",
+        "tip": "处理过程完全在本地完成，私密安全。"
+      },
+      "result": {
+        "title": "拆分完成"
+      },
+      "errors": {
+        "no_pdf": "请先添加一个需要拆分的 PDF。",
+        "bad_ranges": "页码范围无效。"
       }
     },
-    "errors": {
-      "no_pdf": "请添加要拆分的 PDF。",
-      "parse_fail": "PDF 读取失败。",
-      "process_fail": "拆分失败，请重试。",
-      "empty_result": "根据该区间没有生成任何页面。",
-      "oversized": "文件过大，超出内存处理范围。",
-      "unknown": "发生意外错误，请重试。"
-    },
-    "toasts": {
-      "added_files": "文件已载入",
-      "removed_file": "已移除文件",
-      "done": "拆分成功",
-      "saving": "准备下载包…"
-    }
-  },
-
-  "tool.compress": {
-    "ogTitle": "PDF 压缩 — 体积更小，清晰仍在 | DocPDFHub",
-    "ogDesc": "智能压缩 PDF，显著减小体积且保持清晰度。快速、私密、免费。",
-    "hero": {
-      "title": "PDF 压缩",
-      "subtitle": "用智能图片降采样等策略，让 PDF 更易分享和上传。",
-      "primary_cta": "添加文件开始压缩"
-    },
-    "drop": {
-      "title": "拖入要压缩的 PDF",
-      "hint": "提示：选择更强压缩级别可获得更小体积。",
-      "button": "选择 PDF"
-    },
-    "options": {
-      "level": "压缩级别",
-      "level_light": "轻度（画质最佳）",
-      "level_balanced": "均衡",
-      "level_strong": "强力（体积最小）",
-      "reduce_images": "降采样图片",
-      "remove_metadata": "移除元数据",
-      "add_more": "替换文件"
-    },
-    "running": {
-      "status": "正在压缩…",
-      "tip": "文件不会离开你的设备。"
-    },
-    "result": {
-      "title": "压缩完成",
-      "subtitle": "体积更小，随时分享。",
-      "actions": {
-        "download_all": "下载压缩后的 PDF",
-        "open_folder": "打开文件",
-        "back": "继续压缩"
+    "compress": {
+      "ogTitle": "压缩 PDF — DocPDFHub",
+      "ogDesc": "在浏览器内减小 PDF 体积，便于分享传输。",
+      "hero": {
+        "title": "压缩 PDF",
+        "subtitle": "减小体积，方便分享传输——全程本地执行。",
+        "primary_cta": "添加 PDF 进行压缩"
+      },
+      "drop": {
+        "title": "拖入需要压缩的 PDF",
+        "hint": "提示：需要更小体积时选择“强力”。",
+        "button": "选择 PDF 文件"
+      },
+      "options": {
+        "level": "压缩强度",
+        "level_light": "轻度（画质最佳）",
+        "level_balanced": "均衡",
+        "level_strong": "强力（体积最小）",
+        "reduce_images": "下采样图片",
+        "remove_metadata": "移除元数据",
+        "add_more": "更换文件"
+      },
+      "running": {
+        "status": "正在压缩…",
+        "tip": "文件不会被上传到服务器。"
+      },
+      "result": {
+        "title": "压缩完成"
+      },
+      "errors": {
+        "no_pdf": "请先添加一个需要压缩的 PDF。"
       }
     },
-    "errors": {
-      "no_pdf": "请添加要压缩的 PDF。",
-      "parse_fail": "PDF 读取失败。",
-      "process_fail": "压缩失败，请重试。",
-      "empty_result": "压缩后体积变化不明显。",
-      "oversized": "文件过大，超出内存处理范围。",
-      "unknown": "发生意外错误，请重试。"
-    },
-    "toasts": {
-      "added_files": "文件已载入",
-      "removed_file": "已移除文件",
-      "done": "压缩成功",
-      "saving": "正在保存文件…"
-    }
-  },
-
-  "tool.tojpg": {
-    "ogTitle": "PDF 转 JPG — 高质量页面图片 | DocPDFHub",
-    "ogDesc": "把 PDF 每一页转换为清晰的 JPEG 图片。全程本地，免费私密。",
-    "hero": {
-      "title": "PDF 转 JPG",
-      "subtitle": "将 PDF 的每一页导出为高质量 JPEG，适合预览、分享与演示。",
-      "primary_cta": "添加文件开始转换"
-    },
-    "drop": {
-      "title": "拖入要转换的 PDF",
-      "hint": "会为每一页生成一张 JPEG",
-      "button": "选择 PDF"
-    },
-    "options": {
-      "dpi": "输出清晰度（DPI）",
-      "quality": "JPEG 质量",
-      "range": "页面（可选）",
-      "range_placeholder": "如 1-3,5",
-      "bg": "（若支持）透明背景",
-      "add_more": "替换文件"
-    },
-    "running": {
-      "status": "正在转换为 JPG…",
-      "tip": "在本地渲染页面，兼顾隐私与质量。"
-    },
-    "result": {
-      "title": "转换完成",
-      "subtitle": "JPG 图片已就绪。",
-      "actions": {
-        "download_all": "打包下载（ZIP）",
-        "open_folder": "预览首张图片",
-        "back": "继续转换"
+    "tojpg": {
+      "ogTitle": "PDF 转 JPG — DocPDFHub",
+      "ogDesc": "把 PDF 的每一页转换为 JPEG 图片——纯前端本地完成。",
+      "hero": {
+        "title": "PDF 转 JPG",
+        "subtitle": "将每一页转换为高质量 JPEG，隐私安全。",
+        "primary_cta": "添加 PDF 进行转换"
+      },
+      "drop": {
+        "title": "拖入需要转换的 PDF",
+        "hint": "每一页都会生成一张 JPEG。",
+        "button": "选择 PDF 文件"
+      },
+      "options": {
+        "dpi": "输出清晰度（DPI）",
+        "quality": "JPEG 质量",
+        "range": "页码（可选）",
+        "range_placeholder": "例如：1-3,5",
+        "bg": "尽可能使用透明背景",
+        "add_more": "更换文件"
+      },
+      "running": {
+        "status": "正在转换为 JPG…",
+        "tip": "在本地渲染页面以获得最佳隐私。"
+      },
+      "result": {
+        "title": "转换完成"
+      },
+      "errors": {
+        "no_pdf": "请先添加一个需要转换的 PDF。"
       }
-    },
-    "errors": {
-      "no_pdf": "请添加要转换的 PDF。",
-      "parse_fail": "PDF 读取失败。",
-      "process_fail": "转换失败，请重试。",
-      "empty_result": "没有页面被成功转换。",
-      "oversized": "文件过大，超出内存处理范围。",
-      "unknown": "发生意外错误，请重试。"
-    },
-    "toasts": {
-      "added_files": "文件已载入",
-      "removed_file": "已移除文件",
-      "done": "转换成功",
-      "saving": "正在打包图片…"
     }
   }
 }
