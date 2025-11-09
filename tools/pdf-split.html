@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Split PDF – DocPDFHub</title>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <script defer src="/js/i18n.js"></script>
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="/js/i18n.js" defer></script>
@@ -22,11 +23,12 @@
         <a href="/tools/pdf-compress.html" class="hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
         <a href="/tools/pdf-to-jpg.html" class="hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
       </div>
-      <div class="flex items-center space-x-2 text-sm">
-        <button type="button" data-lang-btn="en" onclick="window.__i18n__?.setLang('en')">EN</button>
+      <div class="flex items-center gap-2">
+        <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <span class="text-gray-300">|</span>
-        <button type="button" data-lang-btn="zh" onclick="window.__i18n__?.setLang('zh')">中文</button>
+        <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
+
     </div>
   </nav>
 
