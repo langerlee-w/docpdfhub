@@ -1,81 +1,155 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Merge PDF — DocPDFHub</title>
-  <meta name="description" content="Merge multiple PDFs into one. All processing happens in your browser. Free and privacy-safe.">
-  <link rel="icon" href="/favicon.svg">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- pdf-lib (MIT) -->
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Merge PDF – DocPDFHub</title>
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="/js/i18n.js" defer></script>
+  <style>
+    .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
+    .handle{cursor:grab}
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100">
-  <main class="max-w-4xl mx-auto p-6">
-    <a href="/" class="text-sky-400 underline">← DocPDFHub</a>
-    <h1 class="text-3xl font-bold mt-4">Merge PDF</h1>
-    <p class="text-slate-400">All processing happens in your browser. No upload.</p>
-
-    <div class="mt-4 space-y-3">
-      <input id="files" type="file" accept="application/pdf" multiple class="block w-full rounded border border-slate-700 bg-slate-900 p-3">
-      <button id="mergeBtn" class="px-4 py-2 rounded bg-sky-400 text-slate-900 font-semibold">Merge</button>
-      <p id="status" class="text-slate-400"></p>
-      <div id="download" class="hidden mt-3">
-        <a id="dl" class="underline text-sky-400" download="merged.pdf">Download merged.pdf</a>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Nav -->
+  <nav class="w-full bg-white shadow">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="/" class="font-extrabold text-xl">
+        <span data-i18n="common.brand">DocPDFHub</span>
+      </a>
+      <div class="hidden md:flex space-x-5 text-sm">
+        <a href="/" class="hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/tools/pdf-merge.html" class="text-pink-600 font-semibold" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
       </div>
+      <!-- Language toggle -->
+      <div class="flex items-center space-x-2 text-sm">
+        <button type="button" data-lang-btn="en" onclick="window.__i18n__?.setLang('en')">EN</button>
+        <span class="text-gray-300">|</span>
+        <button type="button" data-lang-btn="zh" onclick="window.__i18n__?.setLang('zh')">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="gradient text-white">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <p class="uppercase tracking-widest opacity-90" data-i18n="home.hero_kicker"></p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="merge.title">Merge PDF</h1>
+      <p class="mt-3 text-white text-opacity-90" data-i18n="merge.subtitle"></p>
+      <p class="mt-2 text-sm text-white text-opacity-80" data-i18n="common.100_local"></p>
+    </div>
+  </header>
+
+  <!-- Tool -->
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section class="md:col-span-2 bg-white rounded-xl shadow p-6">
+        <label class="block font-semibold mb-2" data-i18n="common.choose_file"></label>
+        <input id="filePicker" type="file" accept="application/pdf" multiple class="w-full border rounded px-3 py-2"/>
+        <div class="mt-4">
+          <button id="addBtn" class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 border text-sm" data-i18n="merge.add_files"></button>
+          <input id="filePickerHidden" type="file" accept="application/pdf" multiple class="hidden"/>
+        </div>
+
+        <h3 class="mt-6 font-semibold">Queue</h3>
+        <ul id="list" class="mt-2 space-y-2 text-sm"></ul>
+
+        <div class="mt-6 flex items-center space-x-3">
+          <button id="mergeBtn" class="px-5 py-2 rounded bg-pink-600 text-white font-semibold hover:bg-pink-700" data-i18n="merge.merge_btn"></button>
+          <span id="status" class="text-gray-500 text-sm"></span>
+        </div>
+      </section>
+
+      <aside class="bg-white rounded-xl shadow p-6">
+        <h4 class="font-semibold mb-2">Tips</h4>
+        <ol class="list-decimal list-inside text-sm text-gray-600 space-y-1">
+          <li>Use ↑/↓ to reorder.</li>
+          <li>Remove unwanted files.</li>
+          <li>Click <span data-i18n="merge.merge_btn">Merge</span> to generate PDF.</li>
+        </ol>
+      </aside>
     </div>
   </main>
 
-  <script>
-    const $ = s => document.querySelector(s);
-    const filesInput = $('#files');
-    const statusEl = $('#status');
-    const dlWrap = $('#download');
-    const dlLink = $('#dl');
+  <footer class="py-10 text-center text-xs text-gray-500">
+    <p data-i18n="common.100_local"></p>
+  </footer>
 
-    async function readAsArrayBuffer(file){
-      return new Promise((res, rej)=>{
-        const r = new FileReader();
-        r.onload = () => res(r.result);
-        r.onerror = rej;
-        r.readAsArrayBuffer(file);
+  <script>
+    const { PDFDocument } = PDFLib;
+    const listEl = document.getElementById('list');
+    const filePicker = document.getElementById('filePicker');
+    const filePickerHidden = document.getElementById('filePickerHidden');
+    const addBtn = document.getElementById('addBtn');
+    const statusEl = document.getElementById('status');
+    const queue = [];
+
+    function renderList(){
+      listEl.innerHTML = '';
+      queue.forEach((item, idx)=>{
+        const li = document.createElement('li');
+        li.className = "border rounded px-3 py-2 flex items-center justify-between";
+        li.innerHTML = `
+          <div class="flex-1 mr-2 truncate">
+            <span class="text-gray-700">${idx+1}.</span>
+            <span title="${item.file.name}" class="ml-2">${item.file.name}</span>
+            <span class="ml-2 text-gray-400">(${(item.file.size/1024/1024).toFixed(2)} MB)</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button class="handle px-2 py-1 border rounded hover:bg-gray-50" title="Up">↑</button>
+            <button class="handle px-2 py-1 border rounded hover:bg-gray-50" title="Down">↓</button>
+            <button class="px-2 py-1 border rounded text-red-600 hover:bg-red-50" title="Remove">✕</button>
+          </div>
+        `;
+        const [upBtn, downBtn, delBtn] = li.querySelectorAll('button');
+        upBtn.onclick = ()=> { if(idx>0){ [queue[idx-1],queue[idx]] = [queue[idx],queue[idx-1]]; renderList(); } };
+        downBtn.onclick = ()=> { if(idx<queue.length-1){ [queue[idx+1],queue[idx]] = [queue[idx],queue[idx+1]]; renderList(); } };
+        delBtn.onclick = ()=> { queue.splice(idx,1); renderList(); };
+        listEl.appendChild(li);
       });
     }
 
-    async function mergePDFs(files){
-      const { PDFDocument } = PDFLib;
-      const outPdf = await PDFDocument.create();
-
-      // 逐个文件复制页面
-      for (let i=0; i<files.length; i++){
-        statusEl.textContent = `Processing: ${files[i].name} (${i+1}/${files.length})…`;
-        const ab = await readAsArrayBuffer(files[i]);
-        const src = await PDFDocument.load(ab);
-        const pages = await outPdf.copyPages(src, src.getPageIndices());
-        pages.forEach(p => outPdf.addPage(p));
+    filePicker.onchange = async (e)=>{
+      for(const file of e.target.files){
+        queue.push({file, bytes: await file.arrayBuffer()});
       }
+      filePicker.value = '';
+      renderList();
+    };
+    addBtn.onclick = ()=> filePickerHidden.click();
+    filePickerHidden.onchange = filePicker.onchange;
 
-      const outBytes = await outPdf.save({ updateFieldAppearances: false });
-      return new Blob([outBytes], { type: 'application/pdf' });
+    async function merge(){
+      if(queue.length === 0){
+        alert(document.querySelector('[data-i18n="common.choose_file"]')?.textContent || 'Choose PDF file');
+        return;
+      }
+      statusEl.textContent = (document.querySelector('[data-i18n="common.processing"]')?.textContent) || 'Processing...';
+      try{
+        const outPdf = await PDFDocument.create();
+        for(const item of queue){
+          const srcPdf = await PDFDocument.load(item.bytes);
+          const pages = await outPdf.copyPages(srcPdf, srcPdf.getPageIndices());
+          pages.forEach(p => outPdf.addPage(p));
+        }
+        const pdfBytes = await outPdf.save({ updateFieldAppearances: true, useObjectStreams: true });
+        const blob = new Blob([pdfBytes], {type:'application/pdf'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = (document.querySelector('[data-i18n="merge.result_name"]')?.textContent) || 'merged.pdf';
+        a.click();
+        statusEl.textContent = (document.querySelector('[data-i18n="common.done"]')?.textContent) || 'Done.';
+      }catch(err){
+        console.error(err);
+        statusEl.textContent = (document.querySelector('[data-i18n="common.error"]')?.textContent || 'Something went wrong: ') + err.message;
+      }
     }
-
-    $('#mergeBtn').addEventListener('click', async ()=>{
-      const files = Array.from(filesInput.files || []);
-      if (!files.length) { alert('Select at least two PDF files'); return; }
-      statusEl.textContent = 'Merging… this may take a moment.';
-      dlWrap.classList.add('hidden');
-
-      try {
-        const blob = await mergePDFs(files);
-        const url = URL.createObjectURL(blob);
-        dlLink.href = url;
-        dlWrap.classList.remove('hidden');
-        statusEl.textContent = 'Done.';
-      } catch (e) {
-        console.error(e);
-        statusEl.textContent = 'Failed to merge. Please try smaller files or fewer PDFs.';
-      }
-    });
+    document.getElementById('mergeBtn').onclick = merge;
   </script>
 </body>
 </html>
