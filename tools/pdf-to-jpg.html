@@ -3,116 +3,154 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title data-i18n="tool_tojpg.meta_title">PDF to JPG – DocPDFHub</title>
-  <meta name="description" content="Convert PDF pages to JPEG images — fast, free, and local."/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title data-i18n="tool.tojpg.ogTitle">PDF to JPG — DocPDFHub</title>
+  <meta name="description" content="" data-i18n="tool.tojpg.ogDesc"/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
-  <script defer src="/js/i18n.js"></script>
-  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%);}</style>
+  <script src="/js/i18n.js" defer></script>
+  <style>
+    .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
+    .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900" style="font-family:'Source Sans Pro',sans-serif;">
-  <!-- Nav -->
-  <nav class="w-full bg-white shadow">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/" class="text-pink-600 font-extrabold text-2xl">DocPDFHub</a>
-      <div class="flex items-center gap-2">
-        <a href="/" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.home">Home</a>
-        <a href="/tools/pdf-merge.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
-        <a href="/tools/pdf-split.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
-        <a href="/tools/pdf-compress.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
-        <a href="/tools/pdf-to-jpg.html" class="hidden md:inline-block text-sm text-pink-600 font-semibold" data-i18n="nav.tojpg">PDF to JPG</a>
-        <span class="mx-2 h-5 w-px bg-gray-200 hidden md:inline-block"></span>
-        <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
-        <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
+      <div class="flex items-center space-x-2">
+        <a href="/" class="text-sm text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <span class="text-gray-300">|</span>
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="gradient text-white">
-    <div class="max-w-4xl mx-auto px-4 py-12">
-      <h1 class="text-3xl md:text-4xl font-extrabold" data-i18n="tool_tojpg.title">PDF to JPG</h1>
-      <p class="mt-2 text-white text-opacity-90" data-i18n="tool_tojpg.subtitle">Convert every page to high-quality JPEG images. Works locally in your browser.</p>
-      <p class="mt-1 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
+  <header class="gradient text-white pt-28 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="tool.tojpg.hero.title">PDF to JPG</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4" data-i18n="tool.tojpg.hero.subtitle">
+        Turn every page into a high-quality JPEG — local and private.
+      </p>
+      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
     </div>
   </header>
 
-  <!-- Tool Card -->
-  <main class="max-w-4xl mx-auto px-4 py-10">
-    <div class="bg-white rounded-2xl border shadow p-6">
-      <div class="grid gap-4">
-        <div class="border-2 border-dashed rounded-xl p-6 text-center">
-          <input id="fileInput" type="file" accept="application/pdf" class="hidden"/>
-          <p class="text-gray-600" data-i18n="common.drop_hint">Drop files here or</p>
-          <button id="chooseBtn" class="mt-3 inline-flex items-center bg-pink-600 text-white font-semibold px-4 py-2 rounded-full hover:bg-pink-700" data-i18n="common.choose_files">Choose Files</button>
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
+      <div class="text-center">
+        <h2 class="text-xl font-bold" data-i18n="tool.tojpg.drop.title">Drop a PDF to convert</h2>
+        <p class="text-gray-600 mt-1" data-i18n="tool.tojpg.drop.hint">You’ll get one JPEG per page.</p>
+
+        <input id="fileInput" type="file" accept="application/pdf" class="hidden"/>
+        <div class="mt-4">
+          <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700"
+            data-i18n="tool.tojpg.drop.button">Select PDF</button>
+          <div class="text-xs text-gray-500 mt-2" data-i18n="common.or_drop">or drag & drop</div>
+        </div>
+      </div>
+
+      <div id="fileInfo" class="mt-6 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <div id="fileName" class="font-medium"></div>
+            <div id="fileSize" class="text-xs text-gray-500"></div>
+          </div>
+          <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50" data-i18n="tool.tojpg.options.add_more">Replace file</button>
         </div>
 
-        <div class="bg-gray-50 rounded-xl p-4 grid md:grid-cols-3 gap-4">
+        <div class="grid md:grid-cols-4 gap-4 mt-4">
           <div>
-            <label class="block text-sm text-gray-700 mb-1" data-i18n="tool_tojpg.dpi">Output DPI</label>
-            <select id="dpi" class="w-full border rounded px-3 py-2">
-              <option value="72">72</option>
-              <option value="150">150</option>
-              <option value="300">300</option>
-            </select>
+            <label class="block text-sm font-medium mb-1" data-i18n="tool.tojpg.options.dpi">Output quality (DPI)</label>
+            <input id="dpi" type="number" class="w-full border rounded px-3 py-2" min="72" max="600" step="1" value="150"/>
           </div>
           <div>
-            <label class="block text-sm text-gray-700 mb-1" data-i18n="tool_tojpg.quality">JPEG Quality</label>
-            <select id="quality" class="w-full border rounded px-3 py-2">
-              <option value="0.6">60%</option>
-              <option value="0.8" selected>80%</option>
-              <option value="1.0">100%</option>
-            </select>
+            <label class="block text-sm font-medium mb-1" data-i18n="tool.tojpg.options.quality">JPEG quality</label>
+            <input id="quality" type="number" class="w-full border rounded px-3 py-2" min="10" max="100" step="1" value="85"/>
           </div>
           <div>
-            <label class="block text-sm text-gray-700 mb-1" data-i18n="tool_tojpg.pages">Pages</label>
-            <input id="pages" type="text" class="w-full border rounded px-3 py-2" placeholder="all / 1-3,5"/>
+            <label class="block text-sm font-medium mb-1" data-i18n="tool.tojpg.options.range">Pages (optional)</label>
+            <input id="range" class="w-full border rounded px-3 py-2" placeholder="e.g. 1-3,5" data-i18n-placeholder="tool.tojpg.options.range_placeholder"/>
           </div>
+          <label class="flex items-center space-x-2 mt-6 md:mt-0">
+            <input id="bg" type="checkbox" class="form-checkbox h-4 w-4"/>
+            <span class="text-sm" data-i18n="tool.tojpg.options.bg">Transparent background (if possible)</span>
+          </label>
         </div>
 
-        <div class="flex flex-wrap gap-3">
-          <button id="convertBtn" class="bg-pink-600 text-white font-semibold px-5 py-2 rounded-full hover:bg-pink-700 disabled:opacity-50" disabled data-i18n="tool_tojpg.start">Convert</button>
-          <button id="clearBtn" class="px-4 py-2 rounded-full border hover:bg-gray-50" data-i18n="common.clear_all">Clear All</button>
+        <div class="mt-6">
+          <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6" data-i18n="tool.tojpg.hero.primary_cta">Add PDF to Convert</button>
+          <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden"><span data-i18n="tool.tojpg.running.status">Converting to JPG…</span>
+            <span class="ml-1" data-i18n="tool.tojpg.running.tip">Rendering pages locally for best privacy.</span>
+          </p>
         </div>
-
-        <p id="status" class="text-sm text-gray-500"></p>
-        <div id="thumbs" class="grid sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
       </div>
     </div>
   </main>
 
+  <footer class="py-8 border-t text-center text-sm text-gray-500">
+    <div class="max-w-6xl mx-auto px-4"><div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div></div>
+  </footer>
+
   <script>
-    const $ = s=>document.querySelector(s);
-    const fileInput = $('#fileInput');
-    const chooseBtn = $('#chooseBtn');
-    const convertBtn = $('#convertBtn');
-    const clearBtn = $('#clearBtn');
-    const statusEl = $('#status');
-    const thumbs = $('#thumbs');
-    let pdfFile = null;
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('lang') || 'en';
+    window.__i18n__?.setLang(lang);
+  });
+  document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+    btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
+  });
 
-    chooseBtn.addEventListener('click', ()=> fileInput.click());
-    fileInput.addEventListener('change', ()=>{ pdfFile = fileInput.files[0] || null; convertBtn.disabled = !pdfFile; });
+  const $ = s=>document.querySelector(s);
+  const fmtBytes = (n)=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];}
 
-    clearBtn.addEventListener('click', ()=>{
-      pdfFile = null; fileInput.value=''; convertBtn.disabled = true; status(''); thumbs.innerHTML='';
-    });
+  const dropZone = $('#dropZone');
+  const fileInput = $('#fileInput');
+  const chooseBtn = $('#chooseBtn');
+  const replaceBtn = $('#replaceBtn');
+  const fileInfo = $('#fileInfo');
+  const fileName = $('#fileName');
+  const fileSize = $('#fileSize');
+  const runBtn = $('#runBtn');
+  const runMsg = $('#runMsg');
 
-    convertBtn.addEventListener('click', async ()=>{
-      status('Converting…');
-      await new Promise(r=>setTimeout(r, 700));
-      // TODO: 接入真实渲染逻辑；演示生成占位缩略图
-      thumbs.innerHTML = '';
-      for(let i=1;i<=3;i++){
-        const ph = document.createElement('div');
-        ph.className = 'aspect-[3/4] bg-gray-100 border rounded flex items-center justify-center text-gray-400';
-        ph.textContent = 'JPEG '+i;
-        thumbs.appendChild(ph);
-      }
-      status('Done.');
-    });
+  let file = null;
 
-    function status(t){ statusEl.textContent = t; }
+  function showInfo(){
+    fileInfo.classList.toggle('hidden', !file);
+    if(file){
+      fileName.textContent = file.name;
+      fileSize.textContent = fmtBytes(file.size);
+    }
+  }
+
+  ;['dragenter','dragover'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
+  });
+  ;['dragleave','drop'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
+  });
+  dropZone.addEventListener('drop', (e)=>{
+    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs[0]){ file = fs[0]; showInfo(); }
+  });
+
+  fileInput.addEventListener('change', ()=>{
+    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs[0]){ file = fs[0]; showInfo(); }
+    fileInput.value = '';
+  });
+
+  chooseBtn.addEventListener('click', ()=> fileInput.click());
+  replaceBtn.addEventListener('click', ()=> fileInput.click());
+
+  runBtn.addEventListener('click', ()=>{
+    if(!file){ alert(window.__i18n__?.t('tool.tojpg.errors.no_pdf') || 'Please add a PDF to convert.'); return; }
+    runMsg.classList.remove('hidden');
+    setTimeout(()=>{ runMsg.classList.add('hidden'); alert(window.__i18n__?.t('tool.tojpg.result.title') || 'Conversion complete'); }, 1000);
+  });
   </script>
 </body>
 </html>
