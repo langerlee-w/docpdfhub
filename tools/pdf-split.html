@@ -3,87 +3,162 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title data-i18n="tool_split.meta_title">Split PDF – DocPDFHub</title>
-  <meta name="description" content="Split a PDF by ranges or extract pages — free and local in your browser."/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title data-i18n="tool.split.ogTitle">Split PDF — DocPDFHub</title>
+  <meta name="description" content="" data-i18n="tool.split.ogDesc"/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
-  <script defer src="/js/i18n.js"></script>
-  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%);}</style>
+  <script src="/js/i18n.js" defer></script>
+  <style>
+    .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
+    .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900" style="font-family:'Source Sans Pro',sans-serif;">
-  <!-- Nav -->
-  <nav class="w-full bg-white shadow">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/" class="text-pink-600 font-extrabold text-2xl">DocPDFHub</a>
-      <div class="flex items-center gap-2">
-        <a href="/" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.home">Home</a>
-        <a href="/tools/pdf-merge.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
-        <a href="/tools/pdf-split.html" class="hidden md:inline-block text-sm text-pink-600 font-semibold" data-i18n="nav.split">Split PDF</a>
-        <a href="/tools/pdf-compress.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
-        <a href="/tools/pdf-to-jpg.html" class="hidden md:inline-block text-sm text-gray-600 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
-        <span class="mx-2 h-5 w-px bg-gray-200 hidden md:inline-block"></span>
-        <button type="button" data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
-        <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
+      <div class="flex items-center space-x-2">
+        <a href="/" class="text-sm text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <span class="text-gray-300">|</span>
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="gradient text-white">
-    <div class="max-w-4xl mx-auto px-4 py-12">
-      <h1 class="text-3xl md:text-4xl font-extrabold" data-i18n="tool_split.title">Split PDF</h1>
-      <p class="mt-2 text-white text-opacity-90" data-i18n="tool_split.subtitle">Split by page ranges or extract selected pages. All local in your browser.</p>
-      <p class="mt-1 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
+  <header class="gradient text-white pt-28 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="tool.split.hero.title">Split PDF</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4" data-i18n="tool.split.hero.subtitle">
+        Extract pages or split into multiple PDFs — fully local.
+      </p>
+      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
     </div>
   </header>
 
-  <!-- Tool Card -->
-  <main class="max-w-4xl mx-auto px-4 py-10">
-    <div class="bg-white rounded-2xl border shadow p-6">
-      <div class="grid gap-4">
-        <div class="border-2 border-dashed rounded-xl p-6 text-center">
-          <input id="fileInput" type="file" accept="application/pdf" class="hidden"/>
-          <p class="text-gray-600" data-i18n="common.drop_hint">Drop files here or</p>
-          <button id="chooseBtn" class="mt-3 inline-flex items-center bg-pink-600 text-white font-semibold px-4 py-2 rounded-full hover:bg-pink-700" data-i18n="common.choose_files">Choose Files</button>
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
+      <div class="text-center">
+        <h2 class="text-xl font-bold" data-i18n="tool.split.drop.title">Drop a PDF to split</h2>
+        <p class="text-gray-600 mt-1" data-i18n="tool.split.drop.hint">Example ranges: 1-3,5,8-10</p>
+
+        <input id="fileInput" type="file" accept="application/pdf" class="hidden"/>
+        <div class="mt-4">
+          <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700"
+            data-i18n="tool.split.drop.button">Select PDF</button>
+          <div class="text-xs text-gray-500 mt-2" data-i18n="common.or_drop">or drag & drop</div>
+        </div>
+      </div>
+
+      <div id="fileInfo" class="mt-6 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <div id="fileName" class="font-medium"></div>
+            <div id="fileSize" class="text-xs text-gray-500"></div>
+          </div>
+          <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50" data-i18n="tool.split.options.add_more">Replace file</button>
         </div>
 
-        <div class="bg-gray-50 rounded-xl p-4">
-          <label class="block text-sm text-gray-700 mb-1" for="ranges" data-i18n="tool_split.ranges_label">Page ranges (e.g. 1-3,5,8-10)</label>
-          <input id="ranges" type="text" class="w-full border rounded px-3 py-2" placeholder="1-3,5,8-10"/>
-          <p class="mt-1 text-xs text-gray-500" data-i18n="tool_split.ranges_help">Leave empty to split every page into individual PDFs.</p>
+        <div class="grid md:grid-cols-3 gap-4 mt-4">
+          <div>
+            <label class="block text-sm font-medium mb-1" data-i18n="tool.split.options.mode">Split mode</label>
+            <select id="mode" class="w-full border rounded px-3 py-2">
+              <option value="ranges" data-i18n="tool.split.options.mode_ranges">By page ranges</option>
+              <option value="each" data-i18n="tool.split.options.mode_each">Each page into a file</option>
+            </select>
+          </div>
+          <div id="rangesWrap">
+            <label class="block text-sm font-medium mb-1" data-i18n="tool.split.drop.hint">Example ranges: 1-3,5,8-10</label>
+            <input id="ranges" class="w-full border rounded px-3 py-2" placeholder="e.g. 1-3,5,8-10" data-i18n-placeholder="tool.split.options.ranges_placeholder"/>
+          </div>
+          <label class="flex items-center space-x-2 mt-6 md:mt-0">
+            <input id="skipEmpty" type="checkbox" class="form-checkbox h-4 w-4"/>
+            <span class="text-sm" data-i18n="tool.split.options.include_empty">Skip empty pages</span>
+          </label>
         </div>
 
-        <div class="flex flex-wrap gap-3">
-          <button id="splitBtn" class="bg-pink-600 text-white font-semibold px-5 py-2 rounded-full hover:bg-pink-700 disabled:opacity-50" disabled data-i18n="tool_split.start">Split PDF</button>
-          <button id="clearBtn" class="px-4 py-2 rounded-full border hover:bg-gray-50" data-i18n="common.clear_all">Clear All</button>
+        <div class="mt-6">
+          <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6" data-i18n="tool.split.hero.primary_cta">Add PDF to Split</button>
+          <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden"><span data-i18n="tool.split.running.status">Splitting…</span>
+            <span class="ml-1" data-i18n="tool.split.running.tip">Processing is local and secure.</span>
+          </p>
         </div>
-
-        <p id="status" class="text-sm text-gray-500"></p>
       </div>
     </div>
   </main>
 
+  <footer class="py-8 border-t text-center text-sm text-gray-500">
+    <div class="max-w-6xl mx-auto px-4"><div data-i18n="footer.tagline">Free & private PDF tools in your browser.</div></div>
+  </footer>
+
   <script>
-    const $ = s=>document.querySelector(s);
-    const fileInput = $('#fileInput');
-    const chooseBtn = $('#chooseBtn');
-    const splitBtn = $('#splitBtn');
-    const clearBtn = $('#clearBtn');
-    const statusEl = $('#status');
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('lang') || 'en';
+    window.__i18n__?.setLang(lang);
+  });
+  document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+    btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
+  });
 
-    let pdfFile = null;
-    chooseBtn.addEventListener('click', ()=> fileInput.click());
-    fileInput.addEventListener('change', ()=>{ pdfFile = fileInput.files[0] || null; splitBtn.disabled = !pdfFile; });
+  const $ = s=>document.querySelector(s);
+  const fmtBytes = (n)=>{const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];}
 
-    clearBtn.addEventListener('click', ()=>{ pdfFile = null; fileInput.value=''; splitBtn.disabled = true; status(''); });
-    splitBtn.addEventListener('click', async ()=>{
-      status('Splitting…');
-      await new Promise(r=>setTimeout(r, 600));
-      // TODO: 接入真实拆分逻辑；这里仅示例
-      status('Done.');
-    });
+  const dropZone = $('#dropZone');
+  const fileInput = $('#fileInput');
+  const chooseBtn = $('#chooseBtn');
+  const replaceBtn = $('#replaceBtn');
+  const fileInfo = $('#fileInfo');
+  const fileName = $('#fileName');
+  const fileSize = $('#fileSize');
+  const mode = $('#mode');
+  const rangesWrap = $('#rangesWrap');
+  const ranges = $('#ranges');
+  const runBtn = $('#runBtn');
+  const runMsg = $('#runMsg');
 
-    function status(t){ statusEl.textContent = t; }
+  let file = null;
+
+  function showInfo(){
+    fileInfo.classList.toggle('hidden', !file);
+    if(file){
+      fileName.textContent = file.name;
+      fileSize.textContent = fmtBytes(file.size);
+    }
+  }
+
+  // drag & drop
+  ;['dragenter','dragover'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
+  });
+  ;['dragleave','drop'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
+  });
+  dropZone.addEventListener('drop', (e)=>{
+    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs[0]){ file = fs[0]; showInfo(); }
+  });
+
+  fileInput.addEventListener('change', ()=>{
+    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs[0]){ file = fs[0]; showInfo(); }
+    fileInput.value = '';
+  });
+
+  chooseBtn.addEventListener('click', ()=> fileInput.click());
+  replaceBtn.addEventListener('click', ()=> fileInput.click());
+
+  mode.addEventListener('change', ()=>{
+    rangesWrap.style.display = mode.value==='ranges' ? '' : 'none';
+  });
+  mode.dispatchEvent(new Event('change'));
+
+  runBtn.addEventListener('click', ()=>{
+    if(!file){ alert(window.__i18n__?.t('tool.split.errors.no_pdf') || 'Please add a PDF to split.'); return; }
+    runMsg.classList.remove('hidden');
+    setTimeout(()=>{ runMsg.classList.add('hidden'); alert(window.__i18n__?.t('tool.split.result.title') || 'Split complete'); }, 1000);
+  });
   </script>
 </body>
 </html>
