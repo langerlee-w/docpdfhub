@@ -133,181 +133,150 @@
   </footer>
 
   <script>
-    // ---- i18n 初始化（默认英文） ----
-    document.addEventListener('DOMContentLoaded', () => {
-      const lang = localStorage.getItem('lang') || 'en';
-      window.__i18n__?.setLang(lang);
+  const $ = s => document.querySelector(s);
+  const dropZone = $('#dropZone');
+  const fileInput = $('#fileInput');
+  const chooseBtn = $('#chooseBtn');
+  const addMoreBtn = $('#addMoreBtn');
+  const clearBtn = $('#clearBtn');
+  const fileListWrap = $('#fileListWrap');
+  const fileList = $('#fileList');
+  const mergeBtn = $('#mergeBtn');
+  const runMsg = $('#runMsg');
+  const optKeepMeta = $('#optKeepMeta');
+  const optKeepOutlines = $('#optKeepOutlines'); // 预留
+
+  let files = [];
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const last = DocPDFHub.Store.get('merge_opts', { keepMeta:true, keepOutlines:false });
+    optKeepMeta.checked = !!last.keepMeta;
+    optKeepOutlines.checked = !!last.keepOutlines;
+  });
+
+  function persistOptions(){
+    DocPDFHub.Store.set('merge_opts', {
+      keepMeta: !!optKeepMeta.checked,
+      keepOutlines: !!optKeepOutlines.checked
     });
-    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
-      btn.addEventListener('click', ()=> window.__i18n__?.setLang(btn.getAttribute('data-lang-btn')));
-    });
+  }
 
-    // ---- 工具函数 ----
-    const $ = s => document.querySelector(s);
-    const fmtBytes = (n)=>{
-      const u=['B','KB','MB','GB']; let i=0;
-      while(n>=1024 && i<u.length-1){ n/=1024; i++; }
-      return (n<10 && i ? n.toFixed(1):Math.round(n)) + ' ' + u[i];
-    };
-    const readAsArrayBuffer = (file)=> new Promise((res,rej)=>{
-      const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsArrayBuffer(file);
-    });
+  chooseBtn.addEventListener('click', ()=> fileInput.click());
+  addMoreBtn?.addEventListener('click', ()=> fileInput.click());
+  clearBtn?.addEventListener('click', ()=> { files=[]; renderList(); mergeBtn.disabled=true; });
 
-    // ---- DOM ----
-    const dropZone = $('#dropZone');
-    const dropLabel = document.querySelector('label[for="fileInput"]');
-    const fileInput = $('#fileInput');
-    const chooseBtn = $('#chooseBtn');
-    const addMoreBtn = $('#addMoreBtn');
-    const clearBtn = $('#clearBtn');
-    const fileListWrap = $('#fileListWrap');
-    const fileList = $('#fileList');
-    const mergeBtn = $('#mergeBtn');
-    const runMsg = $('#runMsg');
-    const optKeepMeta = $('#optKeepMeta');
-    const optKeepOutlines = $('#optKeepOutlines'); // pdf-lib 暂不能直接复制 outlines，留作未来扩展
+  ;['dragenter','dragover'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{e.preventDefault();e.stopPropagation();dropZone.classList.add('drop-active');});
+  });
+  ;['dragleave','drop'].forEach(evt=>{
+    dropZone.addEventListener(evt, e=>{e.preventDefault();e.stopPropagation();dropZone.classList.remove('drop-active');});
+  });
+  dropZone.addEventListener('drop', (e)=>{
+    const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs.length){ files = files.concat(fs); renderList(); }
+  });
 
-    let files = [];
+  fileInput.addEventListener('change', ()=>{
+    const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
+    if (fs.length){ files = files.concat(fs); renderList(); }
+    fileInput.value='';
+  });
 
-    // ---- 拖拽高亮 ----
-    ['dragenter','dragover'].forEach(evt=>{
-      (dropZone || document).addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone?.classList.add('drop-active');
-        dropLabel?.classList.add('drop-active');
+  function renderList(){
+    fileListWrap.classList.toggle('hidden', files.length===0);
+    fileList.innerHTML='';
+    files.forEach((f,idx)=>{
+      const li = document.createElement('li');
+      li.className='bg-white px-4 py-3 flex items-center justify-between';
+      li.draggable = true;
+      li.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <span class="cursor-move">☰</span>
+          <div><div class="font-medium">${f.name}</div><div class="text-xs text-gray-500">${DocPDFHub.fmtBytes(f.size)}</div></div>
+        </div>
+        <button data-remove="${idx}" class="text-sm px-2 py-1 rounded border hover:bg-gray-50">×</button>
+      `;
+      li.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', idx); e.dataTransfer.effectAllowed='move'; });
+      li.addEventListener('dragover', e=> e.preventDefault());
+      li.addEventListener('drop', e=>{
+        e.preventDefault();
+        const from = +e.dataTransfer.getData('text/plain'); const to = idx;
+        if(from===to)return;
+        const arr = files.slice(); const [m]=arr.splice(from,1); arr.splice(to,0,m); files=arr; renderList();
       });
+      fileList.appendChild(li);
     });
-    ['dragleave','drop'].forEach(evt=>{
-      (dropZone || document).addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone?.classList.remove('drop-active');
-        dropLabel?.classList.remove('drop-active');
-      });
-    });
+    fileList.addEventListener('click', e=>{
+      const btn = e.target.closest('button[data-remove]'); if(!btn) return;
+      const i = +btn.getAttribute('data-remove'); files.splice(i,1); renderList();
+    }, {once:true});
+    mergeBtn.disabled = files.length===0;
+  }
 
-    // ---- 接收文件 ----
-    dropZone.addEventListener('drop', (e)=>{
-      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/\.pdf$/i.test(f.name));
-      if (fs.length){ files = files.concat(fs); renderList(); }
-    });
-    fileInput.addEventListener('change', ()=>{
-      const fs = Array.from(fileInput.files||[]).filter(f=>/\.pdf$/i.test(f.name));
-      if (fs.length){ files = files.concat(fs); renderList(); }
-      fileInput.value='';
-    });
+  const readAsArrayBuffer = (file)=> new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsArrayBuffer(file);});
 
-    chooseBtn.addEventListener('click', ()=> fileInput.click());
-    addMoreBtn?.addEventListener('click', ()=> fileInput.click());
-    clearBtn?.addEventListener('click', ()=> { files=[]; renderList(); });
+  async function mergePDFs(){
+    if(!files.length) return;
+    runMsg.classList.remove('hidden');
+    mergeBtn.disabled = true;
+    DocPDFHub.Progress.show(); DocPDFHub.Progress.set(5);
 
-    function renderList(){
-      fileListWrap.classList.toggle('hidden', files.length===0);
-      fileList.innerHTML='';
-      files.forEach((f,idx)=>{
-        const li = document.createElement('li');
-        li.className='bg-white px-4 py-3 flex items-center justify-between';
-        li.draggable = true;
-        li.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <span class="cursor-move" title="Drag">☰</span>
-            <div>
-              <div class="font-medium">${f.name}</div>
-              <div class="text-xs text-gray-500">${fmtBytes(f.size)}</div>
-            </div>
-          </div>
-          <button data-remove="${idx}" class="text-sm px-2 py-1 rounded border hover:bg-gray-50" aria-label="Remove">×</button>
-        `;
-        // 拖拽排序
-        li.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', idx); e.dataTransfer.effectAllowed='move'; });
-        li.addEventListener('dragover', e=> e.preventDefault());
-        li.addEventListener('drop', e=>{
-          e.preventDefault();
-          const from = +e.dataTransfer.getData('text/plain'); const to = idx;
-          if(from===to)return;
-          const arr = files.slice(); const [m]=arr.splice(from,1); arr.splice(to,0,m); files=arr; renderList();
-        });
-        fileList.appendChild(li);
-      });
+    try{
+      persistOptions();
 
-      // 单个删除（事件委托，避免重复绑定）
-      fileList.onclick = (e)=>{
-        const btn = e.target.closest('button[data-remove]');
-        if(!btn) return;
-        const i = +btn.getAttribute('data-remove');
-        files.splice(i,1); renderList();
-      };
+      const { PDFDocument } = PDFLib;
+      const outDoc = await PDFDocument.create();
 
-      mergeBtn.disabled = files.length===0;
-    }
-
-    // ---- 合并 ----
-    async function mergePDFs(){
-      const t = (k, fb)=> (window.__i18n__?.t(k) || fb);
-      if(!files.length){
-        alert(t('tool.merge.errors.no_files','Please add PDF files first.'));
-        return;
+      if (optKeepMeta.checked) {
+        try {
+          const firstBytes = await readAsArrayBuffer(files[0]);
+          const firstDoc = await PDFDocument.load(firstBytes);
+          const title = firstDoc.getTitle(); const author = firstDoc.getAuthor();
+          const subject = firstDoc.getSubject(); const keywords = firstDoc.getKeywords();
+          const producer = firstDoc.getProducer(); const creator = firstDoc.getCreator();
+          const creationDate = firstDoc.getCreationDate(); const modificationDate = firstDoc.getModificationDate();
+          if(title) outDoc.setTitle(title);
+          if(author) outDoc.setAuthor(author);
+          if(subject) outDoc.setSubject(subject);
+          if(keywords) outDoc.setKeywords(keywords);
+          if(producer) outDoc.setProducer(producer);
+          if(creator) outDoc.setCreator(creator);
+          if(creationDate) outDoc.setCreationDate(creationDate);
+          if(modificationDate) outDoc.setModificationDate(modificationDate);
+        } catch {}
       }
-      runMsg.classList.remove('hidden');
-      mergeBtn.disabled = true;
 
-      try{
-        const { PDFDocument } = PDFLib;
-        const outDoc = await PDFDocument.create();
-
-        // 复制第一份的常见元数据
-        if (optKeepMeta.checked && files[0]) {
-          try {
-            const firstBytes = await readAsArrayBuffer(files[0]);
-            const firstDoc = await PDFDocument.load(firstBytes, { ignoreEncryption: true });
-            const meta = {
-              title: firstDoc.getTitle(),
-              author: firstDoc.getAuthor(),
-              subject: firstDoc.getSubject(),
-              keywords: firstDoc.getKeywords(),
-              producer: firstDoc.getProducer(),
-              creator: firstDoc.getCreator(),
-              creationDate: firstDoc.getCreationDate(),
-              modificationDate: firstDoc.getModificationDate(),
-            };
-            if(meta.title) outDoc.setTitle(meta.title);
-            if(meta.author) outDoc.setAuthor(meta.author);
-            if(meta.subject) outDoc.setSubject(meta.subject);
-            if(meta.keywords) outDoc.setKeywords(meta.keywords);
-            if(meta.producer) outDoc.setProducer(meta.producer);
-            if(meta.creator) outDoc.setCreator(meta.creator);
-            if(meta.creationDate) outDoc.setCreationDate(meta.creationDate);
-            if(meta.modificationDate) outDoc.setModificationDate(meta.modificationDate);
-          }catch(_e){}
-        }
-
-        // 合并页面
-        for (const f of files) {
-          const bytes = await readAsArrayBuffer(f);
-          const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
-          const indices = src.getPageIndices();
-          const copied = await outDoc.copyPages(src, indices);
-          copied.forEach(p => outDoc.addPage(p));
-        }
-
-        const outBytes = await outDoc.save({ useObjectStreams: true, updateMetadata: true });
-        const blob = new Blob([outBytes], {type:'application/pdf'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'merged.pdf';
-        a.click();
-        URL.revokeObjectURL(a.href);
-
-        alert(t('tool.merge.result.title','Merge complete'));
-      }catch(err){
-        console.error(err);
-        alert((window.__i18n__?.t('tool.merge.errors.fail') || 'Failed to merge. Please try other files.'));
-      }finally{
-        runMsg.classList.add('hidden');
-        mergeBtn.disabled = false;
+      let done = 0, total = files.length;
+      for (const f of files) {
+        const bytes = await readAsArrayBuffer(f);
+        const src = await PDFDocument.load(bytes);
+        const indices = src.getPageIndices();
+        const copied = await outDoc.copyPages(src, indices);
+        copied.forEach(p => outDoc.addPage(p));
+        done++; DocPDFHub.Progress.set(5 + (done/total)*90);
       }
-    }
 
-    mergeBtn.addEventListener('click', mergePDFs);
-  </script>
+      const outBytes = await outDoc.save({ useObjectStreams: true, updateMetadata: true });
+      const blob = new Blob([outBytes], {type:'application/pdf'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'merged.pdf';
+      a.click();
+      URL.revokeObjectURL(a.href);
+
+      alert(window.__i18n__?.t('tool.merge.result.title') || 'Merge complete');
+    } catch(err){
+      console.error(err);
+      alert('Failed to merge. Please try again.');
+    } finally{
+      runMsg.classList.add('hidden');
+      mergeBtn.disabled = false;
+      DocPDFHub.Progress.set(100); setTimeout(()=>DocPDFHub.Progress.hide(),300);
+    }
+  }
+
+  mergeBtn.addEventListener('click', mergePDFs);
+</script>
+
 </body>
 </html>
