@@ -17,6 +17,7 @@
   },
   "nav": {
     "home": "首页",
+    "blog": "博客",
     "merge": "PDF 合并",
     "split": "PDF 拆分",
     "compress": "PDF 压缩",
