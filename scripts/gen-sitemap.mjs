@@ -1,110 +1,154 @@
 // scripts/gen-sitemap.mjs
-import { promises as fs } from 'fs';
+import fs from 'fs';
+import fsp from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// === 修改这里：你的站点域名（结尾不要有斜杠） ===
-const SITE_ORIGIN = process.env.SITE_ORIGIN || 'https://docpdfhub.com';
+// 1) 站点域名：优先用环境变量，其次默认你的域名
+const SITE_URL = (process.env.SITE_URL || 'https://docpdfhub.com').replace(/\/+$/, '');
 
-// 扫描这些目录下的 .html 文件
-const ROOT_DIR = path.resolve(__dirname, '..');
-const SCAN_DIRS = [
-  ROOT_DIR,                // 根目录（index.html）
-  path.join(ROOT_DIR, 'tools'),
-  path.join(ROOT_DIR, 'blog'),
-];
+// 2) 需要扫描的目录（相对项目根目录）
+const SCAN_DIRS = ['.', 'blog', 'tools'];
 
-// 忽略规则
+// 3) 忽略的文件/页面（按文件名或相对路径匹配）
 const IGNORE = new Set([
-  '/404.html',
-  '/blog/index.html',
+  'b.html',
+  'ads.txt',              // 非 HTML
+  'manifest.webmanifest', // 非 HTML
 ]);
 
-// 简单优先级/更新频率规则
+// 4) 简单的优先级策略
 function getPriority(urlPath) {
   if (urlPath === '/') return 1.0;
   if (urlPath.startsWith('/tools/')) return 0.8;
   if (urlPath.startsWith('/blog/')) return 0.7;
-  return 0.5;
-}
-function getChangefreq(urlPath) {
-  if (urlPath === '/') return 'weekly';
-  if (urlPath.startsWith('/blog/')) return 'weekly';
-  return 'monthly';
+  if (urlPath === '/privacy.html') return 0.3;
+  return 0.6;
 }
 
-async function collectHtmlFiles(dir) {
-  const out = [];
-  const items = await fs.readdir(dir, { withFileTypes: true });
-  for (const it of items) {
-    const full = path.join(dir, it.name);
-    if (it.isDirectory()) {
-      out.push(...await collectHtmlFiles(full));
-    } else if (it.isFile() && it.name.endsWith('.html')) {
-      out.push(full);
+function toUrlPath(fromRootFile) {
+  // 将本地相对路径转成以 / 开头的 URL path
+  let p = fromRootFile.replace(/\\/g, '/');
+  if (p === 'index.html') return '/';
+  if (!p.startsWith('/')) p = '/' + p;
+  return p;
+}
+
+async function walkHtml(root) {
+  const results = [];
+
+  async function walk(dir) {
+    const entries = await fsp.readdir(dir, { withFileTypes: true });
+    for (const ent of entries) {
+      const abs = path.join(dir, ent.name);
+      const rel = path.relative(root, abs);
+
+      if (ent.isDirectory()) {
+        await walk(abs);
+        continue;
+      }
+      // 只要 .html
+      if (!ent.name.endsWith('.html')) continue;
+      if (IGNORE.has(ent.name) || IGNORE.has(rel)) continue;
+
+      const stat = await fsp.stat(abs);
+      results.push({
+        rel,
+        mtime: stat.mtime
+      });
     }
   }
-  return out;
+
+  await walk(root);
+  return results;
 }
 
-function toUrlPath(absPath) {
-  let rel = path.relative(ROOT_DIR, absPath).replace(/\\/g, '/');
-  if (!rel.startsWith('/')) rel = '/' + rel;
-  // 统一处理 index.html -> /
-  if (rel === '/index.html') return '/';
-  // 例如 /blog/some-post/index.html -> /blog/some-post/
-  rel = rel.replace(/\/index\.html$/i, '/');
-  return rel;
+function formatDate(d) {
+  // YYYY-MM-DD
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
 }
 
-async function run() {
-  const fileSet = new Set();
-  for (const d of SCAN_DIRS) {
-    try {
-      const files = await collectHtmlFiles(d);
-      files.forEach(f => fileSet.add(f));
-    } catch {}
+async function main() {
+  const projectRoot = path.resolve(__dirname, '..');
+
+  // 收集所有 .html
+  const htmlFiles = [];
+  for (const dir of SCAN_DIRS) {
+    const abs = path.join(projectRoot, dir);
+    if (fs.existsSync(abs)) {
+      const items = await walkHtml(projectRoot); // 我们已经递归 root，下面过滤目录
+      // 直接跳出循环，因为 walkHtml(root) 已经拿到了所有相对路径
+      htmlFiles.push(...items);
+      break;
+    }
   }
 
-  const items = [];
-  for (const abs of fileSet) {
-    const urlPath = toUrlPath(abs);
-    if (IGNORE.has(urlPath)) continue;
-    // 只收录 /, /tools/, /blog/
-    if (!/^\/($|tools\/|blog\/)/.test(urlPath)) continue;
-
-    const stat = await fs.stat(abs);
-    const lastmod = stat.mtime.toISOString();
-    items.push({ urlPath, lastmod });
+  // 去重（同名相对路径只留一个）
+  const map = new Map();
+  for (const f of htmlFiles) {
+    map.set(f.rel, f);
   }
 
-  // 按路径排序，首页优先
-  items.sort((a, b) => a.urlPath.localeCompare(b.urlPath));
+  const pages = [...map.values()]
+    .filter(f => {
+      // 仅保留三大目录内或根目录的 html
+      const rel = f.rel.replace(/\\/g, '/');
+      return (
+        rel === 'index.html' ||
+        rel === 'privacy.html' ||
+        rel.startsWith('blog/') ||
+        rel.startsWith('tools/')
+      );
+    })
+    .sort((a, b) => a.rel.localeCompare(b.rel));
 
-  const urlsXml = items.map(({ urlPath, lastmod }) => {
-    const loc = SITE_ORIGIN + urlPath;
-    const priority = getPriority(urlPath).toFixed(1);
-    const changefreq = getChangefreq(urlPath);
-    return `
-  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`.trim();
-  }).join('\n');
+  const urls = pages.map(({ rel, mtime }) => {
+    const locPath = toUrlPath(rel);
+    return {
+      loc: `${SITE_URL}${locPath}`,
+      lastmod: formatDate(mtime),
+      changefreq: 'monthly',
+      priority: getPriority(locPath),
+    };
+  });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-${urlsXml}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map(
+    u => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${u.lastmod}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority.toFixed(1)}</priority>
+  </url>`
+  )
+  .join('\n')}
 </urlset>
 `;
 
-  await fs.writeFile(path.join(ROOT_DIR, 'sitemap.xml'), xml, 'utf8');
-  console.log(`[sitemap] generated ${items.length} urls -> /sitemap.xml`);
+  // 写到根目录
+  const outRoot = path.join(projectRoot, 'sitemap.xml');
+  await fsp.writeFile(outRoot, xml, 'utf8');
+
+  // 如存在 /public，也同步一份（兼容 Vercel Output Directory）
+  const publicDir = path.join(projectRoot, 'public');
+  if (fs.existsSync(publicDir) && fs.lstatSync(publicDir).isDirectory()) {
+    const outPublic = path.join(publicDir, 'sitemap.xml');
+    await fsp.writeFile(outPublic, xml, 'utf8');
+    console.log(`[sitemap] generated ${urls.length} urls -> /sitemap.xml and /public/sitemap.xml`);
+  } else {
+    console.log(`[sitemap] generated ${urls.length} urls -> /sitemap.xml`);
+  }
 }
 
-run().catch(err => { console.error(err); process.exit(1); });
+main().catch(err => {
+  console.error('[sitemap] failed:', err);
+  process.exit(1);
+});
