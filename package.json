@@ -1,0 +1,11 @@
+{
+  "name": "docpdfhub",
+  "version": "1.0.0",
+  "description": "DocPDFHub static site for PDF tools and blog",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/gen-sitemap.mjs"
+  },
+  "author": "DocPDFHub",
+  "license": "MIT"
+}
