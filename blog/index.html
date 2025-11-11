@@ -2,195 +2,193 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Blog — PDF Tips, How-tos & Comparisons | DocPDFHub</title>
-  <meta name="description" content="Read practical guides on PDFs: splitting, merging, compressing, and converting—100% local in your browser."/>
-  <link rel="canonical" href="https://docpdfhub.com/blog/"/>
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="DocPDFHub Blog"/>
-  <meta property="og:description" content="PDF tips, how-tos, and comparisons—no upload, fully private."/>
-  <meta property="og:url" content="https://docpdfhub.com/blog/"/>
-  <meta property="og:site_name" content="DocPDFHub"/>
-  <meta property="og:image" content="https://docpdfhub.com/og/blog-listing.jpg"/>
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="DocPDFHub Blog"/>
-  <meta name="twitter:description" content="PDF tips, how-tos, and comparisons—local, private tools."/>
-  <meta name="twitter:image" content="https://docpdfhub.com/og/blog-listing.jpg"/>
-
-  <!-- Tailwind -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Blog — DocPDFHub</title>
+  <meta name="description" content="Tips, guides, and best practices for working with PDFs — merge, split, compress, convert — all 100% local in your browser."/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-
-  <!-- GA (remove if globally injected) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments)}; gtag('js', new Date()); gtag('config', 'G-XXXXX');
-  </script>
-
-  <!-- AdSense (remove if globally injected) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648" crossorigin="anonymous"></script>
-
-  <!-- JSON-LD: Blog + Breadcrumb -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Blog","headline":"DocPDFHub Blog","description":"PDF tips, how-tos, and comparisons.","url":"https://docpdfhub.com/blog/"}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Home","item":"https://docpdfhub.com/"},
-    {"@type":"ListItem","position":2,"name":"Blog","item":"https://docpdfhub.com/blog/"}
-  ]}
-  </script>
-
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
   <style>
-    .card-hover:hover{ transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,.06); }
+    .gradient { background: linear-gradient(90deg, #d53369 0%, #daae51 100%); }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <!-- Header -->
-  <header class="bg-white shadow">
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+
+  <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
       <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
-      <div class="hidden md:flex items-center space-x-6 text-sm">
+      <div class="flex items-center space-x-4 text-sm">
         <a href="/" class="text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
-        <a href="/blog/index.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.blog">Blog</a>
         <a href="/tools/pdf-merge.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
         <a href="/tools/pdf-split.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
-        <a href="/tools/pdf-compress.html" class="text-gray-900 font-semibold" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
         <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
-        <div class="flex items-center space-x-2">
-          <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
-          <span class="text-gray-300">|</span>
-          <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
-        </div>
-      </div>
-      <!-- 移动端语言按钮（简化） -->
-      <div class="md:hidden flex items-center space-x-2">
+        <a href="/blog/" class="text-pink-600 font-semibold" data-i18n="nav.blog">Blog</a>
+        <span class="text-gray-300">|</span>
         <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
-  <div class="pt-20"></div>
-
-  </header>
 
   <!-- Hero -->
-  <section class="bg-gradient-to-r from-pink-500 to-yellow-400 text-white">
-    <div class="max-w-6xl mx-auto px-4 py-12">
-      <h1 class="text-3xl md:text-4xl font-extrabold">DocPDFHub Blog</h1>
-      <p class="mt-2 opacity-90">Practical guides for working with PDFs—merge, split, compress, and convert safely in your browser.</p>
+  <header class="gradient text-white pt-28 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="blog.title">DocPDFHub Blog</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4" data-i18n="blog.subtitle">
+        Practical guides and tips for working with PDFs — private, local-first workflows.
+      </p>
     </div>
-  </section>
+  </header>
 
-  <!-- Top ad -->
-  <div class="max-w-6xl mx-auto px-4 mt-6">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4284929103244648" data-ad-slot="9012345678" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-  </div>
+  <!-- List -->
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <!-- 状态区 -->
+    <div id="status" class="mb-6 text-sm text-gray-500"></div>
 
-  <!-- List + Sidebar -->
-  <main class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-    <!-- Posts -->
-    <section class="lg:col-span-8">
-      <div id="posts" class="grid md:grid-cols-2 gap-6"></div>
+    <!-- 卡片网格 -->
+    <div id="blog-grid" class="grid md:grid-cols-2 gap-6">
+      <!-- 首屏显示一个轻量骨架 -->
+      <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
+      <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
+      <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
+      <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
+      <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
+      <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
+    </div>
 
-      <!-- Pagination -->
-      <div id="pager" class="mt-8 flex items-center justify-center space-x-2"></div>
-    </section>
-
-    <!-- Sidebar -->
-    <aside class="lg:col-span-4">
-      <div class="bg-white rounded-xl border p-5">
-        <h3 class="font-bold text-lg">Popular Tools</h3>
-        <ul class="mt-3 space-y-2 text-sm">
-          <li><a class="text-pink-600 hover:underline" href="/tools/pdf-merge.html">Merge PDF</a> – Combine files locally.</li>
-          <li><a class="text-pink-600 hover:underline" href="/tools/pdf-split.html">Split PDF</a> – Extract page ranges.</li>
-          <li><a class="text-pink-600 hover:underline" href="/tools/pdf-compress.html">Compress PDF</a> – Shrink file size.</li>
-          <li><a class="text-pink-600 hover:underline" href="/tools/pdf-to-jpg.html">PDF to JPG</a> – Export pages to images.</li>
-        </ul>
-      </div>
-
-      <div class="bg-white rounded-xl border p-5 mt-6">
-        <h3 class="font-bold text-lg">Subscribe</h3>
-        <p class="text-sm text-gray-600 mt-1">New guides every month. No spam.</p>
-        <form class="mt-3" onsubmit="alert('Thanks! (stub)'); return false;">
-          <input type="email" required placeholder="you@example.com" class="w-full border rounded px-3 py-2"/>
-          <button class="mt-2 w-full bg-pink-600 text-white rounded py-2">Subscribe</button>
-        </form>
-      </div>
-
-      <!-- Sidebar ad -->
-      <div class="mt-6">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4284929103244648" data-ad-slot="9123456780" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-      </div>
-    </aside>
+    <!-- 分页 -->
+    <div class="flex items-center justify-center gap-2 mt-8">
+      <button id="prevBtn" class="px-3 py-1.5 rounded border hover:bg-gray-50 disabled:opacity-40" disabled>Prev</button>
+      <span id="pageIndicator" class="px-3 py-1.5 rounded bg-pink-600 text-white font-semibold">1</span>
+      <button id="nextBtn" class="px-3 py-1.5 rounded border hover:bg-gray-50" disabled>Next</button>
+    </div>
   </main>
 
-  <footer class="bg-white border-t">
-    <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-gray-600">
-      <div>© <span id="y"></span> DocPDFHub — Free & private PDF tools.</div>
-      <div class="mt-1">Contact: <a class="text-pink-600" href="mailto:langer.lee@gmail.com">langer.lee@gmail.com</a></div>
+  <footer class="py-10 text-center text-sm text-gray-500 border-t">
+    <div class="max-w-6xl mx-auto px-4">
+      © <span id="y"></span> DocPDFHub
     </div>
   </footer>
 
-<script>
-(async () => {
-  const tryUrls = ['/blog/index.json', './index.json'];
-  let posts = null;
-
-  for (const u of tryUrls) {
-    try {
-      const res = await fetch(u, { cache: 'no-store' });
-      if (res.ok) { posts = await res.json(); break; }
-    } catch (_) {}
-  }
-
-  // 最后兜底：如果页面里有内联的 <script id="posts-data" type="application/json"> 也读取
-  if (!posts) {
-    const inline = document.getElementById('posts-data');
-    if (inline) {
-      try { posts = JSON.parse(inline.textContent); } catch (_) {}
+  <!-- 兜底：内联 posts JSON（当远程 index.json 拉取失败时使用）。
+       你可以删除这段，但建议保留一份最少数据作为 fallback。 -->
+  <script id="posts-data" type="application/json">[
+    {
+      "slug":"compress-pdf-quality-size-guide",
+      "title":"How to Compress a PDF Without Ruining Quality",
+      "description":"Practical settings and trade-offs to shrink PDF size while keeping it sharp.",
+      "date":"2025-11-08","tags":["pdf","compress"],"lang":"en",
+      "url":"/blog/compress-pdf-quality-size-guide.html","readingMinutes":6
     }
-  }
+  ]</script>
 
-  // 渲染
-  const grid = document.getElementById('blog-grid');
-  if (!posts || !Array.isArray(posts) || posts.length === 0) {
-    grid.innerHTML = '<div class="text-gray-500">No posts yet.</div>';
-    return;
-  }
+  <script>
+  // 年份
+  document.getElementById('y').textContent = new Date().getFullYear();
 
-  // 你原先的渲染函数：这里示意
-  const pageSize = 6;
-  let current = 1;
+  // 多语言（沿用你站点的全局 i18n，如果存在）
+  (function initLang(){
+    const lang = localStorage.getItem('lang') || 'en';
+    if (window.__i18n__ && typeof window.__i18n__.setLang === 'function') {
+      window.__i18n__.setLang(lang);
+      document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+        btn.addEventListener('click', ()=> window.__i18n__.setLang(btn.getAttribute('data-lang-btn')));
+      });
+    } else {
+      document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+      document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const l = btn.getAttribute('data-lang-btn');
+          localStorage.setItem('lang', l);
+          location.reload();
+        });
+      });
+    }
+  })();
 
-  const renderPage = (p) => {
-    grid.innerHTML = '';
-    const start = (p - 1) * pageSize;
-    posts.slice(start, start + pageSize).forEach(item => {
-      const a = document.createElement('a');
-      a.href = item.url;
-      a.className = 'block border rounded-xl p-6 bg-white shadow hover:shadow-lg transition';
-      a.innerHTML = `
-        <h3 class="text-xl font-bold text-gray-900">${item.title || '(Untitled)'}</h3>
-        <p class="text-gray-600 mt-2">${item.description || ''}</p>
-        <div class="mt-3 text-sm text-gray-500">${item.date || ''} · ${item.readingMinutes || 5} min</div>
-        <div class="mt-4 text-pink-600 font-semibold">Read more →</div>
-      `;
-      grid.appendChild(a);
+  // -------- 博客列表加载逻辑（含多级回退） --------
+  (async function(){
+    const statusEl = document.getElementById('status');
+    const grid = document.getElementById('blog-grid');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+
+    const PAGE_SIZE = 6;
+    let posts = null;
+    let page = 1;
+
+    // 1) 先尝试 /blog/index.json -> ./index.json
+    const tryUrls = ['/blog/index.json', './index.json'];
+    for (const u of tryUrls) {
+      try {
+        const res = await fetch(u, { cache: 'no-store' });
+        if (res.ok) { posts = await res.json(); break; }
+      } catch (e) {}
+    }
+
+    // 2) 兜底：内联 JSON
+    if (!posts) {
+      try {
+        const inline = document.getElementById('posts-data');
+        if (inline) posts = JSON.parse(inline.textContent);
+      } catch (e) {}
+    }
+
+    // 3) 还没有就报错
+    if (!Array.isArray(posts) || posts.length === 0) {
+      statusEl.textContent = 'Failed to load blog index. Please add /blog/index.json or inline JSON.';
+      grid.innerHTML = '';
+      return;
+    }
+
+    // 排序（最新在前）
+    posts.sort((a,b)=>{
+      const da = new Date(a.date || 0).getTime();
+      const db = new Date(b.date || 0).getTime();
+      return db - da;
     });
-    // TODO: 你原本的分页按钮绑定逻辑保持不变
-  };
 
-  renderPage(current);
-})();
-</script>
+    function renderPage(p){
+      const total = posts.length;
+      const maxPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      page = Math.min(Math.max(1, p), maxPage);
 
+      const start = (page - 1) * PAGE_SIZE;
+      const slice = posts.slice(start, start + PAGE_SIZE);
+
+      grid.innerHTML = '';
+      slice.forEach(item=>{
+        const a = document.createElement('a');
+        a.href = item.url || '#';
+        a.className = 'block bg-white border rounded-xl p-6 shadow hover:shadow-lg transition';
+        a.innerHTML = `
+          <h3 class="text-xl font-bold text-gray-900">${escapeHTML(item.title || '(Untitled)')}</h3>
+          <p class="text-gray-600 mt-2">${escapeHTML(item.description || '')}</p>
+          <div class="mt-3 text-sm text-gray-500">${escapeHTML(item.date || '')}${item.readingMinutes? ' · '+item.readingMinutes+' min':''}</div>
+          <div class="mt-4 text-pink-600 font-semibold">Read more →</div>
+        `;
+        grid.appendChild(a);
+      });
+
+      pageIndicator.textContent = String(page);
+      prevBtn.disabled = page <= 1;
+      nextBtn.disabled = page >= maxPage;
+      statusEl.textContent = '';
+    }
+
+    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+
+    // 事件
+    prevBtn.addEventListener('click', ()=> renderPage(page - 1));
+    nextBtn.addEventListener('click', ()=> renderPage(page + 1));
+
+    // 首次渲染
+    renderPage(1);
+  })();
+  </script>
 </body>
 </html>
