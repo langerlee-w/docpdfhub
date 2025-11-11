@@ -52,17 +52,31 @@
 <body class="bg-gray-50 text-gray-900">
   <!-- Header -->
   <header class="bg-white shadow">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/" class="font-extrabold text-pink-600 text-2xl">DocPDFHub</a>
-      <nav class="space-x-5 text-sm">
-        <a href="/" class="hover:text-pink-600">Home</a>
-        <a href="/tools/pdf-merge.html" class="hover:text-pink-600">Merge</a>
-        <a href="/tools/pdf-split.html" class="hover:text-pink-600">Split</a>
-        <a href="/tools/pdf-compress.html" class="hover:text-pink-600">Compress</a>
-        <a href="/tools/pdf-to-jpg.html" class="hover:text-pink-600">PDF to JPG</a>
-        <a href="/blog/" class="text-pink-600 font-semibold">Blog</a>
-      </nav>
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
+      <div class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/" class="text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/blog/index.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.blog">Blog</a>
+        <a href="/tools/pdf-merge.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="text-gray-900 font-semibold" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
+        <div class="flex items-center space-x-2">
+          <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+          <span class="text-gray-300">|</span>
+          <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+        </div>
+      </div>
+      <!-- 移动端语言按钮（简化） -->
+      <div class="md:hidden flex items-center space-x-2">
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+      </div>
     </div>
+  </nav>
+  <div class="pt-20"></div>
+
   </header>
 
   <!-- Hero -->
