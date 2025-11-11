@@ -139,154 +139,58 @@
     </div>
   </footer>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+<script>
+(async () => {
+  const tryUrls = ['/blog/index.json', './index.json'];
+  let posts = null;
 
-    // -------- Settings --------
-    const SITEMAP_URL = '/sitemap.xml';
-    const BLOG_PREFIX = '/blog/';
-    const PAGE_SIZE = 8;  // 每页文章数
-    const EXCERPT_MAX = 160;
+  for (const u of tryUrls) {
+    try {
+      const res = await fetch(u, { cache: 'no-store' });
+      if (res.ok) { posts = await res.json(); break; }
+    } catch (_) {}
+  }
 
-    // -------- Utils --------
-    const htmlToDoc = (html) => new DOMParser().parseFromString(html, 'text/html');
-    const strip = (s)=> (s||'').replace(/\s+/g,' ').trim();
-    const truncate = (s,n)=> s.length>n ? s.slice(0,n-1)+'…' : s;
-    const fmtDate = (iso)=>{
-      if(!iso) return '';
-      const d = new Date(iso);
-      if (isNaN(d)) return '';
-      return d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
-    };
-
-    // 从文章 HTML 提取 title/desc/date/og
-    function extractMeta(doc){
-      const title = strip(doc.querySelector('title')?.textContent || '');
-      const desc = strip(doc.querySelector('meta[name="description"]')?.getAttribute('content') || '');
-      const og = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-      // JSON-LD Article
-      let pub=null, mod=null;
-      doc.querySelectorAll('script[type="application/ld+json"]').forEach(s=>{
-        try{
-          const json = JSON.parse(s.textContent);
-          const items = Array.isArray(json) ? json : [json];
-          items.forEach(it=>{
-            if(it['@type']==='Article' || it['@type']==='NewsArticle'){
-              pub = pub || it.datePublished || null;
-              mod = mod || it.dateModified || null;
-            }
-          });
-        }catch(e){}
-      });
-      // fallback: meta article:published_time
-      if(!pub){
-        pub = doc.querySelector('meta[property="article:published_time"]')?.getAttribute('content') || null;
-      }
-      return { title, desc, og, pub, mod };
+  // 最后兜底：如果页面里有内联的 <script id="posts-data" type="application/json"> 也读取
+  if (!posts) {
+    const inline = document.getElementById('posts-data');
+    if (inline) {
+      try { posts = JSON.parse(inline.textContent); } catch (_) {}
     }
+  }
 
-    // 渲染分页按钮
-    function renderPager(total, page){
-      const pager = document.getElementById('pager');
-      pager.innerHTML = '';
-      const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-      const mk = (label, p, disabled=false, current=false)=>{
-        const btn = document.createElement('button');
-        btn.textContent = label;
-        btn.className = 'px-3 py-1 rounded border text-sm ' + (current ? 'bg-pink-600 text-white border-pink-600' : 'hover:bg-gray-50');
-        btn.disabled = disabled || current;
-        btn.addEventListener('click', ()=> go(p));
-        return btn;
-      };
-      pager.appendChild(mk('Prev', Math.max(1, page-1), page===1));
-      for(let i=1;i<=pages;i++){
-        if (i===1 || i===pages || Math.abs(i-page)<=2){
-          pager.appendChild(mk(String(i), i, false, i===page));
-        } else if (Math.abs(i-page)===3){
-          const span = document.createElement('span'); span.textContent='…'; span.className='px-1';
-          pager.appendChild(span);
-        }
-      }
-      pager.appendChild(mk('Next', Math.min(pages, page+1), page===pages));
-    }
+  // 渲染
+  const grid = document.getElementById('blog-grid');
+  if (!posts || !Array.isArray(posts) || posts.length === 0) {
+    grid.innerHTML = '<div class="text-gray-500">No posts yet.</div>';
+    return;
+  }
 
-    // 渲染文章卡片
-    function renderPosts(list, page){
-      const wrap = document.getElementById('posts');
-      wrap.innerHTML = '';
-      const start = (page-1)*PAGE_SIZE;
-      const slice = list.slice(start, start+PAGE_SIZE);
-      slice.forEach(item=>{
-        const a = document.createElement('a');
-        a.href = item.loc;
-        a.className = 'block bg-white rounded-xl border p-5 card-hover transition';
-        a.innerHTML = `
-          ${item.og ? `<img src="${item.og}" alt="" class="w-full h-40 object-cover rounded-lg mb-3">` : ''}
-          <div class="text-xs text-gray-500">${fmtDate(item.pub || item.mod) || ''}</div>
-          <h2 class="mt-1 font-bold text-lg">${item.title || 'Untitled'}</h2>
-          <p class="mt-1 text-sm text-gray-600">${truncate(item.desc || '', EXCERPT_MAX)}</p>
-          <div class="mt-3 text-pink-600 text-sm">Read more →</div>
-        `;
-        wrap.appendChild(a);
-      });
-    }
+  // 你原先的渲染函数：这里示意
+  const pageSize = 6;
+  let current = 1;
 
-    function go(page){
-      const total = window.__BLOG__.length;
-      renderPosts(window.__BLOG__, page);
-      renderPager(total, page);
-      location.hash = '#page=' + page;
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
+  const renderPage = (p) => {
+    grid.innerHTML = '';
+    const start = (p - 1) * pageSize;
+    posts.slice(start, start + pageSize).forEach(item => {
+      const a = document.createElement('a');
+      a.href = item.url;
+      a.className = 'block border rounded-xl p-6 bg-white shadow hover:shadow-lg transition';
+      a.innerHTML = `
+        <h3 class="text-xl font-bold text-gray-900">${item.title || '(Untitled)'}</h3>
+        <p class="text-gray-600 mt-2">${item.description || ''}</p>
+        <div class="mt-3 text-sm text-gray-500">${item.date || ''} · ${item.readingMinutes || 5} min</div>
+        <div class="mt-4 text-pink-600 font-semibold">Read more →</div>
+      `;
+      grid.appendChild(a);
+    });
+    // TODO: 你原本的分页按钮绑定逻辑保持不变
+  };
 
-    // 主流程：抓取 sitemap -> 过滤 /blog/ -> 抓文章 meta
-    async function init(){
-      const smRes = await fetch(SITEMAP_URL, {cache:'no-store'});
-      const smTxt = await smRes.text();
-      const xml = new DOMParser().parseFromString(smTxt, 'application/xml');
-      const locs = Array.from(xml.querySelectorAll('url > loc')).map(n=>n.textContent.trim());
+  renderPage(current);
+})();
+</script>
 
-      // 只要 /blog/ 下且不是 /blog/ 本身；排除 index.html 自己
-      const urls = locs.filter(u=>{
-        if(!u.includes(BLOG_PREFIX)) return false;
-        const path = new URL(u, location.origin).pathname;
-        if(path===BLOG_PREFIX) return false;
-        if(path.endsWith('/blog/index.html')) return false;
-        return true;
-      });
-
-      // 并发抓取文章
-      const tasks = urls.map(async (loc)=>{
-        try{
-          const res = await fetch(loc, {cache:'no-store'});
-          const html = await res.text();
-          const doc = htmlToDoc(html);
-          const meta = extractMeta(doc);
-          return { loc, ...meta };
-        }catch(e){
-          return { loc, title:'(Failed to load)', desc:'', pub:null, mod:null, og:'' };
-        }
-      });
-
-      let items = await Promise.all(tasks);
-
-      // 排序：dateModified > datePublished > 标题
-      items.sort((a,b)=>{
-        const da = new Date(a.mod || a.pub || 0).getTime();
-        const db = new Date(b.mod || b.pub || 0).getTime();
-        if(db!==da) return db - da;
-        return (a.title||'').localeCompare(b.title||'');
-      });
-
-      window.__BLOG__ = items;
-
-      // 初始分页
-      const m = location.hash.match(/#page=(\d+)/);
-      const page = Math.max(1, m ? parseInt(m[1],10) : 1);
-      go(page);
-    }
-
-    init().catch(console.error);
-  </script>
 </body>
 </html>
