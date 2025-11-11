@@ -1,62 +1,82 @@
 [
   {
-    "slug": "compress-pdf-quality-size-guide",
-    "title": "How to Compress a PDF Without Ruining Quality",
-    "description": "Practical settings and trade-offs to shrink PDF size while keeping it sharp. Works 100% locally in your browser.",
-    "date": "2025-11-08",
-    "tags": ["pdf","compress","quality"],
-    "lang": "en",
-    "url": "/blog/compress-pdf-quality-size-guide.html",
+    "slug": "best-free-pdf-merger-tools-2025",
+    "title": "Best Free PDF Merger Tools in 2025 — Fast & Secure",
+    "description": "Compare the top free PDF merger tools of 2025. Combine PDFs securely in your browser with no upload required.",
+    "url": "/blog/best-free-pdf-merger-tools-2025.html",
+    "date": "2025-11-05",
+    "readingMinutes": 5
+  },
+  {
+    "slug": "browser-only-pdf-privacy-model",
+    "title": "Browser-Only PDF: Our Privacy & Threat Model",
+    "description": "Learn how DocPDFHub processes PDFs 100% locally in your browser — nothing leaves your device.",
+    "url": "/blog/browser-only-pdf-privacy-model.html",
+    "date": "2025-11-12",
     "readingMinutes": 6
   },
   {
-    "slug": "merge-pdf-like-a-pro",
-    "title": "Merge PDFs Like a Pro: Ordering, Covers, and Tips",
-    "description": "The cleanest way to combine multiple PDFs, reorder pages, and keep metadata.",
+    "slug": "compress-pdf-quality-size-guide",
+    "title": "Compress PDF — Quality vs Size Explained",
+    "description": "How PDF compression works and how to balance quality and file size effectively.",
+    "url": "/blog/compress-pdf-quality-size-guide.html",
+    "date": "2025-11-07",
+    "readingMinutes": 5
+  },
+  {
+    "slug": "fix-common-pdf-issues",
+    "title": "Fix Common PDF Issues — Corruption, Fonts, and Compatibility",
+    "description": "A practical guide to solving common PDF problems including corruption, font errors, and unreadable pages.",
+    "url": "/blog/fix-common-pdf-issues.html",
+    "date": "2025-11-06",
+    "readingMinutes": 6
+  },
+  {
+    "slug": "how-to-extract-pages-from-a-pdf",
+    "title": "How to Extract Pages from a PDF — Step by Step",
+    "description": "Easily extract specific pages from a PDF file in your browser, no upload required.",
+    "url": "/blog/how-to-extract-pages-from-a-pdf.html",
     "date": "2025-11-08",
-    "tags": ["pdf","merge"],
-    "lang": "en",
+    "readingMinutes": 4
+  },
+  {
+    "slug": "merge-pdf-like-a-pro",
+    "title": "Merge PDF Like a Pro — Combine Files Seamlessly",
+    "description": "Learn how to merge multiple PDFs quickly, safely, and efficiently right in your browser.",
     "url": "/blog/merge-pdf-like-a-pro.html",
+    "date": "2025-11-09",
+    "readingMinutes": 4
+  },
+  {
+    "slug": "pdf-to-jpg-dpi-quality",
+    "title": "PDF to JPG — Understanding DPI & Image Quality",
+    "description": "Find out how DPI affects JPG output quality when converting from PDF, and which settings to use.",
+    "url": "/blog/pdf-to-jpg-dpi-quality.html",
+    "date": "2025-11-09",
     "readingMinutes": 5
   },
   {
     "slug": "split-pdf-ranges-extract",
-    "title": "Split a PDF by Ranges or Extract Pages",
-    "description": "Examples of page ranges (1-3,5,8-10), when to zip, and how to avoid blank pages.",
-    "date": "2025-11-08",
-    "tags": ["pdf","split"],
-    "lang": "en",
+    "title": "Split PDF by Ranges & Extract Pages",
+    "description": "How to split a PDF by page ranges (e.g., 1-3,5,8-10) and extract exactly what you need — all local.",
     "url": "/blog/split-pdf-ranges-extract.html",
+    "date": "2025-11-08",
+    "readingMinutes": 6
+  },
+  {
+    "slug": "what-is-pdf-compression-explained",
+    "title": "What Is PDF Compression? Explained Simply",
+    "description": "Understand how PDF compression works, the difference between lossless and lossy, and when to use each.",
+    "url": "/blog/what-is-pdf-compression-explained.html",
+    "date": "2025-11-10",
     "readingMinutes": 5
   },
   {
-    "slug": "pdf-to-jpg-dpi-quality",
-    "title": "PDF to JPG: Best DPI & Quality Settings",
-    "description": "What DPI really changes, recommended JPEG quality for print vs web, and transparent backgrounds.",
-    "date": "2025-11-08",
-    "tags": ["pdf","jpg","convert"],
-    "lang": "en",
-    "url": "/blog/pdf-to-jpg-dpi-quality.html",
-    "readingMinutes": 7
-  },
-  {
-    "slug": "local-first-privacy",
-    "title": "Local-First PDF Tools: Why Privacy Matters",
-    "description": "No uploads, no servers. A quick look at how browser-only processing protects your documents.",
-    "date": "2025-11-08",
-    "tags": ["privacy","security"],
-    "lang": "en",
-    "url": "/blog/local-first-privacy.html",
-    "readingMinutes": 4
-  },
-  {
-    "slug": "fix-common-pdf-issues",
-    "title": "Fix Common PDF Issues: Fonts, Scans, and Corruption",
-    "description": "How to deal with missing fonts, heavy scans, and malformed files using simple, local tricks.",
-    "date": "2025-11-08",
-    "tags": ["pdf","troubleshooting"],
-    "lang": "en",
-    "url": "/blog/fix-common-pdf-issues.html",
-    "readingMinutes": 6
+    "slug": "compress-pdf-quality-size-guide",
+    "title": "Compress PDF — Best Practices for Quality & Size",
+    "description": "Tips for shrinking your PDFs while keeping sharp images and readable text.",
+    "url": "/blog/compress-pdf-quality-size-guide.html",
+    "date": "2025-11-07",
+    "readingMinutes": 5
   }
 ]
