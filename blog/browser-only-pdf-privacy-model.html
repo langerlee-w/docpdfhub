@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Browser-Only PDF: Our Privacy & Threat Model | DocPDFHub</title>
+  <meta name="description" content="How DocPDFHub processes PDFs 100% in your browser, what never leaves your device, and how to verify it. Learn our privacy model, limits, and best practices."/>
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+  <style>
+    .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
+    .prose :where(code){background:#faf5ff;padding:.15rem .35rem;border-radius:.35rem}
+  </style>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"TechArticle",
+    "headline":"Browser-Only PDF: Our Privacy & Threat Model",
+    "description":"A practical guide to how DocPDFHub runs 100% locally in your browser, what data never leaves your device, and how to verify it yourself.",
+    "datePublished":"2025-11-12",
+    "dateModified":"2025-11-12",
+    "author":{"@type":"Person","name":"DocPDFHub Editorial"},
+    "publisher":{"@type":"Organization","name":"DocPDFHub"},
+    "mainEntityOfPage":{"@type":"WebPage","@id":"https://docpdfhub.com/blog/browser-only-pdf-privacy-model.html"}
+  }
+  </script>
+</head>
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+
+  <!-- Nav -->
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
+      <div class="flex items-center space-x-4 text-sm">
+        <a href="/" class="text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/tools/pdf-merge.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
+        <a href="/blog/" class="text-pink-600 font-semibold" data-i18n="nav.blog">Blog</a>
+        <span class="text-gray-300">|</span>
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="gradient text-white pt-28 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="uppercase tracking-widest opacity-90 text-sm">PRIVACY & SECURITY</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2">Browser-Only PDF: Our Privacy & Threat Model</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4">
+        How your PDFs are processed 100% locally, what data never leaves your device, and how to verify it with your own browser.
+      </p>
+    </div>
+  </header>
+
+  <!-- Article -->
+  <main class="max-w-6xl mx-auto px-4 py-10 prose prose-pink max-w-none">
+    <p><em>Updated: 2025-11-12 · 6 min read</em></p>
+
+    <h2>What “browser-only” means</h2>
+    <p>
+      In DocPDFHub, all PDF operations run inside your browser. We use client-side libraries (e.g., <em>PDF.js</em> and <em>PDF-Lib</em>) and Web APIs
+      like <code>Canvas</code>, <code>WebAssembly</code>, and <code>FileReader</code>. Your file bytes are read from your disk
+      into browser memory, processed locally, and exported back to disk—never uploaded to our servers.
+    </p>
+
+    <h2>Data flow at a glance</h2>
+    <ol>
+      <li><strong>File selection:</strong> You pick files via the file picker or drag-and-drop. The browser gives our page a handle to read bytes locally.</li>
+      <li><strong>Local processing:</strong> Pages render on an off-screen canvas; compression and merging happen using JavaScript/WebAssembly.</li>
+      <li><strong>Output:</strong> We create a Blob/ZIP/PDF and trigger a local download. Temporary data lives in RAM, not on our servers.</li>
+    </ol>
+
+    <h2>Threat model</h2>
+    <table>
+      <thead><tr><th>Vector</th><th>What we do</th><th>What you can do</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Server upload</td>
+          <td>We never send file bytes to our server.</td>
+          <td>Verify with DevTools → Network: filter by <code>document|xhr|fetch</code> while converting.</td>
+        </tr>
+        <tr>
+          <td>Third-party beacons</td>
+          <td>No analytics on tool steps that process bytes. Only essential scripts (fonts/CSS) load.</td>
+          <td>Use content blockers if desired; compare outcomes—should be identical.</td>
+        </tr>
+        <tr>
+          <td>Browser storage</td>
+          <td>We do not persist file content in <code>localStorage</code>/<code>IndexedDB</code>.</td>
+          <td>Refresh page to clear in-memory buffers. Avoid running many heavy tabs simultaneously.</td>
+        </tr>
+        <tr>
+          <td>Memory scraping on shared device</td>
+          <td>Buffers stay in tab memory; we release object URLs after download.</td>
+          <td>Close the tab after use; use a private window on shared computers.</td>
+        </tr>
+        <tr>
+          <td>Malicious PDFs</td>
+          <td>Processing is sandboxed by the browser; we don’t execute embedded code.</td>
+          <td>Only open files you trust. Keep your browser up to date.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>What never leaves your device</h2>
+    <ul>
+      <li>PDF file bytes and page pixel data</li>
+      <li>Rendered canvases and intermediate images</li>
+      <li>Generated outputs (compressed PDFs, JPGs, ZIP files)</li>
+    </ul>
+
+    <h2>What may go over the network</h2>
+    <ul>
+      <li>Static assets: HTML/CSS/JS from our site or CDNs (loaded before you add files)</li>
+      <li>Optional fonts and icons</li>
+      <li>Ads/analytics <em>(if present)</em> — but <strong>never</strong> file bytes or page pixels</li>
+    </ul>
+
+    <h2>How to verify locally</h2>
+    <ol>
+      <li>Open DevTools → <strong>Network</strong>.</li>
+      <li>Click <em>Select PDF</em>, process the file, and watch requests.</li>
+      <li>You should only see local <code>blob:</code> URLs for outputs and static asset requests made before conversion.</li>
+      <li>No XHR/Fetch upload of your file should appear.</li>
+    </ol>
+
+    <h2>Limits and tips</h2>
+    <ul>
+      <li><strong>Large files:</strong> Browsers are memory-bounded. If you hit limits, try splitting the PDF first.</li>
+      <li><strong>Mobile:</strong> Use “Balanced/Fast” quality to reduce RAM usage.</li>
+      <li><strong>Offline:</strong> After first load, the tools work offline if cached by your browser.</li>
+    </ul>
+
+    <h2>Compliance considerations</h2>
+    <p>
+      Because documents never leave your device, there’s no transfer of personal data to our servers during processing.
+      For regulated environments, confirm with your security team whether local-only tooling meets your requirements.
+    </p>
+
+    <h2>FAQ</h2>
+    <p><strong>Q: Do you store my files?</strong><br/>A: No. Files stay in your browser memory only.</p>
+    <p><strong>Q: What about the output I download?</strong><br/>A: Downloads are written directly to your disk by the browser.</p>
+    <p><strong>Q: Can I run the tools offline?</strong><br/>A: Yes, after the first load if your browser cached the assets.</p>
+
+    <hr/>
+    <p>
+      Questions or security feedback? <a href="mailto:langer.lee@gmail.com">langer.lee@gmail.com</a><br/>
+      <a href="/blog/">← Back to Blog</a>
+    </p>
+  </main>
+
+  <footer class="py-10 text-center text-sm text-gray-500 border-t">
+    <div class="max-w-6xl mx-auto px-4">© <span id="y"></span> DocPDFHub</div>
+  </footer>
+
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // i18n apply if present (same行为与工具/首页一致)
+    (function(){
+      const lang = localStorage.getItem('lang') || 'en';
+      if (window.__i18n__ && typeof window.__i18n__.setLang === 'function') {
+        window.__i18n__.setLang(lang);
+      } else {
+        document.documentElement.setAttribute('lang', lang==='zh'?'zh-CN':'en');
+      }
+      document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const l = btn.getAttribute('data-lang-btn');
+          localStorage.setItem('lang', l);
+          if (window.__i18n__) window.__i18n__.setLang(l);
+          else location.reload();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
