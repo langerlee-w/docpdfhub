@@ -1,82 +1,26 @@
 [
   {
-    "slug": "best-free-pdf-merger-tools-2025",
-    "title": "Best Free PDF Merger Tools in 2025 — Fast & Secure",
-    "description": "Compare the top free PDF merger tools of 2025. Combine PDFs securely in your browser with no upload required.",
-    "url": "/blog/best-free-pdf-merger-tools-2025.html",
-    "date": "2025-11-05",
-    "readingMinutes": 5
+    "slug": "how-to-merge-pdf",
+    "title": "How to Merge PDF Files (Free & Private)",
+    "summary": "Combine multiple PDFs in your browser — no upload, instant download.",
+    "date": "2025-11-12"
   },
   {
-    "slug": "browser-only-pdf-privacy-model",
-    "title": "Browser-Only PDF: Our Privacy & Threat Model",
-    "description": "Learn how DocPDFHub processes PDFs 100% locally in your browser — nothing leaves your device.",
-    "url": "/blog/browser-only-pdf-privacy-model.html",
-    "date": "2025-11-12",
-    "readingMinutes": 6
+    "slug": "how-to-split-pdf",
+    "title": "How to Split a PDF by Ranges",
+    "summary": "Extract pages or split into multiple files locally and securely.",
+    "date": "2025-11-12"
   },
   {
-    "slug": "compress-pdf-quality-size-guide",
-    "title": "Compress PDF — Quality vs Size Explained",
-    "description": "How PDF compression works and how to balance quality and file size effectively.",
-    "url": "/blog/compress-pdf-quality-size-guide.html",
-    "date": "2025-11-07",
-    "readingMinutes": 5
+    "slug": "how-to-compress-pdf",
+    "title": "How to Compress a PDF (Keep Quality)",
+    "summary": "Shrink file size while keeping readability — Light/Balanced/Strong.",
+    "date": "2025-11-12"
   },
   {
-    "slug": "fix-common-pdf-issues",
-    "title": "Fix Common PDF Issues — Corruption, Fonts, and Compatibility",
-    "description": "A practical guide to solving common PDF problems including corruption, font errors, and unreadable pages.",
-    "url": "/blog/fix-common-pdf-issues.html",
-    "date": "2025-11-06",
-    "readingMinutes": 6
-  },
-  {
-    "slug": "how-to-extract-pages-from-a-pdf",
-    "title": "How to Extract Pages from a PDF — Step by Step",
-    "description": "Easily extract specific pages from a PDF file in your browser, no upload required.",
-    "url": "/blog/how-to-extract-pages-from-a-pdf.html",
-    "date": "2025-11-08",
-    "readingMinutes": 4
-  },
-  {
-    "slug": "merge-pdf-like-a-pro",
-    "title": "Merge PDF Like a Pro — Combine Files Seamlessly",
-    "description": "Learn how to merge multiple PDFs quickly, safely, and efficiently right in your browser.",
-    "url": "/blog/merge-pdf-like-a-pro.html",
-    "date": "2025-11-09",
-    "readingMinutes": 4
-  },
-  {
-    "slug": "pdf-to-jpg-dpi-quality",
-    "title": "PDF to JPG — Understanding DPI & Image Quality",
-    "description": "Find out how DPI affects JPG output quality when converting from PDF, and which settings to use.",
-    "url": "/blog/pdf-to-jpg-dpi-quality.html",
-    "date": "2025-11-09",
-    "readingMinutes": 5
-  },
-  {
-    "slug": "split-pdf-ranges-extract",
-    "title": "Split PDF by Ranges & Extract Pages",
-    "description": "How to split a PDF by page ranges (e.g., 1-3,5,8-10) and extract exactly what you need — all local.",
-    "url": "/blog/split-pdf-ranges-extract.html",
-    "date": "2025-11-08",
-    "readingMinutes": 6
-  },
-  {
-    "slug": "what-is-pdf-compression-explained",
-    "title": "What Is PDF Compression? Explained Simply",
-    "description": "Understand how PDF compression works, the difference between lossless and lossy, and when to use each.",
-    "url": "/blog/what-is-pdf-compression-explained.html",
-    "date": "2025-11-10",
-    "readingMinutes": 5
-  },
-  {
-    "slug": "compress-pdf-quality-size-guide",
-    "title": "Compress PDF — Best Practices for Quality & Size",
-    "description": "Tips for shrinking your PDFs while keeping sharp images and readable text.",
-    "url": "/blog/compress-pdf-quality-size-guide.html",
-    "date": "2025-11-07",
-    "readingMinutes": 5
+    "slug": "how-to-pdf-to-jpg",
+    "title": "How to Convert PDF to JPG (Fast & High-Quality)",
+    "summary": "Render each page as a crisp JPG image entirely in your browser.",
+    "date": "2025-11-12"
   }
 ]
