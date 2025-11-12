@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    { "source": "/blog/split-pdf-ranges-extract.html", "destination": "/blog/how-to-split-pdf.html", "permanent": true },
+    { "source": "/blog/pdf-to-jpg-best-quality-fast.html", "destination": "/blog/how-to-pdf-to-jpg.html", "permanent": true },
+    { "source": "/blog/browser-only-pdf-privacy-model.html", "destination": "/blog/how-to-compress-pdf.html", "permanent": true }
+  ],
+  "headers": [
+    { "source": "/(.*)", "headers": [{ "key": "X-Frame-Options", "value": "SAMEORIGIN" }] }
+  ]
+}
