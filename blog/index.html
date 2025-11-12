@@ -8,13 +8,33 @@
   <meta name="description" content="Tips, guides, and best practices for working with PDFs — merge, split, compress, convert — all 100% local in your browser."/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
-  <style>
-    .gradient { background: linear-gradient(90deg, #d53369 0%, #daae51 100%); }
-  </style>
+  <style>.gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%);}</style>
+
+  <!-- i18n（全站同一份） -->
+  <script src="/js/i18n.js" defer></script>
+
+  <!-- PWA / SEO -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#ec4899">
+  <link rel="canonical" href="https://docpdfhub.com/blog/">
+  <link rel="alternate" href="https://docpdfhub.com/blog/" hreflang="x-default">
+  <link rel="alternate" href="https://docpdfhub.com/blog/" hreflang="en">
+  <link rel="alternate" href="https://docpdfhub.com/zh/blog/" hreflang="zh">
+
+  <!-- AdSense（全站 head） -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648" crossorigin="anonymous"></script>
+  <!-- Google Analytics（全站 head，一次即可） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3W6M25B9FL');
+  </script>
 </head>
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
 
-  <!-- Nav -->
+  <!-- Nav（与工具页一致） -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
       <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
@@ -31,16 +51,17 @@
           <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
         </div>
       </div>
-      <!-- 移动端语言按钮（简化） -->
+      <!-- 移动端语言按钮 -->
       <div class="md:hidden flex items-center space-x-2">
         <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
       </div>
     </div>
   </nav>
+  <div class="pt-20"></div>
 
   <!-- Hero -->
-  <header class="gradient text-white pt-28 pb-10">
+  <header class="gradient text-white pt-12 pb-10">
     <div class="max-w-6xl mx-auto px-4">
       <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
       <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="blog.title">DocPDFHub Blog</h1>
@@ -48,57 +69,13 @@
         Practical guides and tips for working with PDFs — private, local-first workflows.
       </p>
     </div>
-
-    
-
-  <!-- 由 i18n.js 接管写入 -->
-  <title>Compress PDF Size — Free, No Upload | DocPDFHub</title>
-  <meta name="description" content="Reduce PDF file size directly in your browser. Light, balanced, or strong compression options. Fully local—no uploads. Keep good quality while shrinking megabytes.">
-
-  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
-
-  <!-- libs -->
-  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-
-  <!-- i18n -->
-  <script src="/js/i18n.js" defer></script>
-
-  <style>
-    .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
-    .dropzone{border:2px dashed #e5e7eb;}
-    .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
-  </style>
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#ec4899">
-  <link rel="canonical" href="https://docpdfhub.com/">
-  <link rel="alternate" href="https://docpdfhub.com/" hreflang="x-default">
-  <link rel="alternate" href="https://docpdfhub.com/" hreflang="en">
-  <link rel="alternate" href="https://docpdfhub.com/" hreflang="zh">
-  
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648"
-     crossorigin="anonymous"></script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3W6M25B9FL');
-</script>
-    
   </header>
 
   <!-- List -->
   <main class="max-w-6xl mx-auto px-4 py-10">
-    <!-- 状态区 -->
     <div id="status" class="mb-6 text-sm text-gray-500"></div>
 
-    <!-- 卡片网格 -->
     <div id="blog-grid" class="grid md:grid-cols-2 gap-6">
-      <!-- 首屏显示一个轻量骨架 -->
       <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
       <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
       <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
@@ -107,7 +84,6 @@
       <div class="animate-pulse h-32 bg-white border rounded-xl"></div>
     </div>
 
-    <!-- 分页 -->
     <div class="flex items-center justify-center gap-2 mt-8">
       <button id="prevBtn" class="px-3 py-1.5 rounded border hover:bg-gray-50 disabled:opacity-40" disabled>Prev</button>
       <span id="pageIndicator" class="px-3 py-1.5 rounded bg-pink-600 text-white font-semibold">1</span>
@@ -115,29 +91,54 @@
     </div>
   </main>
 
-  <footer class="py-10 text-center text-sm text-gray-500 border-t">
+  <!-- Footer（与工具页一致） -->
+  <footer class="bg-white border-t">
     <div class="max-w-6xl mx-auto px-4">
-      © <span id="y"></span> DocPDFHub
+      <div class="w-full flex flex-col md:flex-row py-8 gap-8 text-sm">
+        <div class="flex-1">
+          <div class="text-pink-600 font-extrabold text-2xl">DocPDFHub</div>
+          <p class="text-gray-500 mt-2" data-i18n="footer.tagline">Free & private PDF tools in your browser.</p>
+          <p class="text-gray-400 mt-2" data-i18n="common.100_local">100% local in your browser • No upload</p>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.tools">Tools</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-merge.html" data-i18n="nav.merge">Merge PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-split.html" data-i18n="nav.split">Split PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.company">Company</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/about.html" data-i18n="footer.about">About Us</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/blog/index.html" data-i18n="footer.blog">Official Blog</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/privacy.html" data-i18n="footer.contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.legal">Legal</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/terms.html" data-i18n="footer.terms">Terms</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/privacy.html">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="py-4 border-t text-xs text-gray-400">
+        © <span id="y"></span> DocPDFHub
+      </div>
     </div>
   </footer>
 
-  <!-- 兜底：内联 posts JSON（当远程 index.json 拉取失败时使用）。
-       你可以删除这段，但建议保留一份最少数据作为 fallback。 -->
-  <script id="posts-data" type="application/json">[
-    {
-      "slug":"compress-pdf-quality-size-guide",
-      "title":"How to Compress a PDF Without Ruining Quality",
-      "description":"Practical settings and trade-offs to shrink PDF size while keeping it sharp.",
-      "date":"2025-11-08","tags":["pdf","compress"],"lang":"en",
-      "url":"/blog/compress-pdf-quality-size-guide.html","readingMinutes":6
-    }
-  ]</script>
+  <!-- 兜底：内联 posts JSON（可移除） -->
+  <script id="posts-data" type="application/json">[]</script>
 
   <script>
   // 年份
   document.getElementById('y').textContent = new Date().getFullYear();
 
-  // 多语言（沿用你站点的全局 i18n，如果存在）
+  // i18n 开机
   (function initLang(){
     const lang = localStorage.getItem('lang') || 'en';
     if (window.__i18n__ && typeof window.__i18n__.setLang === 'function') {
@@ -157,7 +158,7 @@
     }
   })();
 
-  // -------- 博客列表加载逻辑（含多级回退） --------
+  // 博客列表
   (async function(){
     const statusEl = document.getElementById('status');
     const grid = document.getElementById('blog-grid');
@@ -169,7 +170,7 @@
     let posts = null;
     let page = 1;
 
-    // 1) 先尝试 /blog/index.json -> ./index.json
+    // 优先拉 /blog/index.json
     const tryUrls = ['/blog/index.json', './index.json'];
     for (const u of tryUrls) {
       try {
@@ -177,41 +178,37 @@
         if (res.ok) { posts = await res.json(); break; }
       } catch (e) {}
     }
-
-    // 2) 兜底：内联 JSON
+    // 兜底：内联
     if (!posts) {
       try {
         const inline = document.getElementById('posts-data');
-        if (inline) posts = JSON.parse(inline.textContent);
+        if (inline) posts = JSON.parse(inline.textContent || '[]');
       } catch (e) {}
     }
-
-    // 3) 还没有就报错
+    // 没有就报错
     if (!Array.isArray(posts) || posts.length === 0) {
-      statusEl.textContent = 'Failed to load blog index. Please add /blog/index.json or inline JSON.';
+      statusEl.textContent = 'No posts yet. Create /blog/index.json and HTML files in /blog/.';
       grid.innerHTML = '';
       return;
     }
 
-    // 排序（最新在前）
-    posts.sort((a,b)=>{
-      const da = new Date(a.date || 0).getTime();
-      const db = new Date(b.date || 0).getTime();
-      return db - da;
-    });
+    // 时间倒序
+    posts.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
+
+    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 
     function renderPage(p){
       const total = posts.length;
       const maxPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
       page = Math.min(Math.max(1, p), maxPage);
 
-      const start = (page - 1) * PAGE_SIZE;
-      const slice = posts.slice(start, start + PAGE_SIZE);
-
+      const slice = posts.slice((page-1)*PAGE_SIZE, (page-1)*PAGE_SIZE + PAGE_SIZE);
       grid.innerHTML = '';
       slice.forEach(item=>{
         const a = document.createElement('a');
-        a.href = item.url || '#';
+        // 关键：确保链接指向 /blog/slug.html
+        const url = item.url || (item.slug ? `/blog/${item.slug}.html` : '#');
+        a.href = url;
         a.className = 'block bg-white border rounded-xl p-6 shadow hover:shadow-lg transition';
         a.innerHTML = `
           <h3 class="text-xl font-bold text-gray-900">${escapeHTML(item.title || '(Untitled)')}</h3>
@@ -228,13 +225,9 @@
       statusEl.textContent = '';
     }
 
-    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
-
-    // 事件
     prevBtn.addEventListener('click', ()=> renderPage(page - 1));
     nextBtn.addEventListener('click', ()=> renderPage(page + 1));
 
-    // 首次渲染
     renderPage(1);
   })();
   </script>
