@@ -1,41 +1,62 @@
 [
   {
-    "slug": "how-to-merge-pdf",
-    "title": "How to Merge PDF Files (Free & Private)",
-    "summary": "Combine multiple PDFs in your browser — no upload, instant download.",
-    "date": "2025-11-12"
-  },
-  {
-    "slug": "how-to-split-pdf",
-    "title": "How to Split a PDF by Ranges",
-    "summary": "Extract pages or split into multiple files locally and securely.",
-    "date": "2025-11-12"
-  },
-  {
     "slug": "how-to-compress-pdf",
     "title": "How to Compress a PDF (Keep Quality)",
-    "summary": "Shrink file size while keeping readability — Light/Balanced/Strong.",
-    "date": "2025-11-12"
+    "description": "A detailed guide to reducing PDF size while keeping high readability — all processed locally in your browser.",
+    "date": "2025-11-12",
+    "tags": ["pdf", "compress"],
+    "lang": "en",
+    "url": "/blog/how-to-compress-pdf.html",
+    "readingMinutes": 6
+  },
+  {
+    "slug": "how-to-merge-pdf",
+    "title": "How to Merge PDF Files (Fast & Clean)",
+    "description": "Learn how to combine multiple PDFs into one polished file using DocPDFHub's fully local merging tool.",
+    "date": "2025-11-12",
+    "tags": ["pdf", "merge"],
+    "lang": "en",
+    "url": "/blog/how-to-merge-pdf.html",
+    "readingMinutes": 6
   },
   {
     "slug": "how-to-pdf-to-jpg",
-    "title": "How to Convert PDF to JPG (Fast & High-Quality)",
-    "summary": "Render each page as a crisp JPG image entirely in your browser.",
-    "date": "2025-11-12"
+    "title": "How to Convert PDF to JPG with Best Quality",
+    "description": "Convert PDFs into crisp JPG images quickly — with local processing, DPI control, and no uploads.",
+    "date": "2025-11-12",
+    "tags": ["pdf", "to-jpg"],
+    "lang": "en",
+    "url": "/blog/how-to-pdf-to-jpg.html",
+    "readingMinutes": 7
+  },
+  {
+    "slug": "how-to-split-pdf",
+    "title": "How to Split a PDF by Page Ranges",
+    "description": "Extract specific pages or ranges (like 1-3,5,9-12) with precision — ideal for contracts, reports, and scanned PDFs.",
+    "date": "2025-11-12",
+    "tags": ["pdf", "split"],
+    "lang": "en",
+    "url": "/blog/how-to-split-pdf.html",
+    "readingMinutes": 7
   },
   {
     "slug": "pdf-merge-workflows",
-    "title": "Pro PDF Merge Workflows (Reports, Scans & More) — DocPDFHub",
-    "summary": "Learn practical PDF merge workflows: combine scans, contracts, invoices, and slide decks into clean, shareable documents. All processed locally in your browser.",
-    "date": "2025-11-13"
+    "title": "Pro PDF Merge Workflows for Everyday Documents",
+    "description": "Advanced techniques for merging scans, invoices, reports, and client documents into clean PDFs.",
+    "date": "2025-11-13",
+    "tags": ["pdf", "merge"],
+    "lang": "en",
+    "url": "/blog/pdf-merge-workflows.html",
+    "readingMinutes": 9
   },
   {
     "slug": "secure-pdf-privacy-local-tools",
-    "title": "Keep Your PDFs Private: Local Tools vs Online Converters — DocPDFHub",
-    "summary": "Many PDF tools upload your documents to remote servers. Learn how local, browser-based tools keep contracts, reports, and IDs safer — and how to build a privacy-first PDF workflow.",
-    "date": "2025-11-14"
-  },
+    "title": "Keep Your PDFs Private: Local Tools vs Online Converters",
+    "description": "Understand privacy risks of cloud PDF tools and why DocPDFHub keeps everything 100% local.",
+    "date": "2025-11-13",
+    "tags": ["pdf", "privacy"],
+    "lang": "en",
+    "url": "/blog/secure-pdf-privacy-local-tools.html",
+    "readingMinutes": 10
+  }
 ]
-
-
-
