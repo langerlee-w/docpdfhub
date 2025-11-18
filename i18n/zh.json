@@ -1,188 +1,255 @@
 {
   "common": {
     "brand": "DocPDFHub",
-    "100_local": "完全在浏览器本地处理 • 不上传文件",
-    "or_drop": "或拖放文件"
+    "100_local": "100% 本地浏览器处理 • 文件不上传",
+    "or_drop": "或拖拽文件到此"
   },
   "nav": {
     "home": "首页",
     "blog": "博客",
-    "merge": "PDF 合并",
-    "split": "PDF 拆分",
-    "compress": "PDF 压缩",
+    "merge": "合并 PDF",
+    "split": "拆分 PDF",
+    "compress": "压缩 PDF",
     "tojpg": "PDF 转 JPG",
     "topdf": "Word 转 PDF",
     "toword": "PDF 转 Word"
   },
   "home": {
     "hero_kicker": "PDF 工具",
-    "title": "免费 · 私密 · 本地运行的 PDF 工具",
-    "subtitle": "合并、拆分、压缩、转换 —— 全部在浏览器本地完成，文件绝不上传服务器。",
-    "cta_start": "立即使用",
+    "title": "免费、私密的在线 PDF 工具",
+    "subtitle": "在浏览器里完成合并、拆分、压缩和格式转换，文件始终保留在本地设备。",
+    "cta_start": "立即开始",
     "view_all_tools": "查看全部工具"
   },
   "features": {
-    "title": "你处理 PDF 所需的一切"
+    "title": "满足日常所需的 PDF 工具"
   },
   "cards": {
-    "merge_desc": "几秒钟把多个 PDF 合并为一个。",
-    "split_desc": "按页码范围或逐页拆分成多个文件。",
-    "compress_desc": "在保持良好质量的情况下减小 PDF 文件体积。",
-    "tojpg_desc": "将每一页转换为高质量 JPG 图片。",
-    "topdf_desc": "将 Word（DOCX）文档本地转换为可分享的 PDF。",
-    "toword_desc": "将 PDF 转换为可编辑的 Word 文档。"
+    "merge_desc": "在几秒钟内把多个 PDF 合并为一个文件。",
+    "split_desc": "按页码范围拆分 PDF，导出为多个独立文件。",
+    "compress_desc": "显著减小 PDF 体积，同时尽量保留清晰度。",
+    "tojpg_desc": "将每一页 PDF 转换为高质量 JPG 图片。",
+    "topdf_desc": "将 Word（DOCX）文档转换为易于分享和打印的 PDF 文件。",
+    "toword_desc": "将 PDF 转换为可编辑的 Word（DOCX）文档。"
   },
   "bullets": {
     "local_title": "完全本地处理",
-    "local_desc": "所有处理均在浏览器中完成，不会上传文件。",
-    "fast_title": "快速免费",
-    "fast_desc": "即时结果，无需注册，无需账号。",
-    "safe_title": "安全私密",
-    "safe_desc": "您的文件永不离开设备。"
+    "local_desc": "所有操作都在你的浏览器中完成，文件不会上传到服务器。",
+    "fast_title": "快速 · 免费",
+    "fast_desc": "即时出结果，无需注册登录。",
+    "safe_title": "私密 · 安全",
+    "safe_desc": "适合处理工作文档和敏感文件。"
   },
   "cta": {
-    "title": "轻松处理你的 PDF 文件",
-    "subtitle": "从任意工具开始 —— 免费 · 私密 · 极速。"
+    "title": "更轻松地处理 PDF",
+    "subtitle": "从任意一个工具开始使用——免费、私密而且非常快速。"
   },
   "footer": {
-    "tagline": "免费 · 私密 · 浏览器本地运行的 PDF 工具。",
+    "tagline": "在浏览器中运行的免费私密 PDF 工具。",
     "tools": "工具",
-    "company": "公司",
+    "company": "关于",
     "about": "关于我们",
-    "blog": "官方博客",
-    "contact": "联系我们",
-    "legal": "法律",
-    "terms": "服务条款",
+    "blog": "博客",
+    "contact": "联系",
+    "legal": "条款",
+    "terms": "使用条款",
     "privacy": "隐私政策"
+  },
+  "uploader": {
+    "title": "拖拽文件到此，或点击选择",
+    "hint": "单个文件最大 100MB。所有处理均在本地完成。"
   },
   "tool": {
     "merge": {
-      "ogTitle": "PDF 合并 — DocPDFHub",
-      "ogDesc": "将多个 PDF 合并为一个文件 —— 完全本地处理。",
+      "ogTitle": "合并 PDF — DocPDFHub",
+      "ogDesc": "把多个 PDF 合并成一个文档，全程在浏览器本地完成。",
       "hero": {
-        "title": "PDF 合并",
-        "subtitle": "将多个 PDF 合并为一个文档 —— 全程本地处理。",
-        "primary_cta": "添加 PDF 进行合并"
+        "title": "合并 PDF",
+        "subtitle": "将多个 PDF 合并成一个文档——处理过程全部在本地浏览器中完成。",
+        "primary_cta": "添加要合并的 PDF"
       },
       "drop": {
-        "title": "拖放你的 PDF 文件到这里",
-        "hint": "可添加多个 PDF，并按顺序拖动调整。",
-        "button": "选择 PDF"
+        "title": "将要合并的 PDF 拖拽到这里",
+        "hint": "可以添加多个 PDF，并在合并前调整顺序。",
+        "button": "选择 PDF 文件"
       },
       "options": {
-        "reorder_hint": "拖动以调整顺序",
+        "reorder_hint": "拖拽以调整顺序",
         "add_more": "继续添加文件",
-        "clear_all": "清空所有",
-        "keep_outlines": "保留书签/大纲",
-        "keep_metadata": "保留元数据"
+        "clear_all": "清空列表",
+        "keep_outlines": "保留书签 / 目录",
+        "keep_metadata": "保留文档元数据"
       },
       "running": {
         "status": "正在合并 PDF…",
-        "tip": "大文件可能需要稍长一些（仍然是完全本地处理）。"
+        "tip": "大文件处理可能稍慢一些，但始终在本地完成。"
       },
       "result": {
         "title": "合并完成"
       },
       "errors": {
-        "no_pdf": "请至少添加一个 PDF 文件。"
+        "no_pdf": "请先添加至少一个 PDF 文件。"
       }
     },
     "split": {
-      "ogTitle": "PDF 拆分 — DocPDFHub",
-      "ogDesc": "按页码范围或逐页拆分 PDF —— 完全本地处理。",
+      "ogTitle": "拆分 PDF — DocPDFHub",
+      "ogDesc": "按页码范围或逐页拆分 PDF 文件——全部本地处理。",
       "hero": {
-        "title": "PDF 拆分",
-        "subtitle": "按范围提取页面，或将每页拆成独立 PDF —— 全程本地处理。",
-        "primary_cta": "添加 PDF 进行拆分"
+        "title": "拆分 PDF",
+        "subtitle": "按页范围提取或拆分成多个 PDF——处理过程全部在本地进行。",
+        "primary_cta": "添加要拆分的 PDF"
       },
       "drop": {
-        "title": "拖放 PDF 以拆分",
+        "title": "将要拆分的 PDF 拖拽到这里",
         "hint": "示例范围：1-3,5,8-10",
-        "button": "选择 PDF"
+        "button": "选择 PDF 文件"
       },
       "options": {
-        "mode": "拆分模式",
+        "mode": "拆分方式",
         "mode_ranges": "按页码范围拆分",
-        "mode_each": "每页生成一个文件",
-        "ranges_placeholder": "如：1-3,5,8-10",
+        "mode_each": "每一页单独导出为文件",
+        "ranges_placeholder": "例如：1-3,5,8-10",
         "include_empty": "跳过空白页",
         "add_more": "替换文件"
       },
       "running": {
         "status": "正在拆分…",
-        "tip": "所有处理均在本地进行，安全私密。"
+        "tip": "所有处理在本地浏览器完成，安全可控。"
       },
       "result": {
         "title": "拆分完成"
       },
       "errors": {
-        "no_pdf": "请添加一个 PDF 文件。",
-        "bad_ranges": "无效的页码范围。"
+        "no_pdf": "请先添加要拆分的 PDF 文件。",
+        "bad_ranges": "页码范围格式不正确。"
       }
     },
     "compress": {
-      "ogTitle": "PDF 压缩 — DocPDFHub",
-      "ogDesc": "本地压缩 PDF，减小文件体积，更易于分享。",
+      "ogTitle": "压缩 PDF — DocPDFHub",
+      "ogDesc": "在浏览器中减小 PDF 体积，更方便分享和发送邮件。",
       "hero": {
-        "title": "PDF 压缩",
-        "subtitle": "轻松减小 PDF 文件大小 —— 完全本地处理。",
-        "primary_cta": "添加 PDF 进行压缩"
+        "title": "压缩 PDF",
+        "subtitle": "减小文件大小以便分享，同时保持尽可能好的清晰度。",
+        "primary_cta": "添加要压缩的 PDF"
       },
       "drop": {
-        "title": "拖放 PDF 以压缩",
-        "hint": "提示：邮件发送时可选择更强的压缩等级。",
-        "button": "选择 PDF"
+        "title": "拖拽 PDF 到此处进行压缩",
+        "hint": "小贴士：邮件附件建议使用更强压缩等级。",
+        "button": "选择 PDF 文件"
       },
       "options": {
         "level": "压缩等级",
-        "level_light": "轻度（最佳质量）",
-        "level_balanced": "均衡",
-        "level_strong": "强力（最小体积）",
-        "reduce_images": "降低图像分辨率",
-        "remove_metadata": "移除元数据",
+        "level_light": "轻度（画质最佳）",
+        "level_balanced": "平衡（推荐）",
+        "level_strong": "强力压缩（体积最小）",
+        "reduce_images": "降低图片分辨率",
+        "remove_metadata": "移除文档元数据",
         "add_more": "替换文件"
       },
       "running": {
         "status": "正在压缩…",
-        "tip": "文件不会上传，完全本地处理。"
+        "tip": "整个压缩过程都在你的浏览器本地完成。"
       },
       "result": {
         "title": "压缩完成"
       },
       "errors": {
-        "no_pdf": "请添加一个 PDF 文件。"
+        "no_pdf": "请先添加要压缩的 PDF 文件。"
       }
     },
     "tojpg": {
       "ogTitle": "PDF 转 JPG — DocPDFHub",
-      "ogDesc": "将 PDF 每页转换为 JPG 图片 —— 完全本地、安全。",
+      "ogDesc": "将 PDF 的每一页转换为 JPG 图片——本地处理更安全。",
       "hero": {
         "title": "PDF 转 JPG",
-        "subtitle": "将每一页转换为高质量 JPG 图片 —— 本地私密处理。",
-        "primary_cta": "添加 PDF 进行转换"
+        "subtitle": "把每一页 PDF 转成高质量 JPG 图片——本地渲染，保护隐私。",
+        "primary_cta": "添加要转换的 PDF"
       },
       "drop": {
-        "title": "拖放 PDF 以转换",
-        "hint": "每页会生成一张 JPG 图片。",
-        "button": "选择 PDF"
+        "title": "拖拽 PDF 到此处进行转换",
+        "hint": "每一页都会导出为一张 JPG 图片。",
+        "button": "选择 PDF 文件"
       },
       "options": {
-        "dpi": "输出质量（DPI）",
-        "quality": "JPG 质量",
-        "range": "指定页码（可选）",
+        "dpi": "输出清晰度（DPI）",
+        "quality": "JPG 画质",
+        "range": "页码（可选）",
         "range_placeholder": "例如：1-3,5",
-        "bg": "透明背景（若支持）",
+        "bg": "尽量使用透明背景（如可用）",
         "add_more": "替换文件"
       },
       "running": {
         "status": "正在转换为 JPG…",
-        "tip": "本地渲染页面以确保隐私安全。"
+        "tip": "在本地渲染每一页，确保最佳隐私保护。"
       },
       "result": {
         "title": "转换完成"
       },
       "errors": {
-        "no_pdf": "请添加一个 PDF 文件。"
+        "no_pdf": "请先添加要转换的 PDF 文件。"
+      }
+    },
+    "topdf": {
+      "ogTitle": "Word 转 PDF — DocPDFHub",
+      "ogDesc": "在浏览器中将 Word（DOCX）转换为 PDF，保留版式，无需上传。",
+      "hero": {
+        "title": "Word 转 PDF",
+        "subtitle": "把 DOCX 文档转换为干净、易于分享的 PDF 文件——全部在浏览器本地完成。",
+        "primary_cta": "添加要转换的 Word 文件"
+      },
+      "drop": {
+        "title": "拖拽 Word（DOCX）文件到此处进行转换",
+        "hint": "在不上传文件的前提下，生成可打印、可分享的 PDF。",
+        "button": "选择 DOCX 文件"
+      },
+      "options": {
+        "page_size": "页面大小",
+        "orientation": "页面方向",
+        "page_size_auto": "自动（保持原始设置）",
+        "page_size_a4": "A4",
+        "page_size_letter": "美式 Letter",
+        "orientation_portrait": "竖向",
+        "orientation_landscape": "横向",
+        "add_more": "替换文件"
+      },
+      "running": {
+        "status": "正在转换为 PDF…",
+        "tip": "所有转换逻辑都在本地浏览器中完成。"
+      },
+      "result": {
+        "title": "转换完成"
+      },
+      "errors": {
+        "no_docx": "请先添加要转换的 Word（DOCX）文件。"
+      }
+    },
+    "toword": {
+      "ogTitle": "PDF 转 Word — DocPDFHub",
+      "ogDesc": "将 PDF 转换为可编辑的 Word 文档——在浏览器本地完成，保护隐私。",
+      "hero": {
+        "title": "PDF 转 Word",
+        "subtitle": "把静态 PDF 变成可编辑的 DOCX 文件，无需上传到服务器。",
+        "primary_cta": "添加要转换的 PDF"
+      },
+      "drop": {
+        "title": "拖拽 PDF 到此处转换为 Word",
+        "hint": "适合编辑合同、报告以及已做 OCR 的扫描件。",
+        "button": "选择 PDF 文件"
+      },
+      "options": {
+        "keep_layout": "尽量保留原始版式",
+        "text_only": "只提取文本（简化格式）",
+        "add_more": "替换文件"
+      },
+      "running": {
+        "status": "正在转换为 Word…",
+        "tip": "提取和转换过程全部在本地浏览器执行，隐私更有保障。"
+      },
+      "result": {
+        "title": "转换完成"
+      },
+      "errors": {
+        "no_pdf": "请先添加要转换的 PDF 文件。"
       }
     }
   }
