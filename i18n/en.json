@@ -10,9 +10,9 @@
     "merge": "Merge PDF",
     "split": "Split PDF",
     "compress": "Compress PDF",
-    "tojpg": "PDF to JPG"
-    "topdf": "word to JPG"
-    "toword": "PDF to word"
+    "tojpg": "PDF to JPG",
+    "topdf": "Word to PDF",
+    "toword": "PDF to Word"
   },
   "home": {
     "hero_kicker": "PDF TOOLS",
@@ -28,7 +28,9 @@
     "merge_desc": "Combine multiple PDFs into one in seconds.",
     "split_desc": "Extract pages or split by ranges to separate files.",
     "compress_desc": "Shrink PDF size while keeping good quality.",
-    "tojpg_desc": "Convert every page to high-quality JPEG images."
+    "tojpg_desc": "Convert every page to high-quality JPEG images.",
+    "topdf_desc": "Turn Word (DOCX) documents into shareable PDFs in your browser.",
+    "toword_desc": "Convert PDFs back to editable Word documents."
   },
   "bullets": {
     "local_title": "100% Local",
