@@ -11,6 +11,8 @@
     "split": "Split PDF",
     "compress": "Compress PDF",
     "tojpg": "PDF to JPG"
+    "topdf": "word to JPG"
+    "toword": "PDF to word"
   },
   "home": {
     "hero_kicker": "PDF TOOLS",
