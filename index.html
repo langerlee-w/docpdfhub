@@ -4,14 +4,13 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>DocPDFHub – Free, Private PDF Tools</title>
-  <meta name="description" content="Free online PDF tools: merge, split, compress, and convert PDF to JPG — 100% local in your browser."/>
+  <title>DocPDFHub – Free, Private PDF & Word Tools</title>
+  <meta name="description" content="Free online PDF tools: merge, split, compress, convert PDF to JPG, and convert between Word and PDF — 100% local in your browser."/>
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
 
   <link rel="sitemap" type="application/xml" title="sitemap" href="https://docpdfhub.com/sitemap.xml" />
 
-  <!-- 移除原外链 i18n.js，改用内置脚本 -->
   <style>
     .gradient { background: linear-gradient(90deg, #d53369 0%, #daae51 100%); }
   </style>
@@ -25,18 +24,16 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648"
     crossorigin="anonymous"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3W6M25B9FL');
-</script>
-
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3W6M25B9FL');
+  </script>
 </head>
   
-  <!-- Ad: index_top_display -->
+<!-- Ad: index_top_display -->
 <section class="max-w-6xl mx-auto px-4 mt-4">
   <ins class="adsbygoogle"
        style="display:block"
@@ -69,6 +66,8 @@
           <li><a href="/tools/pdf-split.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a></li>
           <li><a href="/tools/pdf-compress.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a></li>
           <li><a href="/tools/pdf-to-jpg.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a></li>
+          <li><a href="/tools/docx-to-pdf.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.topdf">Word to PDF</a></li>
+          <li><a href="/tools/pdf-to-docx.html" class="block py-2 text-gray-700 hover:text-pink-600" data-i18n="nav.toword">PDF to Word</a></li>
         </ul>
         
         <div class="flex items-center ml-auto space-x-2 mt-3 lg:mt-0">
@@ -78,9 +77,8 @@
           <button type="button" data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>   
         </div>
       </div>
- 
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </nav>
 
@@ -90,10 +88,10 @@
       <div>
         <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
         <h1 class="my-3 text-4xl md:text-5xl font-extrabold leading-tight" data-i18n="home.title">
-          Free Online PDF Tools — Merge, Split, Compress, Convert
+          Free Online PDF & Word Tools — Merge, Split, Compress, Convert
         </h1>
         <p class="text-white text-opacity-90 text-lg" data-i18n="home.subtitle">
-          Work with PDF files fast, free and private. All processing runs in your browser — no file upload.
+          Work with PDF and Word files fast, free and private. All processing runs in your browser — no file upload.
         </p>
 
         <div class="mt-6 flex flex-wrap items-center gap-3">
@@ -118,11 +116,11 @@
       <div class="h-1 mx-auto gradient w-24 opacity-25 mt-4 rounded"></div>
 
       <!-- Cards -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
         <!-- Merge -->
         <a href="/tools/pdf-merge.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
           <div class="font-bold text-lg" data-i18n="nav.merge">Merge PDF</div>
-          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_merge.subtitle">Combine multiple PDFs into one, reorder pages, and download instantly.</p>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="cards.merge_desc">Combine multiple PDFs into one in seconds.</p>
           <p class="text-xs text-gray-400 mt-1">
             Best free online PDF merge tool — no upload, local processing.
           </p>
@@ -131,7 +129,7 @@
         <!-- Split -->
         <a href="/tools/pdf-split.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
           <div class="font-bold text-lg" data-i18n="nav.split">Split PDF</div>
-          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_split.subtitle">Extract pages or split into multiple files by ranges.</p>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="cards.split_desc">Extract pages or split by ranges to separate files.</p>
           <p class="text-xs text-gray-400 mt-1">
             Split large PDFs by page ranges locally in your browser.
           </p>
@@ -140,35 +138,54 @@
         <!-- Compress -->
         <a href="/tools/pdf-compress.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
           <div class="font-bold text-lg" data-i18n="nav.compress">Compress PDF</div>
-          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_compress.subtitle">Reduce PDF size while keeping good quality.</p>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="cards.compress_desc">Shrink PDF size while keeping good quality.</p>
           <p class="text-xs text-gray-400 mt-1">
             Reduce PDF file size instantly without losing quality.
           </p>
           <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
         </a>
-        <!-- To JPG -->
+        <!-- PDF to JPG -->
         <a href="/tools/pdf-to-jpg.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
           <div class="font-bold text-lg" data-i18n="nav.tojpg">PDF to JPG</div>
-          <p class="text-sm text-gray-600 mt-2" data-i18n="tool_tojpg.subtitle">Convert each page of a PDF into JPG images.</p>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="cards.tojpg_desc">Convert every page to high-quality JPEG images.</p>
           <p class="text-xs text-gray-400 mt-1">
             Convert every PDF page into high resolution JPG images.
           </p>
           <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
         </a>
+        <!-- Word to PDF -->
+        <a href="/tools/docx-to-pdf.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
+          <div class="font-bold text-lg" data-i18n="nav.topdf">Word to PDF</div>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="cards.topdf_desc">Convert Word (DOCX) to shareable, print-ready PDF files.</p>
+          <p class="text-xs text-gray-400 mt-1">
+            Turn DOCX into clean PDFs directly in your browser.
+          </p>
+          <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
+        </a>
+        <!-- PDF to Word -->
+        <a href="/tools/pdf-to-docx.html" class="group block bg-gray-50 hover:bg-white border rounded-xl p-5 shadow hover:shadow-lg transition">
+          <div class="font-bold text-lg" data-i18n="nav.toword">PDF to Word</div>
+          <p class="text-sm text-gray-600 mt-2" data-i18n="cards.toword_desc">Convert PDFs into editable Word documents.</p>
+          <p class="text-xs text-gray-400 mt-1">
+            Quickly extract text layout into an editable DOCX file.
+          </p>
+          <span class="inline-block mt-4 text-pink-600 group-hover:underline" data-i18n="common.open_tool">Open tool →</span>
+        </a>
       </div>
-             <!-- Ad: index_mid_display -->
-     <div class="max-w-6xl mx-auto px-4 mt-8">
-      <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-4284929103244648"
-       data-ad-slot="7530331224"
-       data-ad-format="auto"
-       data-full-width-responsive="true"
-       data-adtest="on"></ins>
-     </div>
-     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+      <!-- Ad: index_mid_display -->
+      <div class="max-w-6xl mx-auto px-4 mt-8">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4284929103244648"
+             data-ad-slot="7530331224"
+             data-ad-format="auto"
+             data-full-width-responsive="true"
+             data-adtest="on"></ins>
+      </div>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       
-      <!-- Trust bullets（保留两项，避免缺键） -->
+      <!-- Trust bullets -->
       <div class="grid md:grid-cols-2 gap-6 mt-12">
         <div class="bg-gray-50 rounded-xl p-6 border">
           <div class="font-semibold" data-i18n="bullets.local_title">100% Local</div>
@@ -182,20 +199,24 @@
     </div>
   </section>
   
-       <!-- SEO Long Description -->
-<section class="bg-white">
-  <div class="max-w-4xl mx-auto px-4 py-16 text-gray-800 text-lg leading-relaxed space-y-6">
-    <p>
-      DocPDFHub is a set of simple, fast and privacy-focused online PDF utilities. You can merge PDFs, split pages into new PDF files, compress PDF size, or convert PDF pages into JPG images — all processed 100% locally in your own browser. Files never leave your device and nothing is uploaded to any server. This makes DocPDFHub extremely safe for work documents and confidential files.
-    </p>
-    <p>
-      Our goal is to provide professional PDF tools that feel as simple as everyday web apps. Whether you are preparing documents for work, school, or business, DocPDFHub lets you finish tasks in seconds. The whole experience is free, secure, and optimized for both desktop and mobile browsers. Bookmark this site for your everyday PDF workflows — no accounts, no signup, and no waiting.
-    </p>
-    <p class="text-sm text-gray-500">
-      Keywords: merge PDF online, split PDF free, compress PDF browser, convert PDF to JPG, privacy focused PDF tools, no upload PDF editor
-    </p>
-  </div>
-</section>
+  <!-- SEO Long Description -->
+  <section class="bg-white">
+    <div class="max-w-4xl mx-auto px-4 py-16 text-gray-800 text-lg leading-relaxed space-y-6">
+      <p>
+        DocPDFHub is a set of simple, fast and privacy-focused online PDF utilities. You can merge PDFs, split pages into new PDF files,
+        compress PDF size, convert PDF pages into JPG images, and convert between Word and PDF — all processed 100% locally in your own browser.
+        Files never leave your device and nothing is uploaded to any server. This makes DocPDFHub extremely safe for work documents and confidential files.
+      </p>
+      <p>
+        Our goal is to provide professional PDF and Word tools that feel as simple as everyday web apps. Whether you are preparing documents for work,
+        school, or business, DocPDFHub lets you finish tasks in seconds. The whole experience is free, secure, and optimized for both desktop and mobile browsers.
+        Bookmark this site for your everyday document workflows — no accounts, no signup, and no waiting.
+      </p>
+      <p class="text-sm text-gray-500">
+        Keywords: merge PDF online, split PDF free, compress PDF browser, convert PDF to JPG, Word to PDF, PDF to Word, privacy focused PDF tools, no upload PDF editor
+      </p>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="container mx-auto text-center py-12">
@@ -203,6 +224,7 @@
     <p class="mt-2 text-gray-600" data-i18n="cta.subtitle">Start with any tool — it’s free, private, and lightning fast.</p>
     <a href="/tools/pdf-merge.html" class="mt-6 inline-block bg-pink-600 text-white font-bold rounded-full py-3 px-8 shadow hover:bg-pink-700 transform hover:scale-105 transition" data-i18n="home.cta_start">Start Now</a>
   </section>
+
   <section class="max-w-6xl mx-auto px-4 py-16">
     <h2 class="text-3xl font-bold text-center mb-8">FAQ</h2>
     <div class="space-y-6">
@@ -220,29 +242,30 @@
       </div>
     </div>
   </section>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Are my PDF files uploaded to server?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. All tools run in your browser. Files never leave your device." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this PDF toolkit free?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes, all tools on DocPDFHub are 100% free to use." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is account or login required?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No signup needed. Use all tools instantly." }
-    }
-  ]
-}
-</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are my PDF files uploaded to server?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. All tools run in your browser. Files never leave your device." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this PDF toolkit free?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, all tools on DocPDFHub are 100% free to use." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is account or login required?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No signup needed. Use all tools instantly." }
+      }
+    ]
+  }
+  </script>
 
   <!-- Footer -->
   <footer class="bg-white border-t">
@@ -260,14 +283,16 @@
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-split.html" data-i18n="nav.split">Split PDF</a></li>
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/docx-to-pdf.html" data-i18n="nav.topdf">Word to PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-docx.html" data-i18n="nav.toword">PDF to Word</a></li>
           </ul>
         </div>
         <div class="flex-1">
           <p class="uppercase text-gray-500 mb-3" data-i18n="footer.company">Company</p>
           <ul class="space-y-2">
             <li><a class="text-gray-700 hover:text-pink-600" href="/about.html" data-i18n="footer.about">About Us</a></li>
-            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.blog">Official Blog</a></li>
-            <li><a class="text-gray-700 hover:text-pink-600" href="#" data-i18n="footer.contact">Contact</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/blog/index.html" data-i18n="footer.blog">Official Blog</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="mailto:langer.lee@gmail.com" data-i18n="footer.contact">Contact</a></li>
           </ul>
         </div>
         <div class="flex-1">
@@ -296,7 +321,6 @@
     (function () {
       const htmlEl = document.documentElement;
 
-      // 读取默认语言：localStorage > 浏览器 > en
       const detectLang = () => {
         const saved = localStorage.getItem('lang');
         if (saved) return saved;
@@ -321,7 +345,6 @@
           return json;
         } catch (e) {
           console.warn(`[i18n] Failed to load /lang/${lang}.json`, e);
-          // 最简兜底：返回空对象，不影响页面原始文本
           const empty = {};
           dictCache.set(lang, empty);
           return empty;
@@ -346,13 +369,9 @@
         applyLang(dict);
       }
 
-      // 绑定全局方法（工具页也可用）
       window.__i18n__ = { setLang, get lang(){ return currentLang; } };
-
-      // 初始化：先设置 html lang，再应用
       setLang(currentLang);
 
-      // 语言按钮
       document.querySelectorAll('[data-lang-btn]').forEach(btn => {
         btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang-btn')));
       });
