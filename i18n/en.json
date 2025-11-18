@@ -29,8 +29,8 @@
     "split_desc": "Extract pages or split by ranges to separate files.",
     "compress_desc": "Shrink PDF size while keeping good quality.",
     "tojpg_desc": "Convert every page to high-quality JPEG images.",
-    "topdf_desc": "Turn Word (DOCX) documents into shareable PDFs in your browser.",
-    "toword_desc": "Convert PDFs back to editable Word documents."
+    "topdf_desc": "Convert Word (DOCX) to shareable, print-ready PDF files.",
+    "toword_desc": "Convert PDFs into editable Word (DOCX) documents."
   },
   "bullets": {
     "local_title": "100% Local",
@@ -54,6 +54,10 @@
     "legal": "Legal",
     "terms": "Terms",
     "privacy": "Privacy"
+  },
+  "uploader": {
+    "title": "Drop files here or click to select",
+    "hint": "Max 100MB each. Your files never leave your device."
   },
   "tool": {
     "merge": {
@@ -183,6 +187,69 @@
       },
       "errors": {
         "no_pdf": "Please add a PDF to convert."
+      }
+    },
+    "topdf": {
+      "ogTitle": "Word to PDF — DocPDFHub",
+      "ogDesc": "Convert Word (DOCX) to PDF in your browser — layout preserved, no upload.",
+      "hero": {
+        "title": "Word to PDF",
+        "subtitle": "Turn DOCX files into clean, shareable PDFs — processed locally in your browser.",
+        "primary_cta": "Add Word file to Convert"
+      },
+      "drop": {
+        "title": "Drop a Word (DOCX) file to convert",
+        "hint": "Convert your document to a print-ready PDF without uploading.",
+        "button": "Select DOCX"
+      },
+      "options": {
+        "page_size": "Page size",
+        "orientation": "Orientation",
+        "page_size_auto": "Auto (keep original)",
+        "page_size_a4": "A4",
+        "page_size_letter": "US Letter",
+        "orientation_portrait": "Portrait",
+        "orientation_landscape": "Landscape",
+        "add_more": "Replace file"
+      },
+      "running": {
+        "status": "Converting to PDF…",
+        "tip": "All conversion happens inside your browser."
+      },
+      "result": {
+        "title": "Conversion complete"
+      },
+      "errors": {
+        "no_docx": "Please add a Word (DOCX) file to convert."
+      }
+    },
+    "toword": {
+      "ogTitle": "PDF to Word — DocPDFHub",
+      "ogDesc": "Convert PDFs into editable Word documents — fully local in your browser.",
+      "hero": {
+        "title": "PDF to Word",
+        "subtitle": "Turn static PDFs into editable DOCX files — no upload required.",
+        "primary_cta": "Add PDF to Convert"
+      },
+      "drop": {
+        "title": "Drop a PDF to convert to Word",
+        "hint": "Great for editing contracts, reports, and scanned documents after OCR.",
+        "button": "Select PDF"
+      },
+      "options": {
+        "keep_layout": "Try to keep original layout",
+        "text_only": "Text only (simpler formatting)",
+        "add_more": "Replace file"
+      },
+      "running": {
+        "status": "Converting to Word…",
+        "tip": "Extraction is done locally in your browser for better privacy."
+      },
+      "result": {
+        "title": "Conversion complete"
+      },
+      "errors": {
+        "no_pdf": "Please add a PDF to convert to Word."
       }
     }
   }
