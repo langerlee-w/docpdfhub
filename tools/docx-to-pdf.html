@@ -1,19 +1,320 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>(Tool) — DocPDFHub</title>
-  <meta name="description" content="This tool runs in your browser. Free and privacy-safe.">
-  <link rel="icon" href="/favicon.svg">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"DocPDFHub",
+    "url":"https://docpdfhub.com",
+    "logo":"https://docpdfhub.com/icon-512.png",
+    "sameAs":[]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "url":"https://docpdfhub.com",
+    "name":"DocPDFHub",
+    "inLanguage":"en",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://docpdfhub.com/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
+
+  <title>Word to PDF — Free, No Upload | DocPDFHub</title>
+  <meta name="description" content="Convert Word (DOCX) to PDF directly in your browser. Simple drag & drop interface. 100% local — your files never leave your device.">
+
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
+
+  <!-- TODO: 如采用纯前端 DOCX→PDF 库，可在此处通过 CDN 引入 -->
+  <!-- <script src="https://cdn.example.com/docx-to-pdf-lib.js"></script> -->
+
+  <!-- i18n / 公共脚本 -->
+  <script src="/js/i18n.js" defer></script>
+
+  <style>
+    .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
+    .dropzone{border:2px dashed #e5e7eb;}
+    .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
+  </style>
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#ec4899">
+  <link rel="canonical" href="https://docpdfhub.com/tools/docx-to-pdf.html">
+  <link rel="alternate" href="https://docpdfhub.com/tools/docx-to-pdf.html" hreflang="x-default">
+  <link rel="alternate" href="https://docpdfhub.com/tools/docx-to-pdf.html" hreflang="en">
+  <link rel="alternate" href="https://docpdfhub.com/zh/tools/docx-to-pdf.html" hreflang="zh">
+
+  <!-- AdSense / GA（保持与其他工具页一致） -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3W6M25B9FL');
+  </script>
 </head>
-<body class="bg-slate-950 text-slate-100">
-  <main class="max-w-4xl mx-auto p-6">
-    <a href="/" class="text-sky-400 underline">← DocPDFHub</a>
-    <h1 class="text-3xl font-bold mt-4">(Tool)</h1>
-    <p class="text-slate-400">Placeholder page. Implementation coming soon.</p>
+
+<body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+
+  <!-- Nav -->
+  <nav class="fixed w-full z-30 top-0 bg-white shadow">
+    <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a class="text-pink-600 font-extrabold text-2xl" href="/"><span data-i18n="common.brand">DocPDFHub</span></a>
+      <div class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="/" class="text-gray-700 hover:text-pink-600" data-i18n="nav.home">Home</a>
+        <a href="/blog/index.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.blog">Blog</a>
+        <a href="/tools/pdf-merge.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.merge">Merge PDF</a>
+        <a href="/tools/pdf-split.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
+        <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
+        <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
+        <a href="/tools/docx-to-pdf.html" class="text-gray-900 font-semibold">Word to PDF</a>
+        <a href="/tools/pdf-to-docx.html" class="text-gray-700 hover:text-pink-600">PDF to Word</a>
+        <div class="flex items-center space-x-2">
+          <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+          <span class="text-gray-300">|</span>
+          <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+        </div>
+      </div>
+      <!-- Mobile lang -->
+      <div class="md:hidden flex items-center space-x-2">
+        <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
+        <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
+      </div>
+    </div>
+  </nav>
+  <div class="pt-20"></div>
+
+  <!-- Hero -->
+  <header class="gradient text-white pt-12 pb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="uppercase tracking-widest opacity-90 text-sm">DOCX → PDF</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2">Word to PDF Converter</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4">
+        Turn Word documents into clean PDFs right in your browser. Drag & drop a DOCX file and download a ready-to-share PDF.
+      </p>
+      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">
+        100% local in your browser • No upload
+      </p>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto px-4 py-10">
+    <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
+      <div class="text-center">
+        <h2 class="text-xl font-bold">Drop a Word file to convert</h2>
+        <p class="text-gray-600 mt-1">DOCX files up to 50MB. Older .doc files are not supported yet.</p>
+
+        <label for="fileInput" class="block mt-4 p-6 border rounded-xl dropzone cursor-pointer">
+          <div class="font-semibold">Drop a .docx here or click to select</div>
+          <div class="text-xs text-gray-500 mt-1">Your file never leaves your device.</div>
+          <input id="fileInput" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="sr-only"/>
+        </label>
+
+        <div class="mt-3">
+          <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700">
+            Select Word file
+          </button>
+          <div class="text-xs text-gray-500 mt-2">or drag & drop</div>
+        </div>
+      </div>
+
+      <div id="fileInfo" class="mt-6 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <div id="fileName" class="font-medium"></div>
+            <div id="fileSize" class="text-xs text-gray-500"></div>
+          </div>
+          <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50">Replace file</button>
+        </div>
+
+        <div class="mt-6">
+          <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6">
+            Convert to PDF
+          </button>
+          <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden">
+            Converting… This runs fully in your browser.
+          </p>
+        </div>
+
+        <p id="note" class="mt-3 text-xs text-gray-500">
+          Note: This beta converter focuses on text and basic formatting.
+          Very complex layouts or Office-only features may look slightly different in PDF.
+        </p>
+      </div>
+    </div>
+
+    <!-- 简单说明文字，增加页面“内容感” -->
+    <section class="mt-10 grid md:grid-cols-3 gap-6 text-sm text-gray-700">
+      <div class="bg-white border rounded-xl p-4">
+        <h3 class="font-semibold mb-1">Best for sharing</h3>
+        <p>Convert DOCX before sending to clients so they see exactly what you designed, regardless of their Office version.</p>
+      </div>
+      <div class="bg-white border rounded-xl p-4">
+        <h3 class="font-semibold mb-1">Private by design</h3>
+        <p>Conversion is performed with JavaScript in your browser. We do not upload or store your Word files or PDFs.</p>
+      </div>
+      <div class="bg-white border rounded-xl p-4">
+        <h3 class="font-semibold mb-1">Combine with other tools</h3>
+        <p>After converting to PDF, you can compress, merge, or split the result using other tools on DocPDFHub.</p>
+      </div>
+    </section>
+
+    <!-- 广告位 -->
+    <div class="mt-8">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4284929103244648"
+           data-ad-slot="7530331224"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </main>
+
+  <!-- Footer（与其他页面一致） -->
+  <footer class="bg-white border-t">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="w-full flex flex-col md:flex-row py-8 gap-8 text-sm">
+        <div class="flex-1">
+          <div class="text-pink-600 font-extrabold text-2xl">DocPDFHub</div>
+          <p class="text-gray-500 mt-2" data-i18n="footer.tagline">Free & private PDF tools in your browser.</p>
+          <p class="text-gray-400 mt-2" data-i18n="common.100_local">100% local in your browser • No upload</p>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.tools">Tools</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-merge.html" data-i18n="nav.merge">Merge PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-split.html" data-i18n="nav.split">Split PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/docx-to-pdf.html">Word to PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-docx.html">PDF to Word</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.company">Company</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/about.html" data-i18n="footer.about">About Us</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/blog/index.html" data-i18n="footer.blog">Official Blog</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="mailto:langer.lee@gmail.com" data-i18n="footer.contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p class="uppercase text-gray-500 mb-3" data-i18n="footer.legal">Legal</p>
+          <ul class="space-y-2">
+            <li><a class="text-gray-700 hover:text-pink-600" href="/terms.html" data-i18n="footer.terms">Terms</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/privacy.html">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="py-4 border-t text-xs text-gray-400">
+        © <span id="y"></span> DocPDFHub
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const $ = s => document.querySelector(s);
+    const dropZone   = document.getElementById('dropZone');
+    const fileInput  = $('#fileInput');
+    const chooseBtn  = $('#chooseBtn');
+    const replaceBtn = $('#replaceBtn');
+    const fileInfo   = $('#fileInfo');
+    const fileNameEl = $('#fileName');
+    const fileSizeEl = $('#fileSize');
+    const runBtn     = $('#runBtn');
+    const runMsg     = $('#runMsg');
+
+    let file = null;
+
+    function fmtBytes(n){
+      const u=['B','KB','MB','GB'];let i=0;
+      while(n>=1024 && i<u.length-1){n/=1024;i++;}
+      return n.toFixed(n<10 && i?1:0)+' '+u[i];
+    }
+
+    function showInfo(){
+      fileInfo.classList.toggle('hidden', !file);
+      if(file){
+        fileNameEl.textContent = file.name;
+        fileSizeEl.textContent = fmtBytes(file.size);
+      }
+    }
+
+    // 拖拽高亮
+    ['dragenter','dragover'].forEach(evt=>{
+      dropZone.addEventListener(evt, e=>{
+        e.preventDefault(); e.stopPropagation();
+        dropZone.classList.add('drop-active');
+      });
+    });
+    ['dragleave','drop'].forEach(evt=>{
+      dropZone.addEventListener(evt, e=>{
+        e.preventDefault(); e.stopPropagation();
+        dropZone.classList.remove('drop-active');
+      });
+    });
+
+    dropZone.addEventListener('drop', e=>{
+      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/\.docx$/i.test(f.name));
+      if(fs[0]){ file = fs[0]; showInfo(); }
+    });
+
+    fileInput.addEventListener('change', ()=>{
+      const fs = Array.from(fileInput.files||[]).filter(f=>/\.docx$/i.test(f.name));
+      if(fs[0]){ file = fs[0]; showInfo(); }
+      fileInput.value='';
+    });
+
+    chooseBtn.addEventListener('click', ()=> fileInput.click());
+    replaceBtn.addEventListener('click', ()=> fileInput.click());
+
+    async function convertDocxToPdf(){
+      if(!file){
+        alert('Please add a DOCX file first.');
+        return;
+      }
+
+      runMsg.classList.remove('hidden');
+      runBtn.disabled = true;
+
+      try{
+        // TODO: 在这里接入真正的 DOCX→PDF 转换库
+        // 例如某些库会提供：const pdfBlob = await SomeLib.convert(file);
+        // 目前先做一个占位实现，只提示还未接入内核：
+        await new Promise(r=>setTimeout(r,800));
+        alert('The Word-to-PDF engine is not wired yet. The UI is ready; now plug in a DOCX→PDF library here.');
+      } catch(err){
+        console.error(err);
+        alert('Failed to convert DOCX. Please try again.');
+      } finally{
+        runMsg.classList.add('hidden');
+        runBtn.disabled = false;
+      }
+    }
+
+    runBtn.addEventListener('click', convertDocxToPdf);
+
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+    }
+  </script>
 </body>
 </html>
-
