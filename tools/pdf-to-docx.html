@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 
-  <!-- Organization -->
+  <!-- 结构化数据：Organization -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -17,7 +17,7 @@
   }
   </script>
 
-  <!-- WebSite -->
+  <!-- 结构化数据：WebSite -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -33,49 +33,43 @@
   }
   </script>
 
-  <title>PDF to Word — Free, No Upload | DocPDFHub</title>
-  <meta name="description" content="Convert text-based PDF files to editable Word (DOCX) directly in your browser. No upload, no signup. Extracts text with pdf.js and creates a clean .docx.">
+  <!-- SEO -->
+  <title>PDF to Word Converter — Free, No Upload | DocPDFHub</title>
+  <meta name="description" content="Convert PDF to editable Word (.docx) directly in your browser. Text-only PDFs supported. 100% local processing, no file upload.">
 
-  <link rel="canonical" href="https://docpdfhub.com/tools/pdf-to-docx.html">
-  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-docx.html" hreflang="x-default">
-  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-docx.html" hreflang="en">
-  <link rel="alternate" href="https://docpdfhub.com/zh/tools/pdf-to-docx.html" hreflang="zh">
+  <link rel="canonical" href="https://docpdfhub.com/tools/pdf-to-word.html">
+  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-word.html" hreflang="x-default">
+  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-word.html" hreflang="en">
+  <link rel="alternate" href="https://docpdfhub.com/zh/tools/pdf-to-word.html" hreflang="zh">
 
+  <!-- 样式 -->
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
 
-  <!-- i18n & common -->
+  <!-- libs：pdf.js + docx（浏览器 UMD 版）-->
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+
+  <!-- 全站 i18n & 通用 JS（如果路径不同按你现有项目改） -->
   <script src="/js/i18n.js" defer></script>
   <script src="/js/common.js" defer></script>
-
-  <!-- PDF.js：用来读取 PDF 文本 -->
-  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-  <!-- HTML -> DOCX -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
 
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
     .dropzone{border:2px dashed #e5e7eb;}
     .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
-    #pdfPreview{
-      background:#ffffff;
-      padding:20px;
-      margin-top:16px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.05);
-      max-height:480px;
-      overflow:auto;
-      font-size:14px;
-      line-height:1.6;
-      white-space:pre-wrap;
-    }
   </style>
 
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#ec4899">
+  <link rel="alternate" href="https://docpdfhub.com/" hreflang="x-default">
+  <link rel="alternate" href="https://docpdfhub.com/" hreflang="en">
+  <link rel="alternate" href="https://docpdfhub.com/" hreflang="zh">
 
-  <!-- AdSense & GA -->
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648"
      crossorigin="anonymous"></script>
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -86,6 +80,7 @@
 </head>
 
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+
   <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -98,14 +93,14 @@
         <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
         <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
         <a href="/tools/docx-to-pdf.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.topdf">Word to PDF</a>
-        <a href="/tools/pdf-to-docx.html" class="text-gray-900 font-semibold" data-i18n="nav.toword">PDF to Word</a>
+        <a href="/tools/pdf-to-word.html" class="text-gray-900 font-semibold" data-i18n="nav.toword">PDF to Word</a>
         <div class="flex items-center space-x-2">
           <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
           <span class="text-gray-300">|</span>
           <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
         </div>
       </div>
-      <!-- mobile lang -->
+      <!-- 移动端语言按钮（简化） -->
       <div class="md:hidden flex items-center space-x-2">
         <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
@@ -117,14 +112,12 @@
   <!-- Hero -->
   <header class="gradient text-white pt-12 pb-10">
     <div class="max-w-6xl mx-auto px-4">
-      <p class="uppercase tracking-widest opacity-90 text-sm">PDF TOOLS</p>
-      <h1 class="text-4xl md:text-5xl font-extrabold mt-2">PDF to Word</h1>
-      <p class="text-white text-opacity-90 mt-2 md:w-3/4">
-        Convert text-based PDF files to editable Word (.docx) directly in your browser — no upload, no signup.
+      <p class="uppercase tracking-widest opacity-90 text-sm" data-i18n="home.hero_kicker">PDF TOOLS</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2" data-i18n="tool.toword.hero.title">PDF to Word</h1>
+      <p class="text-white text-opacity-90 mt-2 md:w-3/4" data-i18n="tool.toword.hero.subtitle">
+        Convert text-based PDFs into editable Word documents — fully in your browser.
       </p>
-      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">
-        100% local in your browser • No upload
-      </p>
+      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
     </div>
   </header>
 
@@ -132,22 +125,21 @@
   <main class="max-w-6xl mx-auto px-4 py-10">
     <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
       <div class="text-center">
-        <h2 class="text-xl font-bold">Drop a PDF file to convert</h2>
-        <p class="text-gray-600 mt-1">
-          Works best with text-based PDFs. Scanned/image-only PDFs are not supported (no OCR).
+        <h2 class="text-xl font-bold" data-i18n="tool.toword.drop.title">Drop a PDF to convert</h2>
+        <p class="text-gray-600 mt-1" data-i18n="tool.toword.drop.hint">
+          Works best with text-based PDFs. Scanned/image-only PDFs are not supported.
         </p>
 
         <!-- 拖拽 + 点击上传 -->
         <label for="fileInput" class="block mt-4 p-6 border rounded-xl dropzone cursor-pointer">
-          <div class="font-semibold">Drop your PDF here or click to select</div>
-          <div class="text-xs text-gray-500 mt-1">Max ~20MB recommended. Large documents may take a bit longer.</div>
+          <div class="font-semibold" data-i18n="uploader.title">Drop files here or click to select</div>
+          <div class="text-xs text-gray-500 mt-1" data-i18n="uploader.hint">Max 100MB each. Your files never leave your device.</div>
           <input id="fileInput" type="file" accept="application/pdf" class="sr-only"/>
         </label>
 
         <div class="mt-3">
-          <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700">
-            Select PDF
-          </button>
+          <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700"
+            data-i18n="tool.toword.drop.button">Select PDF</button>
           <div class="text-xs text-gray-500 mt-2" data-i18n="common.or_drop">or drag & drop</div>
         </div>
       </div>
@@ -159,38 +151,33 @@
             <div id="fileName" class="font-medium"></div>
             <div id="fileSize" class="text-xs text-gray-500"></div>
           </div>
-          <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50">Replace file</button>
+          <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50" data-i18n="tool.toword.options.add_more">Replace file</button>
         </div>
 
-        <!-- 预览 + 选项 -->
-        <div class="mt-4">
-          <p class="text-sm text-gray-600 mb-2">
-            A plain-text preview is shown below. Layout won’t be perfect, but the content is editable in Word.
+        <!-- 选项 -->
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+          <label class="flex items-center space-x-2">
+            <input id="includePageHeading" type="checkbox" class="form-checkbox h-4 w-4" checked/>
+            <span class="text-sm" data-i18n="tool.toword.options.include_page_heading">Add “Page 1, Page 2…” headings</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input id="pageBreaks" type="checkbox" class="form-checkbox h-4 w-4" checked/>
+            <span class="text-sm" data-i18n="tool.toword.options.page_breaks">Insert page breaks between PDF pages</span>
+          </label>
+        </div>
+
+        <!-- 运行 -->
+        <div class="mt-6">
+          <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6" data-i18n="tool.toword.actions.convert">Convert to Word</button>
+          <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden">
+            <span data-i18n="tool.toword.running.status">Converting to Word…</span>
+            <span class="ml-1" data-i18n="tool.toword.running.tip">Text is extracted locally and saved into a .docx file.</span>
           </p>
-          <div id="pdfPreview" class="text-gray-800 text-sm">
-            <p class="text-gray-500 text-sm">Waiting for text extraction…</p>
-          </div>
-
-          <div class="mt-4 flex flex-wrap items-center gap-4 text-sm">
-            <label class="flex items-center space-x-2">
-              <input id="optIncludePageBreak" type="checkbox" class="form-checkbox" checked>
-              <span>Insert page breaks between PDF pages</span>
-            </label>
-          </div>
-
-          <div class="mt-6">
-            <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6">
-              Convert to Word (.docx)
-            </button>
-            <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden">
-              Converting… extracting text locally with pdf.js.
-            </p>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Ad: tool_mid_display -->
+    <!-- 广告位 -->
     <div class="mt-6">
       <ins class="adsbygoogle"
            style="display:block"
@@ -201,38 +188,20 @@
     </div>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <!-- 文本说明区 -->
-    <section class="mt-10 text-sm md:text-base leading-relaxed text-gray-700 space-y-4">
-      <h2 class="text-xl font-semibold">About this PDF to Word converter</h2>
+    <!-- 工具说明 / SEO 文本 -->
+    <section class="mt-12 text-sm text-gray-700 space-y-4">
+      <h2 class="text-xl font-semibold">About PDF to Word conversion</h2>
       <p>
-        This tool focuses on <strong>text-based PDFs</strong>. It uses <code>pdf.js</code> to extract text content from each
-        page, then builds a clean HTML document and converts it to a Word <code>.docx</code> file using
-        <code>html-docx-js</code>. The output is not a pixel-perfect clone of the PDF, but rather an
-        <strong>editable document</strong> that you can freely modify in Microsoft Word, WPS, or LibreOffice.
+        This tool focuses on <strong>text-based PDFs</strong> — documents where you can select and copy text in a normal PDF viewer.
+        It extracts text directly from the PDF and writes it into an editable Word document. Because everything runs in your browser,
+        sensitive documents never leave your device.
       </p>
       <p>
-        Because everything runs in your browser, your PDF never leaves your device. This is ideal for contracts, reports,
-        manuals, and other documents where text extraction matters more than visual perfection.
-      </p>
-      <p class="text-gray-500 text-xs">
-        Note: scanned PDFs that contain only images (no embedded text) cannot be converted with this tool. They would
-        require OCR, which is not performed here.
+        Scanned PDFs or image-only documents currently cannot be converted to real editable text without OCR.
+        For those files, you may first process them with an OCR tool to make the text selectable, and then re-run this converter.
       </p>
     </section>
   </main>
-
-  <!-- More tools -->
-  <section class="max-w-6xl mx-auto px-4 py-12">
-    <h2 class="text-2xl font-bold mb-4">More PDF tools</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-      <a href="/tools/pdf-merge.html" class="text-pink-600 hover:underline">Merge PDF</a>
-      <a href="/tools/pdf-split.html" class="text-pink-600 hover:underline">Split PDF</a>
-      <a href="/tools/pdf-compress.html" class="text-pink-600 hover:underline">Compress PDF</a>
-      <a href="/tools/pdf-to-jpg.html" class="text-pink-600 hover:underline">PDF to JPG</a>
-      <a href="/tools/docx-to-pdf.html" class="text-pink-600 hover:underline">Word to PDF</a>
-      <a href="/tools/pdf-to-docx.html" class="text-pink-600 hover:underline">PDF to Word</a>
-    </div>
-  </section>
 
   <!-- Footer -->
   <footer class="bg-white border-t">
@@ -251,7 +220,7 @@
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/docx-to-pdf.html" data-i18n="nav.topdf">Word to PDF</a></li>
-            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-docx.html" data-i18n="nav.toword">PDF to Word</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-word.html" data-i18n="nav.toword">PDF to Word</a></li>
           </ul>
         </div>
         <div class="flex-1">
@@ -270,38 +239,55 @@
           </ul>
         </div>
       </div>
-      <div class="py-4 border-t text-xs text-gray-400">© <span id="y"></span> DocPDFHub</div>
+      <div class="py-4 border-t text-xs text-gray-400">
+        © <span id="y"></span> DocPDFHub
+      </div>
     </div>
   </footer>
 
-  <!-- Logic -->
+  <!-- 核心逻辑脚本 -->
   <script>
+    // 年份
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+    // pdf.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
     const $ = s => document.querySelector(s);
-
-    const dropZone = $('#dropZone');
+    const dropZone = document.getElementById('dropZone');
     const fileInput = $('#fileInput');
     const chooseBtn = $('#chooseBtn');
     const replaceBtn = $('#replaceBtn');
     const fileInfo = $('#fileInfo');
     const fileNameEl = $('#fileName');
     const fileSizeEl = $('#fileSize');
-    const previewEl = $('#pdfPreview');
+    const includePageHeading = $('#includePageHeading');
+    const pageBreaks = $('#pageBreaks');
     const runBtn = $('#runBtn');
     const runMsg = $('#runMsg');
-    const optIncludePageBreak = $('#optIncludePageBreak');
 
     let file = null;
-    let extractedText = ''; // 所有页的合并文本
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // 还原上次选项（如果 common.js 里有 DocPDFHub.Store）
+      if (window.DocPDFHub && DocPDFHub.Store) {
+        const last = DocPDFHub.Store.get('toword_opts', { includePageHeading:true, pageBreaks:true });
+        includePageHeading.checked = !!last.includePageHeading;
+        pageBreaks.checked = !!last.pageBreaks;
+      }
+    });
 
     function fmtBytes(n){
-      const u=['B','KB','MB','GB'];let i=0;
-      while(n>=1024 && i<u.length-1){n/=1024;i++;}
-      return n.toFixed(n<10&&i?1:0)+' '+u[i];
+      if (window.DocPDFHub && DocPDFHub.fmtBytes) return DocPDFHub.fmtBytes(n);
+      const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return n.toFixed(n<10&&i?1:0)+' '+u[i];
+    }
+
+    function persistOptions(){
+      if (!(window.DocPDFHub && DocPDFHub.Store)) return;
+      DocPDFHub.Store.set('toword_opts', {
+        includePageHeading: !!includePageHeading.checked,
+        pageBreaks: !!pageBreaks.checked
+      });
     }
 
     function showInfo(){
@@ -312,202 +298,163 @@
       }
     }
 
-    // 拖拽状态
+    // 拖拽
     ['dragenter','dragover'].forEach(evt=>{
-      dropZone.addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone.classList.add('drop-active');
-      });
+      dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drop-active'); });
     });
     ['dragleave','drop'].forEach(evt=>{
-      dropZone.addEventListener(evt, e=>{
-        e.preventDefault(); e.stopPropagation();
-        dropZone.classList.remove('drop-active');
-      });
+      dropZone.addEventListener(evt, e=>{ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drop-active'); });
+    });
+    dropZone.addEventListener('drop', (e)=>{
+      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
+      if (fs[0]){ file = fs[0]; showInfo(); }
     });
 
-    dropZone.addEventListener('drop', e=>{
-      const fs = Array.from(e.dataTransfer.files || [])
-        .filter(f => /\.pdf$/i.test(f.name));
-      if(fs[0]){
-        file = fs[0];
-        showInfo();
-        extractPdfText();
-      }else if((e.dataTransfer.files || []).length){
-        alert('Please choose a PDF file.');
-      }
-    });
-
+    // 选择文件
     fileInput.addEventListener('change', ()=>{
-      const fs = Array.from(fileInput.files || [])
-        .filter(f => /\.pdf$/i.test(f.name));
-      if(fs[0]){
-        file = fs[0];
-        showInfo();
-        extractPdfText();
-      }else if((fileInput.files || []).length){
-        alert('Please choose a PDF file.');
-      }
+      const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
+      if (fs[0]){ file = fs[0]; showInfo(); }
       fileInput.value = '';
     });
 
     chooseBtn.addEventListener('click', ()=> fileInput.click());
     replaceBtn.addEventListener('click', ()=> fileInput.click());
 
-    function readAB(f){
-      return new Promise((res,rej)=>{
-        const r = new FileReader();
-        r.onload = ()=> res(r.result);
-        r.onerror = rej;
-        r.readAsArrayBuffer(f);
+    const readAB = (f)=> new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=()=>res(r.result);
+      r.onerror=rej;
+      r.readAsArrayBuffer(f);
+    });
+
+    // 更稳的文本提取函数
+    async function extractPdfText(arrayBuffer) {
+      const loadingTask = pdfjsLib.getDocument({
+        data: arrayBuffer,
+        verbosity: 0
       });
-    }
+      const pdf = await loadingTask.promise;
+      let pages = [];
 
-    async function extractPdfText(){
-      previewEl.textContent = 'Extracting text from PDF…';
-      extractedText = '';
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent({
+          includeMarkedContent: true
+        });
 
-      if(!file) return;
+        const pageText = textContent.items
+          .map(item => {
+            if ("str" in item && item.str) {
+              return item.hasEOL ? item.str + "\n" : item.str;
+            }
+            return "";
+          })
+          .join("");
 
-      try{
-        const data = await readAB(file);
-        const loadingTask = pdfjsLib.getDocument({ data });
-        const pdf = await loadingTask.promise;
-
-        let allLines = [];
-        for(let pageNum=1; pageNum<=pdf.numPages; pageNum++){
-          const page = await pdf.getPage(pageNum);
-          const content = await page.getTextContent();
-          const strings = content.items.map(item => item.str || '').filter(Boolean);
-          const pageText = strings.join(' ');
-          const trimmed = pageText.replace(/\s+\n/g, '\n').trim();
-
-          if(trimmed){
-            allLines.push('--- Page '+pageNum+' ---');
-            allLines.push(trimmed);
-            allLines.push(''); // 空行
-          }
-        }
-
-        extractedText = allLines.join('\n');
-
-        if(!extractedText.trim()){
-          previewEl.innerHTML =
-            '<p class="text-sm text-red-500">No extractable text was found. This PDF may be scanned or image-only. OCR is not supported in this tool.</p>';
-        }else{
-          previewEl.textContent = extractedText;
-        }
-
-      }catch(err){
-        console.error(err);
-        previewEl.innerHTML =
-          '<p class="text-sm text-red-500">Failed to read this PDF. Please make sure it is not password-protected or corrupted.</p>';
+        pages.push(pageText.trim());
       }
-    }
 
-    function escapeHtml(str){
-      return String(str).replace(/[&<>"]/g, c => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'
-      }[c] || c));
+      const full = pages.filter(Boolean).join("\n\n");
+      return { pages, full: full.trim() };
     }
 
     async function convertToWord(){
       if(!file){
-        alert('Please add a PDF file to convert.');
+        alert(window.__i18n__?.t('tool.toword.errors.no_pdf') || 'Please add a PDF to convert.');
         return;
-      }
-
-      if(!extractedText.trim()){
-        // 再尝试一次提取
-        await extractPdfText();
-        if(!extractedText.trim()){
-          alert('No text could be extracted from this PDF. It may be scanned or image-only.');
-          return;
-        }
       }
 
       runMsg.classList.remove('hidden');
       runBtn.disabled = true;
-      if(window.DocPDFHub && DocPDFHub.Progress){
+      persistOptions();
+
+      // 可选：进度条（如果你在 common.js 里实现了 DocPDFHub.Progress）
+      if (window.DocPDFHub && DocPDFHub.Progress) {
         DocPDFHub.Progress.show();
-        DocPDFHub.Progress.set(20);
+        DocPDFHub.Progress.set(5);
       }
 
-      try{
-        const raw = extractedText;
-        const includePageBreak = optIncludePageBreak.checked;
+      try {
+        const srcBytes = await readAB(file);
+        const { pages, full } = await extractPdfText(srcBytes);
 
-        // 把 " --- Page X --- " 这种分割，转成 <h2> 和 page-break
-        const lines = raw.split('\n');
-        let htmlBody = '';
-        let buffer = [];
-        let pageIndex = 0;
-
-        const flushParagraphs = ()=>{
-          if(buffer.length){
-            htmlBody += '<p>'+ escapeHtml(buffer.join(' ').trim()) +'</p>\n';
-            buffer = [];
-          }
-        };
-
-        for(const line of lines){
-          const m = line.match(/^--- Page (\d+) ---$/);
-          if(m){
-            flushParagraphs();
-            pageIndex++;
-            if(pageIndex > 1 && includePageBreak){
-              htmlBody += '<p style="page-break-before: always;"></p>\n';
-            }
-            htmlBody += '<h2>Page '+ pageIndex +'</h2>\n';
-          }else if(line.trim()===''){
-            flushParagraphs();
-          }else{
-            buffer.push(line.trim());
-          }
-        }
-        flushParagraphs();
-
-        if(!htmlBody.trim()){
-          htmlBody = '<p>(No text extracted)</p>';
-        }
-
-        const fullHtml =
-          '<!DOCTYPE html><html><head><meta charset="utf-8">' +
-          '<title>'+ escapeHtml(file.name) +'</title>' +
-          '<style>body{font-family:Arial,Helvetica,sans-serif;font-size:12pt;line-height:1.5;}</style>' +
-          '</head><body>' +
-          '<h1>'+ escapeHtml(file.name.replace(/\.pdf$/i,'')) +'</h1>' +
-          htmlBody +
-          '</body></html>';
-
-        if(typeof htmlDocx === 'undefined' || !htmlDocx.asBlob){
-          alert('Word converter library failed to load. Please refresh and try again.');
+        if (!full) {
+          alert(window.__i18n__?.t('tool.toword.errors.no_text') ||
+            'No text could be extracted from this PDF. It may be scanned or image-only.');
           return;
         }
 
-        const docxBlob = htmlDocx.asBlob(fullHtml);
+        // 生成 docx
+        const docxLib = window.docx;
+        if (!docxLib) {
+          alert('docx library not loaded.');
+          return;
+        }
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel } = docxLib;
+
+        let children = [];
+        const withHeading = !!includePageHeading.checked;
+        const withPageBreaks = !!pageBreaks.checked;
+
+        pages.forEach((pageText, idx) => {
+          if (!pageText.trim()) return;
+
+          if (withHeading) {
+            children.push(new Paragraph({
+              text: `Page ${idx + 1}`,
+              heading: HeadingLevel.HEADING_2,
+              spacing: { after: 200 }
+            }));
+          }
+
+          pageText.split(/\r?\n/).forEach(line => {
+            children.push(new Paragraph(line));
+          });
+
+          if (withPageBreaks && idx < pages.length - 1) {
+            children.push(
+              new Paragraph({
+                children: [ new TextRun({ text: "", break: 1 }) ],
+                pageBreakBefore: true
+              })
+            );
+          }
+        });
+
+        if (!children.length) {
+          children.push(new Paragraph('No text content detected.'));
+        }
+
+        const doc = new Document({
+          sections: [{ children }]
+        });
+
+        const blob = await Packer.toBlob(doc);
         const a = document.createElement('a');
-        a.href = URL.createObjectURL(docxBlob);
-        a.download = file.name.replace(/\.pdf$/i,'') + '.docx';
+        a.href = URL.createObjectURL(blob);
+        const baseName = file.name.replace(/\.pdf$/i,'') || 'converted';
+        a.download = baseName + '.docx';
         a.click();
         URL.revokeObjectURL(a.href);
 
-      }catch(err){
+        alert(window.__i18n__?.t('tool.toword.result.title') || 'Conversion complete');
+      } catch (err) {
         console.error(err);
-        alert('Failed to convert to Word. Please try again with another file.');
-      }finally{
+        alert('Failed to convert this PDF. Please try another file.');
+      } finally {
         runMsg.classList.add('hidden');
         runBtn.disabled = false;
-        if(window.DocPDFHub && DocPDFHub.Progress){
+        if (window.DocPDFHub && DocPDFHub.Progress) {
           DocPDFHub.Progress.set(100);
-          setTimeout(()=> DocPDFHub.Progress.hide(), 300);
+          setTimeout(()=>DocPDFHub.Progress.hide(), 300);
         }
       }
     }
 
     runBtn.addEventListener('click', convertToWord);
 
-    if('serviceWorker' in navigator){
+    // 注册 service worker（与站点其他页保持一致）
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
     }
   </script>
