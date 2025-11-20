@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 
-  <!-- Org / Website schema，与其他工具页一致 -->
+  <!-- Organization -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -17,6 +17,7 @@
   }
   </script>
 
+  <!-- WebSite -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -35,29 +36,28 @@
   <title>Word to PDF — Free, No Upload | DocPDFHub</title>
   <meta name="description" content="Convert Word (DOCX) to PDF directly in your browser. No upload, no signup. Perfect for quick document sharing.">
 
-  <link rel="canonical" href="https://docpdfhub.com/">
-  <link rel="alternate" href="https://docpdfhub.com/" hreflang="x-default">
-  <link rel="alternate" href="https://docpdfhub.com/" hreflang="en">
-  <link rel="alternate" href="https://docpdfhub.com/" hreflang="zh">
-
+  <link rel="canonical" href="https://docpdfhub.com/tools/docx-to-pdf.html">
+  <link rel="alternate" href="https://docpdfhub.com/tools/docx-to-pdf.html" hreflang="x-default">
+  <link rel="alternate" href="https://docpdfhub.com/tools/docx-to-pdf.html" hreflang="en">
+  <link rel="alternate" href="https://docpdfhub.com/zh/tools/docx-to-pdf.html" hreflang="zh">
 
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
 
-  <!-- i18n & 公共工具 -->
+  <!-- i18n & common -->
   <script src="/js/i18n.js" defer></script>
   <script src="/js/common.js" defer></script>
 
-  <!-- 第三方库：docx-preview + html2pdf（含 html2canvas + jsPDF） -->
-  <script src="https://unpkg.com/docx-preview@0.3.1/dist/docx-preview.js"></script>
+  <!-- DOCX -> HTML（mammoth） -->
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <!-- HTML -> PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
     .dropzone{border:2px dashed #e5e7eb;}
     .drop-active{outline:2px dashed #ec4899; outline-offset:6px; background:#fff7fb}
-    /* 预览区域：居中、白底，接近 A4 宽度 */
-    #docxPreview {
+    #docxPreview{
       background:#ffffff;
       padding:20px;
       margin-top:16px;
@@ -65,18 +65,16 @@
       max-height:480px;
       overflow:auto;
     }
-    #docxPreviewInner {
+    #docxPreviewInner{
       margin:0 auto;
       max-width:800px;
+      line-height:1.6;
+      font-size:14px;
     }
   </style>
 
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#ec4899">
-  <link rel="canonical" href="https://docpdfhub.com/tools/docx-to-pdf.html">
-  <link rel="alternate" href="https://docpdfhub.com/tools/docx-to-pdf.html" hreflang="x-default">
-  <link rel="alternate" href="https://docpdfhub.com/tools/docx-to-pdf.html" hreflang="en">
-  <link rel="alternate" href="https://docpdfhub.com/zh/tools/docx-to-pdf.html" hreflang="zh">
 
   <!-- AdSense & GA -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648"
@@ -91,7 +89,6 @@
 </head>
 
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
-
   <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
     <div class="w-full max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -111,7 +108,7 @@
           <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
         </div>
       </div>
-      <!-- 移动端语言按钮 -->
+      <!-- mobile lang -->
       <div class="md:hidden flex items-center space-x-2">
         <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
         <button data-lang-btn="zh" class="px-2 py-1 rounded hover:bg-gray-100">中文</button>
@@ -215,21 +212,22 @@
     </div>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <!-- 文本说明区，提升页面“内容度” -->
+    <!-- 文本说明区 -->
     <section class="mt-10 text-sm md:text-base leading-relaxed text-gray-700 space-y-4">
       <h2 class="text-xl font-semibold">How this Word to PDF converter works</h2>
       <p>
-        This tool converts modern Word files (<code>.docx</code>) to PDF using only your browser. The document is
-        rendered on the page and then exported to a PDF using a combination of JavaScript and canvas technology.
-        Nothing is uploaded to any server, which makes it safe for contracts, internal reports, and other sensitive documents.
+        This tool converts modern Word files (<code>.docx</code>) to PDF directly in your browser. It uses
+        <strong>mammoth.js</strong> to read the document structure and turn it into clean HTML, then
+        <strong>html2pdf</strong> renders that HTML into a PDF. No content is uploaded to any server.
       </p>
       <p>
-        The result is ideal for emailing, archiving, or sharing on chat tools. Layout is generally preserved well for
-        typical business documents. Very complex layouts or macro-heavy documents may not render perfectly, but will
-        still produce a readable PDF in most cases.
+        It’s ideal for everyday business documents, reports, and homework. Formatting like headings, paragraphs, and
+        basic lists is preserved. Extremely complex layouts or macro-heavy documents may not be pixel-perfect, but
+        the output stays readable and shareable.
       </p>
       <p class="text-gray-500 text-xs">
-        Note: password-protected or legacy <code>.doc</code> files are not supported. Please save them as <code>.docx</code> in Word first.
+        Note: legacy <code>.doc</code> and password-protected files are not supported. Please save them as
+        <code>.docx</code> in Word before using this tool.
       </p>
     </section>
   </main>
@@ -247,7 +245,7 @@
     </div>
   </section>
 
-  <!-- Footer（与其他工具页一致） -->
+  <!-- Footer -->
   <footer class="bg-white border-t">
     <div class="max-w-6xl mx-auto px-4">
       <div class="w-full flex flex-col md:flex-row py-8 gap-8 text-sm">
@@ -287,7 +285,7 @@
     </div>
   </footer>
 
-  <!-- 逻辑 -->
+  <!-- Logic -->
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
@@ -301,7 +299,6 @@
     const fileSizeEl = $('#fileSize');
     const runBtn = $('#runBtn');
     const runMsg = $('#runMsg');
-    const previewOuter = $('#docxPreview');
     const previewInner = $('#docxPreviewInner');
 
     const optA4 = $('#optA4');
@@ -310,6 +307,7 @@
     const optLandscape = $('#optLandscape');
 
     let file = null;
+    let lastHtml = '';
 
     function fmtBytes(n){
       const u=['B','KB','MB','GB'];let i=0;
@@ -325,7 +323,7 @@
       }
     }
 
-    // 拖拽高亮
+    // drag highlight
     ['dragenter','dragover'].forEach(evt=>{
       dropZone.addEventListener(evt, e=>{
         e.preventDefault(); e.stopPropagation();
@@ -344,9 +342,9 @@
         .filter(f => /\.docx$/i.test(f.name));
       if(fs[0]){
         file = fs[0];
-        renderPreview();
         showInfo();
-      } else if ((e.dataTransfer.files || []).length){
+        renderDocx();
+      } else if((e.dataTransfer.files || []).length){
         alert('Please choose a .docx Word file.');
       }
     });
@@ -356,9 +354,9 @@
         .filter(f => /\.docx$/i.test(f.name));
       if(fs[0]){
         file = fs[0];
-        renderPreview();
         showInfo();
-      } else if ((fileInput.files || []).length){
+        renderDocx();
+      } else if((fileInput.files || []).length){
         alert('Please choose a .docx Word file.');
       }
       fileInput.value = '';
@@ -376,24 +374,27 @@
       });
     }
 
-    async function renderPreview(){
-      previewInner.innerHTML = '';
+    async function renderDocx(){
+      previewInner.innerHTML = '<p class="text-sm text-gray-500">Rendering preview…</p>';
+      lastHtml = '';
       if(!file) return;
+
       try{
-        const buf = await readAB(file);
-        if (typeof docx === 'undefined' || !docx.renderAsync){
-          console.warn('docx-preview not available');
-          previewInner.innerHTML = '<p class="text-sm text-gray-500">Preview library failed to load. You can still try converting.</p>';
+        if(typeof mammoth === 'undefined' || !mammoth.convertToHtml){
+          previewInner.innerHTML = '<p class="text-sm text-red-500">Preview library failed to load. Please refresh and try again.</p>';
           return;
         }
-        await docx.renderAsync(buf, previewInner, null, {
-          className: 'docx-preview-page',
-          inWrapper: true,
-          ignoreLastRenderedPageBreak: true
-        });
+        const arrayBuffer = await readAB(file);
+        const result = await mammoth.convertToHtml({arrayBuffer});
+        lastHtml = result.value || '';
+        if(!lastHtml.trim()){
+          previewInner.innerHTML = '<p class="text-sm text-red-500">No content was found in this document.</p>';
+        }else{
+          previewInner.innerHTML = lastHtml;
+        }
       }catch(err){
         console.error(err);
-        previewInner.innerHTML = '<p class="text-sm text-red-500">Failed to generate preview. You can still try converting to PDF.</p>';
+        previewInner.innerHTML = '<p class="text-sm text-red-500">Failed to read this DOCX. Please make sure it is not password-protected or corrupted.</p>';
       }
     }
 
@@ -402,36 +403,46 @@
         alert('Please add a Word (.docx) file to convert.');
         return;
       }
-      if(!previewInner.firstChild){
-        // 没有预览时，强制渲染一次
-        await renderPreview();
+
+      // 没有 HTML 的话先尝试再渲染一次
+      if(!lastHtml.trim()){
+        await renderDocx();
+        if(!lastHtml.trim()){
+          alert('Failed to render this document. Please try another file.');
+          return;
+        }
       }
 
       runMsg.classList.remove('hidden');
       runBtn.disabled = true;
-      if (window.DocPDFHub && DocPDFHub.Progress){
+      if(window.DocPDFHub && DocPDFHub.Progress){
         DocPDFHub.Progress.show();
         DocPDFHub.Progress.set(10);
       }
 
       try{
+        const wrapper = document.createElement('div');
+        wrapper.style.maxWidth = '800px';
+        wrapper.style.margin = '0 auto';
+        wrapper.innerHTML = lastHtml;
+
         const paper = optLetter.checked ? 'letter' : 'a4';
         const orientation = optLandscape.checked ? 'landscape' : 'portrait';
 
         const opt = {
-          margin:       10,
-          filename:     file.name.replace(/\.docx$/i,'') + '.pdf',
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS:true },
-          jsPDF:        { unit: 'pt', format: paper, orientation }
+          margin: 10,
+          filename: file.name.replace(/\.docx$/i,'') + '.pdf',
+          image: { type:'jpeg', quality:0.98 },
+          html2canvas: { scale:2, useCORS:true },
+          jsPDF: { unit:'pt', format:paper, orientation }
         };
 
-        if (typeof html2pdf === 'undefined'){
+        if(typeof html2pdf === 'undefined'){
           alert('Converter library failed to load. Please refresh and try again.');
           return;
         }
 
-        await html2pdf().set(opt).from(previewInner).save();
+        await html2pdf().set(opt).from(wrapper).save();
 
       }catch(err){
         console.error(err);
@@ -439,17 +450,16 @@
       }finally{
         runMsg.classList.add('hidden');
         runBtn.disabled = false;
-        if (window.DocPDFHub && DocPDFHub.Progress){
+        if(window.DocPDFHub && DocPDFHub.Progress){
           DocPDFHub.Progress.set(100);
           setTimeout(()=> DocPDFHub.Progress.hide(), 300);
         }
       }
     }
 
-    runBtn.addEventListener('click', ()=>{ convertToPDF(); });
+    runBtn.addEventListener('click', convertToPDF);
 
-    // 注册 Service Worker
-    if ('serviceWorker' in navigator) {
+    if('serviceWorker' in navigator){
       navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
     }
   </script>
