@@ -7,39 +7,47 @@
 
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"DocPDFHub",
-    "url":"https://docpdfhub.com",
-    "logo":"https://docpdfhub.com/icon-512.png",
-    "sameAs":[]
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "DocPDFHub",
+    "url": "https://docpdfhub.com",
+    "logo": "https://docpdfhub.com/icon-512.png",
+    "sameAs": []
   }
   </script>
 
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "url":"https://docpdfhub.com",
-    "name":"DocPDFHub",
-    "inLanguage":"en",
-    "potentialAction":{
-      "@type":"SearchAction",
-      "target":"https://docpdfhub.com/?q={search_term_string}",
-      "query-input":"required name=search_term_string"
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://docpdfhub.com",
+    "name": "DocPDFHub",
+    "inLanguage": "en",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://docpdfhub.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
     }
   }
   </script>
 
-  <title>PDF to Word (DOCX) — Free, No Upload | DocPDFHub</title>
-  <meta name="description" content="Convert PDFs to editable Word (DOCX) files in your browser. Drag & drop a PDF and download an editable document. Local processing when the engine is wired.">
+  <title>PDF to Word (Text Extract) — Free, No Upload | DocPDFHub</title>
+  <meta name="description" content="Convert PDF to editable text in a Word-compatible RTF file. Extract text only in your browser — no upload, no signup.">
+
+  <link rel="canonical" href="https://docpdfhub.com/tools/pdf-to-word.html">
+  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-word.html" hreflang="x-default">
+  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-word.html" hreflang="en">
+  <link rel="alternate" href="https://docpdfhub.com/zh/tools/pdf-to-word.html" hreflang="zh">
 
   <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"/>
 
-  <!-- TODO: 在这里引入 PDF→DOCX 的前端库（如果选择纯本地方案） -->
+  <!-- libs -->
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 
+  <!-- i18n & 公共工具 -->
   <script src="/js/i18n.js" defer></script>
+  <script src="/js/common.js" defer></script>
 
   <style>
     .gradient{background:linear-gradient(90deg,#d53369 0%,#daae51 100%)}
@@ -49,12 +57,9 @@
 
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#ec4899">
-  <link rel="canonical" href="https://docpdfhub.com/tools/pdf-to-docx.html">
-  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-docx.html" hreflang="x-default">
-  <link rel="alternate" href="https://docpdfhub.com/tools/pdf-to-docx.html" hreflang="en">
-  <link rel="alternate" href="https://docpdfhub.com/zh/tools/pdf-to-docx.html" hreflang="zh">
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4284929103244648"
+     crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3W6M25B9FL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -63,7 +68,12 @@
     gtag('config', 'G-3W6M25B9FL');
   </script>
 </head>
+
 <body class="text-gray-900 bg-gray-50" style="font-family:'Source Sans Pro',sans-serif;">
+  <!-- PDF.js worker -->
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+  </script>
 
   <!-- Nav -->
   <nav class="fixed w-full z-30 top-0 bg-white shadow">
@@ -76,8 +86,8 @@
         <a href="/tools/pdf-split.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.split">Split PDF</a>
         <a href="/tools/pdf-compress.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.compress">Compress PDF</a>
         <a href="/tools/pdf-to-jpg.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.tojpg">PDF to JPG</a>
-        <a href="/tools/docx-to-pdf.html" class="text-gray-700 hover:text-pink-600">Word to PDF</a>
-        <a href="/tools/pdf-to-docx.html" class="text-gray-900 font-semibold">PDF to Word</a>
+        <a href="/tools/word-to-pdf.html" class="text-gray-700 hover:text-pink-600" data-i18n="nav.topdf">Word to PDF</a>
+        <a href="/tools/pdf-to-word.html" class="text-gray-900 font-semibold" data-i18n="nav.toword">PDF to Word</a>
         <div class="flex items-center space-x-2">
           <button data-lang-btn="en" class="px-2 py-1 rounded hover:bg-gray-100">EN</button>
           <span class="text-gray-300">|</span>
@@ -95,14 +105,12 @@
   <!-- Hero -->
   <header class="gradient text-white pt-12 pb-10">
     <div class="max-w-6xl mx-auto px-4">
-      <p class="uppercase tracking-widest opacity-90 text-sm">PDF → DOCX</p>
-      <h1 class="text-4xl md:text-5xl font-extrabold mt-2">PDF to Word Converter</h1>
+      <p class="uppercase tracking-widest opacity-90 text-sm">PDF TOOLS</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-2">PDF to Word (Text Extract)</h1>
       <p class="text-white text-opacity-90 mt-2 md:w-3/4">
-        Turn static PDFs into editable Word documents so you can fix typos, update content, or reuse layouts.
+        Turn PDFs into editable text in a Word-compatible RTF file — processed entirely in your browser.
       </p>
-      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">
-        Designed for local-first processing • No sign-up
-      </p>
+      <p class="mt-3 text-sm text-white text-opacity-80" data-i18n="common.100_local">100% local in your browser • No upload</p>
     </div>
   </header>
 
@@ -111,11 +119,14 @@
     <div id="dropZone" class="bg-white border rounded-xl p-6 shadow-sm">
       <div class="text-center">
         <h2 class="text-xl font-bold">Drop a PDF to convert</h2>
-        <p class="text-gray-600 mt-1">Best results with text-based PDFs (not pure image scans).</p>
+        <p class="text-gray-600 mt-1">
+          This tool extracts text from your PDF and creates an editable RTF file that opens in Word.
+        </p>
 
+        <!-- 拖拽 + 点击上传 -->
         <label for="fileInput" class="block mt-4 p-6 border rounded-xl dropzone cursor-pointer">
           <div class="font-semibold">Drop your PDF here or click to select</div>
-          <div class="text-xs text-gray-500 mt-1">We recommend files under 20MB for smooth conversion.</div>
+          <div class="text-xs text-gray-500 mt-1">Best for digitally-generated PDFs. Scans without text won’t convert well.</div>
           <input id="fileInput" type="file" accept="application/pdf" class="sr-only"/>
         </label>
 
@@ -123,10 +134,11 @@
           <button id="chooseBtn" class="bg-pink-600 text-white font-semibold rounded-full py-2 px-5 hover:bg-pink-700">
             Select PDF
           </button>
-          <div class="text-xs text-gray-500 mt-2">or drag & drop</div>
+          <div class="text-xs text-gray-500 mt-2" data-i18n="common.or_drop">or drag & drop</div>
         </div>
       </div>
 
+      <!-- 已选择文件信息 + 选项 -->
       <div id="fileInfo" class="mt-6 hidden">
         <div class="flex items-center justify-between">
           <div>
@@ -136,37 +148,34 @@
           <button id="replaceBtn" class="text-sm px-3 py-1 rounded border hover:bg-gray-50">Replace file</button>
         </div>
 
-        <div class="mt-4 text-xs text-gray-500">
-          <p>Heads-up: PDFs that are actually scanned images may require OCR before they become fully editable Word files.</p>
+        <div class="grid md:grid-cols-3 gap-4 mt-4 text-sm">
+          <label class="flex items-center space-x-2">
+            <input id="optPageMarks" type="checkbox" class="form-checkbox h-4 w-4" checked/>
+            <span>Add “Page X” separators</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input id="optTrimWhitespace" type="checkbox" class="form-checkbox h-4 w-4" checked/>
+            <span>Trim extra blank lines</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input id="optIncludeMeta" type="checkbox" class="form-checkbox h-4 w-4" checked/>
+            <span>Add title & file name header</span>
+          </label>
         </div>
 
         <div class="mt-6">
           <button id="runBtn" class="bg-pink-600 text-white font-bold rounded-full py-2.5 px-6">
-            Convert to Word
+            Convert to Word (RTF)
           </button>
           <p id="runMsg" class="mt-2 text-sm text-gray-500 hidden">
-            Converting… large PDFs may take a bit longer.
+            Extracting text from each page… your PDF stays on this device.
           </p>
         </div>
       </div>
     </div>
 
-    <section class="mt-10 grid md:grid-cols-3 gap-6 text-sm text-gray-700">
-      <div class="bg-white border rounded-xl p-4">
-        <h3 class="font-semibold mb-1">Fix typos & update docs</h3>
-        <p>Convert older PDFs back into Word so you can correct dates, update prices, or add new sections without rebuilding from scratch.</p>
-      </div>
-      <div class="bg-white border rounded-xl p-4">
-        <h3 class="font-semibold mb-1">Reuse layouts</h3>
-        <p>Take a nicely designed PDF brochure or flyer and convert it to a DOCX you can tweak for the next campaign.</p>
-      </div>
-      <div class="bg-white border rounded-xl p-4">
-        <h3 class="font-semibold mb-1">Combine with other tools</h3>
-        <p>Split a long PDF into sections, convert only the parts you need to Word, then export back to PDF after editing.</p>
-      </div>
-    </section>
-
-    <div class="mt-8">
+    <!-- Ad: tool_mid_display -->
+    <div class="mt-6">
       <ins class="adsbygoogle"
            style="display:block"
            data-ad-client="ca-pub-4284929103244648"
@@ -175,8 +184,47 @@
            data-full-width-responsive="true"></ins>
     </div>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <!-- 说明文案 -->
+    <section class="mt-10 text-sm md:text-base leading-relaxed text-gray-700 space-y-4">
+      <h2 class="text-xl font-semibold">What kind of “Word” file do you get?</h2>
+      <p>
+        This converter focuses on <strong>text extraction</strong>. It reads the text layer of your PDF using PDF.js,
+        then builds a clean <code>.rtf</code> document. RTF (Rich Text Format) opens in Microsoft Word, Apple Pages,
+        Google Docs, and many other editors, so you can edit, copy, and reformat the content freely.
+      </p>
+      <p>
+        The main goal is to give you a quick way to get text back out of reports, whitepapers, academic articles, or
+        contracts that were originally exported as PDF. The resulting file is much easier to work with than copying
+        text page-by-page by hand.
+      </p>
+
+      <h3 class="text-lg font-semibold">Limitations (honest version)</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Layout, columns, and precise spacing are not preserved — the output is linear text.</li>
+        <li>Tables may appear as lines of text separated by spaces or tabs.</li>
+        <li>Scanned PDFs (no text layer) can’t be converted unless OCR was run beforehand.</li>
+        <li>Images, logos, and diagrams are not included in the Word file.</li>
+      </ul>
+      <p class="text-gray-500 text-xs">
+        For perfect, layout-accurate conversions you generally need a heavy desktop app or cloud service. This tool
+        stays fully in your browser and keeps things lightweight and private.
+      </p>
+    </section>
   </main>
 
+  <!-- More tools -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-bold mb-4">More PDF tools</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+      <a href="/tools/pdf-merge.html" class="text-pink-600 hover:underline">Merge PDF</a>
+      <a href="/tools/pdf-split.html" class="text-pink-600 hover:underline">Split PDF</a>
+      <a href="/tools/pdf-compress.html" class="text-pink-600 hover:underline">Compress PDF</a>
+      <a href="/tools/pdf-to-jpg.html" class="text-pink-600 hover:underline">PDF to JPG</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer class="bg-white border-t">
     <div class="max-w-6xl mx-auto px-4">
       <div class="w-full flex flex-col md:flex-row py-8 gap-8 text-sm">
@@ -192,8 +240,8 @@
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-split.html" data-i18n="nav.split">Split PDF</a></li>
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-compress.html" data-i18n="nav.compress">Compress PDF</a></li>
             <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-jpg.html" data-i18n="nav.tojpg">PDF to JPG</a></li>
-            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/docx-to-pdf.html">Word to PDF</a></li>
-            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-docx.html">PDF to Word</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/word-to-pdf.html" data-i18n="nav.topdf">Word to PDF</a></li>
+            <li><a class="text-gray-700 hover:text-pink-600" href="/tools/pdf-to-word.html" data-i18n="nav.toword">PDF to Word</a></li>
           </ul>
         </div>
         <div class="flex-1">
@@ -216,27 +264,31 @@
     </div>
   </footer>
 
-  <script src="/js/common.js"></script>
+  <!-- 逻辑 -->
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
     const $ = s => document.querySelector(s);
-    const dropZone   = document.getElementById('dropZone');
-    const fileInput  = $('#fileInput');
-    const chooseBtn  = $('#chooseBtn');
+    const dropZone = $('#dropZone');
+    const fileInput = $('#fileInput');
+    const chooseBtn = $('#chooseBtn');
     const replaceBtn = $('#replaceBtn');
-    const fileInfo   = $('#fileInfo');
+    const fileInfo = $('#fileInfo');
     const fileNameEl = $('#fileName');
     const fileSizeEl = $('#fileSize');
-    const runBtn     = $('#runBtn');
-    const runMsg     = $('#runMsg');
+    const runBtn = $('#runBtn');
+    const runMsg = $('#runMsg');
+
+    const optPageMarks = $('#optPageMarks');
+    const optTrimWhitespace = $('#optTrimWhitespace');
+    const optIncludeMeta = $('#optIncludeMeta');
 
     let file = null;
 
     function fmtBytes(n){
       const u=['B','KB','MB','GB'];let i=0;
       while(n>=1024 && i<u.length-1){n/=1024;i++;}
-      return n.toFixed(n<10 && i?1:0)+' '+u[i];
+      return n.toFixed(n<10&&i?1:0)+' '+u[i];
     }
 
     function showInfo(){
@@ -261,44 +313,121 @@
     });
 
     dropZone.addEventListener('drop', e=>{
-      const fs = Array.from(e.dataTransfer.files||[]).filter(f=>/pdf$/i.test(f.name));
-      if(fs[0]){ file = fs[0]; showInfo(); }
+      const fs = Array.from(e.dataTransfer.files || [])
+        .filter(f => /pdf$/i.test(f.name));
+      if(fs[0]){
+        file = fs[0];
+        showInfo();
+      }else if((e.dataTransfer.files || []).length){
+        alert('Please choose a PDF file.');
+      }
     });
 
     fileInput.addEventListener('change', ()=>{
-      const fs = Array.from(fileInput.files||[]).filter(f=>/pdf$/i.test(f.name));
-      if(fs[0]){ file = fs[0]; showInfo(); }
-      fileInput.value='';
+      const fs = Array.from(fileInput.files || [])
+        .filter(f => /pdf$/i.test(f.name));
+      if(fs[0]){
+        file = fs[0];
+        showInfo();
+      }else if((fileInput.files || []).length){
+        alert('Please choose a PDF file.');
+      }
+      fileInput.value = '';
     });
 
     chooseBtn.addEventListener('click', ()=> fileInput.click());
     replaceBtn.addEventListener('click', ()=> fileInput.click());
 
-    async function convertPdfToDocx(){
+    function readAB(f){
+      return new Promise((res,rej)=>{
+        const r = new FileReader();
+        r.onload = ()=> res(r.result);
+        r.onerror = rej;
+        r.readAsArrayBuffer(f);
+      });
+    }
+
+    function escapeRtf(text){
+      return String(text)
+        .replace(/\\/g, '\\\\')
+        .replace(/{/g, '\\{')
+        .replace(/}/g, '\\}')
+        .replace(/\r\n|\r|\n/g, '\\par\n');
+    }
+
+    async function pdfToRtf(){
       if(!file){
-        alert('Please add a PDF first.');
+        alert('Please add a PDF to convert.');
         return;
       }
-
       runMsg.classList.remove('hidden');
       runBtn.disabled = true;
+      if (window.DocPDFHub && DocPDFHub.Progress){
+        DocPDFHub.Progress.show();
+        DocPDFHub.Progress.set(5);
+      }
 
       try{
-        // TODO: 在这里接入真正的 PDF→DOCX 转换库
-        await new Promise(r=>setTimeout(r,800));
-        alert('The PDF-to-Word engine is not wired yet. The UI is ready; now plug in a PDF→DOCX library here.');
-      } catch(err){
+        const data = await readAB(file);
+        const pdf = await pdfjsLib.getDocument({data}).promise;
+        const total = pdf.numPages;
+
+        let parts = [];
+
+        if(optIncludeMeta.checked){
+          parts.push('File: ' + file.name);
+          parts.push('Pages: ' + total);
+          parts.push(''); // blank line
+        }
+
+        for(let p=1; p<=total; p++){
+          const page = await pdf.getPage(p);
+          const textContent = await page.getTextContent();
+          const strings = textContent.items.map(i => i.str || '');
+          let pageText = strings.join(' ');
+          if(optTrimWhitespace.checked){
+            pageText = pageText.replace(/\s+\n/g, '\n').replace(/\n{3,}/g, '\n\n');
+          }
+          if(optPageMarks.checked){
+            parts.push('--- Page ' + p + ' ---');
+          }
+          parts.push(pageText);
+          if (window.DocPDFHub && DocPDFHub.Progress){
+            DocPDFHub.Progress.set(5 + (p/total)*90);
+          }
+        }
+
+        const fullText = parts.join('\n\n');
+        const rtfBody = escapeRtf(fullText);
+        const rtf = '{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0 Arial;}}\n' +
+                    '\\viewkind4\\uc1\\pard\\f0\\fs22 ' +
+                    rtfBody +
+                    '\n}';
+
+        const blob = new Blob([rtf], {type:'application/rtf'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        const base = file.name.replace(/\.pdf$/i,'') || 'converted';
+        a.download = base + '.rtf';
+        a.click();
+        URL.revokeObjectURL(a.href);
+
+      }catch(err){
         console.error(err);
-        alert('Failed to convert PDF. Please try again.');
-      } finally{
+        alert('Failed to extract text. Scanned PDFs without text may not work.');
+      }finally{
         runMsg.classList.add('hidden');
         runBtn.disabled = false;
+        if (window.DocPDFHub && DocPDFHub.Progress){
+          DocPDFHub.Progress.set(100);
+          setTimeout(()=> DocPDFHub.Progress.hide(), 300);
+        }
       }
     }
 
-    runBtn.addEventListener('click', convertPdfToDocx);
+    runBtn.addEventListener('click', pdfToRtf);
 
-    if('serviceWorker' in navigator){
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
     }
   </script>
