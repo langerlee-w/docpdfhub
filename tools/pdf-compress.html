@@ -309,6 +309,13 @@
 
 
  <script>
+
+       // 年份 & 移动导航
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const navBtn = document.getElementById('nav-toggle');
+    const navContent = document.getElementById('nav-content');
+    navBtn?.addEventListener('click', ()=> navContent.classList.toggle('hidden'));
+   
   pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 
   const $ = s=>document.querySelector(s);
