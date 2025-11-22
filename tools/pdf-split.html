@@ -276,6 +276,13 @@
   </footer>
 
   <script>
+
+      // 年份 & 移动导航
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const navBtn = document.getElementById('nav-toggle');
+  const navContent = document.getElementById('nav-content');
+  navBtn?.addEventListener('click', ()=> navContent.classList.toggle('hidden'));
+  
   const $ = s=>document.querySelector(s);
   const fileInput = $('#fileInput');
   const chooseBtn = $('#chooseBtn');
