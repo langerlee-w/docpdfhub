@@ -1,62 +1,122 @@
 [
   {
     "slug": "how-to-compress-pdf",
-    "title": "How to Compress a PDF (Keep Quality)",
-    "description": "A detailed guide to reducing PDF size while keeping high readability — all processed locally in your browser.",
-    "date": "2025-11-12",
-    "tags": ["pdf", "compress"],
+    "title": "How to Compress a PDF Without Losing Quality",
+    "description": "Step-by-step guide to shrinking PDF size while keeping text and images sharp using DocPDFHub Compress PDF.",
+    "date": "2025-11-21",
+    "tags": ["pdf", "compress", "guide"],
     "lang": "en",
     "url": "/blog/how-to-compress-pdf.html",
     "readingMinutes": 6
   },
   {
     "slug": "how-to-merge-pdf",
-    "title": "How to Merge PDF Files (Fast & Clean)",
-    "description": "Learn how to combine multiple PDFs into one polished file using DocPDFHub's fully local merging tool.",
-    "date": "2025-11-12",
-    "tags": ["pdf", "merge"],
+    "title": "How to Merge PDF Files in Order (Free & Local)",
+    "description": "Learn how to combine multiple PDFs, reorder pages, and download a clean document — all in your browser.",
+    "date": "2025-11-21",
+    "tags": ["pdf", "merge", "guide"],
     "lang": "en",
     "url": "/blog/how-to-merge-pdf.html",
-    "readingMinutes": 6
+    "readingMinutes": 7
   },
   {
     "slug": "how-to-pdf-to-jpg",
-    "title": "How to Convert PDF to JPG with Best Quality",
-    "description": "Convert PDFs into crisp JPG images quickly — with local processing, DPI control, and no uploads.",
-    "date": "2025-11-12",
-    "tags": ["pdf", "to-jpg"],
+    "title": "How to Convert PDF to JPG in Your Browser",
+    "description": "Convert each PDF page into high-quality JPG images with adjustable DPI and quality settings.",
+    "date": "2025-11-21",
+    "tags": ["pdf", "jpg", "convert"],
     "lang": "en",
     "url": "/blog/how-to-pdf-to-jpg.html",
-    "readingMinutes": 7
+    "readingMinutes": 6
   },
   {
     "slug": "how-to-split-pdf",
-    "title": "How to Split a PDF by Page Ranges",
-    "description": "Extract specific pages or ranges (like 1-3,5,9-12) with precision — ideal for contracts, reports, and scanned PDFs.",
-    "date": "2025-11-12",
-    "tags": ["pdf", "split"],
+    "title": "How to Split a PDF into Separate Files by Page Range",
+    "description": "Use smart page ranges to extract sections, remove blanks, and split large PDFs into smaller documents.",
+    "date": "2025-11-21",
+    "tags": ["pdf", "split", "guide"],
     "lang": "en",
     "url": "/blog/how-to-split-pdf.html",
-    "readingMinutes": 7
+    "readingMinutes": 6
   },
   {
     "slug": "pdf-merge-workflows",
     "title": "Pro PDF Merge Workflows for Everyday Documents",
-    "description": "Advanced techniques for merging scans, invoices, reports, and client documents into clean PDFs.",
-    "date": "2025-11-13",
-    "tags": ["pdf", "merge"],
+    "description": "Real-world merge workflows for scans, invoices, reports, and client packs — plus tips for clean, readable PDFs.",
+    "date": "2025-11-20",
+    "tags": ["pdf", "merge", "workflow"],
     "lang": "en",
     "url": "/blog/pdf-merge-workflows.html",
+    "readingMinutes": 8
+  },
+  {
+    "slug": "pdf-to-jpg-use-cases",
+    "title": "Smart PDF to JPG Use Cases: Slides, Screenshots & Social",
+    "description": "When it makes sense to turn PDFs into images, how to pick the right quality, and ways to reuse pages everywhere.",
+    "date": "2025-11-22",
+    "tags": ["pdf", "jpg", "use-cases"],
+    "lang": "en",
+    "url": "/blog/pdf-to-jpg-use-cases.html",
+    "readingMinutes": 7
+  },
+  {
+    "slug": "pdf-to-word-editable-no-watermark",
+    "title": "Convert PDF to Editable Word (No Watermark, Free)",
+    "description": "Turn PDFs back into .docx files you can actually edit, while keeping layout, headings, and lists as clean as possible.",
+    "date": "2025-11-22",
+    "tags": ["pdf", "word", "convert"],
+    "lang": "en",
+    "url": "/blog/pdf-to-word-editable-no-watermark.html",
+    "readingMinutes": 8
+  },
+  {
+    "slug": "pdf-workflow-for-students",
+    "title": "PDF Workflow for Students: Notes, Assignments & Exams",
+    "description": "Organize lecture notes, readings, and submissions with a simple PDF workflow tailored for school and university life.",
+    "date": "2025-11-22",
+    "tags": ["pdf", "students", "productivity"],
+    "lang": "en",
+    "url": "/blog/pdf-workflow-for-students.html",
     "readingMinutes": 9
+  },
+  {
+    "slug": "remote-work-pdf-workflows",
+    "title": "Remote Work PDF Workflows for Teams & Freelancers",
+    "description": "Handle contracts, reports, and approvals smoothly when everyone is remote — using lightweight PDF tools in the browser.",
+    "date": "2025-11-22",
+    "tags": ["pdf", "remote-work", "workflow"],
+    "lang": "en",
+    "url": "/blog/remote-work-pdf-workflows.html",
+    "readingMinutes": 8
   },
   {
     "slug": "secure-pdf-privacy-local-tools",
     "title": "Keep Your PDFs Private: Local Tools vs Online Converters",
-    "description": "Understand privacy risks of cloud PDF tools and why DocPDFHub keeps everything 100% local.",
-    "date": "2025-11-13",
-    "tags": ["pdf", "privacy"],
+    "description": "Deep dive into PDF privacy: how upload-based tools handle your files and why local browser tools reduce risk.",
+    "date": "2025-11-21",
+    "tags": ["pdf", "privacy", "security"],
     "lang": "en",
     "url": "/blog/secure-pdf-privacy-local-tools.html",
-    "readingMinutes": 10
+    "readingMinutes": 9
+  },
+  {
+    "slug": "split-large-pdf-smart-ranges",
+    "title": "Split Large PDFs with Smart Page Ranges",
+    "description": "Techniques for breaking huge PDFs into logical sections using flexible page ranges, without re-scanning anything.",
+    "date": "2025-11-22",
+    "tags": ["pdf", "split", "large-files"],
+    "lang": "en",
+    "url": "/blog/split-large-pdf-smart-ranges.html",
+    "readingMinutes": 7
+  },
+  {
+    "slug": "word-to-pdf-keep-formatting",
+    "title": "Word to PDF Without Breaking Formatting",
+    "description": "How to convert Word documents to PDF while preserving fonts, spacing, and layout — plus common troubleshooting tips.",
+    "date": "2025-11-22",
+    "tags": ["word", "pdf", "convert"],
+    "lang": "en",
+    "url": "/blog/word-to-pdf-keep-formatting.html",
+    "readingMinutes": 7
   }
 ]
